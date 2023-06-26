@@ -693,7 +693,7 @@ a {
     align-items: flex-start;
     justify-content: flex-start;
     border: 1px solid #2b2b2b;
-    max-width: 700px;
+    max-width: 600px;
     border-radius: 5px;
     padding: 20px;
 }
