@@ -5,15 +5,12 @@
 }
 
 /* Styles généraux */
-html {
-    height: 100vh;
-}
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: #1e1e1e;
     color: #d4d4d4;
     line-height: 1.5;
-    height: 100%;
+    height: 100vh;
     background-image: url('./assets/img/fdwin11.jpg');
     background-repeat: no-repeat;
     background-size: cover;
@@ -947,6 +944,18 @@ aside.explorer {
 .contact textarea:focus {
     outline: none;
     box-shadow: 0 0 0 2px #007ACC;
+}
+
+#success-message {
+    color: #00ff00;
+    font-size: 14px;
+    margin: 10px 0;
+}
+
+#error-message {
+    color: #ff0000;
+    font-size: 14px;
+    margin: 10px 0;
 }
 
 .vscode-button {

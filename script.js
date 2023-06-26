@@ -292,13 +292,13 @@ async function sendMail() {
         let response = await fetch('https://sebastithomas.fr/contactApi', options);
 
         if (response.status == 200) {
-            document.querySelector("#message-error").innerHTML = "Votre message a bien été envoyé.";
+            document.querySelector("#success-message").innerHTML = "Votre message a bien été envoyé.";
             name = "";
             email = "";
             message = "";
             subject = "";
         } else {
-            document.querySelector("#message-error").innerHTML = "Une erreur est survenue lors de l'envoi du mail.";
+            document.querySelector("#error-message").innerHTML = "Une erreur est survenue lors de l'envoi du mail.";
         }
         document.querySelector("#btnMail").innerHTML = "Envoyer";
         mailIsLoading = false;
