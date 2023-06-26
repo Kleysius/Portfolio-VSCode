@@ -883,7 +883,7 @@
         const likeCount = document.getElementById('likeCount');
         let count = await get(ref(db, 'likeCount'))
         count = await count.val().count;
-        
+
         likeCount.textContent = count;
 
         function saveLikeCount() {
@@ -899,33 +899,7 @@
 
             set(ref(db, 'likeCount'), {
                 count: count
-            })
-                .then(() => {
-                    if (count > 0) {
-                        // Modale pour dire merci
-                        const modal = document.createElement('div');
-                        modal.classList.add('modalLike');
-                        modal.innerHTML = `
-                        <div class="modal-content">
-                            <p>Merci beaucoup !</p>
-                            <p>Vous êtes ${count} à avoir aimé mon portfolio !</p>
-                            <p>Thank you very much !</p>
-                            <p>You are ${count} to have liked my portfolio !</p>
-                        </div>
-                    `;
-                        document.body.appendChild(modal);
-                        setTimeout(() => {
-                            modal.classList.add('close');
-                            modal.addEventListener('animationend', () => {
-                                modal.remove();
-                            })
-                        }, 2000);
-                    }
-                })
-                .catch((error) => {
-                    console.error(error);
-                });
-
+            });
         }
 
         like.addEventListener('click', saveLikeCount);

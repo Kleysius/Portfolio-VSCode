@@ -122,65 +122,6 @@ a {
     font-weight: bold;
 }
 
-.modalLike {
-    position: absolute;
-    top: 0;
-    right: 0;
-    z-index: 9999;
-    animation: modalopen 0.3s ease;
-}
-
-.modalLike.close {
-    animation: modalclose 0.3s ease;
-}
-
-.modal-content {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    background-color: #3b3b3b8c;
-    backdrop-filter: blur(10px);
-    border: none;
-    width: 400px;
-    height: 300px;
-    border-radius: 10px;
-    box-shadow: 0 0 20px rgba(41, 41, 41, 0.746);
-}
-
-.modal-content p {
-    color: #fff;
-    font-size: 1rem;
-    font-weight: normal;
-    margin-bottom: 10px;
-}
-
-.modal-content p:nth-child(odd) {
-    color: #E2264D;
-    font-size: 1.2rem;
-    font-weight: bold;
-}
-
-@keyframes modalopen {
-    0% {
-        transform: scale(0);
-    }
-
-    100% {
-        transform: scale(1);
-    }
-}
-
-@keyframes modalclose {
-    0% {
-        transform: scale(1);
-    }
-
-    100% {
-        transform: scale(0);
-    }
-}
-
 @keyframes like {
     0% {
         background-position: 0 0;
