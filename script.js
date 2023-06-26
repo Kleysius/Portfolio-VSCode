@@ -293,10 +293,10 @@ async function sendMail() {
 
         if (response.status == 200) {
             document.querySelector("#success-message").innerHTML = "Votre message a bien été envoyé.";
-            name = "";
-            email = "";
-            message = "";
-            subject = "";
+            document.querySelector("#contact_nom").value = "";
+            document.querySelector("#contact_email").value = "";
+            document.querySelector("#contact_message").value = "";
+            document.querySelector("#contact_sujet").value = "";
         } else {
             document.querySelector("#error-message").innerHTML = "Une erreur est survenue lors de l'envoi du mail.";
         }
