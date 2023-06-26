@@ -248,22 +248,22 @@
                     </div>
                     <form class="vscode-form" action="" method="post">
                         <div class="form-field">
-                            <label for="nom">Nom :</label>
-                            <input type="text" id="nom" name="nom" required>
+                            <label for="contact_nom">Nom :</label>
+                            <input type="text" id="contact_nom" name="name" required>
                         </div>
                         <div class="form-field">
-                            <label for="email">Email :</label>
-                            <input type="email" id="email" name="email" required>
+                            <label for="contact_email">Email :</label>
+                            <input type="email" id="contact_email" name="email" required>
                         </div>
                         <div class="form-field">
-                            <label for="sujet">Sujet :</label>
-                            <input type="text" id="sujet" name="sujet" required>
+                            <label for="contact_sujet">Sujet :</label>
+                            <input type="text" id="contact_sujet" name="subject" required>
                         </div>
                         <div class="form-field">
-                            <label for="message">Message :</label>
-                            <textarea id="message" name="message" rows="5" required></textarea>
+                            <label for="contact_message">Message :</label>
+                            <textarea id="contact_message" name="message" rows="5" required></textarea>
                         </div>
-                        <button type="submit" class="vscode-button">Envoyer</button>
+                        <button type="button" onclick="sendMail()" class="vscode-button">Envoyer</button>
                     </form>
                 </section>
                 <div class="code-column">

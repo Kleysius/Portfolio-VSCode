@@ -259,3 +259,30 @@ themeVscodeNameDracula.addEventListener('click', () => {
     container.classList.add('dracula');
     themeModal.classList.remove('active');
 });
+
+async function sendMail() {
+    let name = document.querySelector("#contact_nom").value;
+    let email = document.querySelector("#contact_email").value;
+    let message = document.querySelector("#contact_message").value;
+    let subject = document.querySelector("#contact_sujet").value;
+
+    let headers = {
+        'Content-Type': 'application/json'
+    };
+
+    let body = JSON.stringify({
+        name: name,
+        email: email,
+        message: message,
+        subject: subject
+    });
+
+    let options = {
+        method: 'POST',
+        headers: headers,
+        body: body
+    };
+
+    let response = await fetch('https://sebastithomas.fr/contactApi', options);
+    
+}
