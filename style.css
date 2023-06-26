@@ -351,6 +351,13 @@ a {
     display: flex;
     align-items: center;
     justify-content: flex-end;
+    padding: 8px 10px 8px 10px;
+    cursor: default;
+}
+
+.right-section:hover {
+    background-color: #333333;
+    border-radius: 5px;
 }
 
 .date-time {

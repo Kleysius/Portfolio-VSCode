@@ -172,6 +172,10 @@
         padding: 2px 10px;
     }
 
+    .right-section {
+        padding: 2px 10px;
+    }
+
     .weather-info {
         display: flex;
         flex-direction: column;
