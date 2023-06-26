@@ -133,7 +133,8 @@
                         <span class="vscode-tog">h2</span>
                     </div>
                     <div class="vscode-com">Cliquez sur le lien pour visiter le site</div>
-                    <div class="vscode-com">Le jeu du Morpion, le Puissance 4 et la calculatrice que vous pouvez ouvrir sur le bureau sont aussi mes créations</div>
+                    <div class="vscode-com">Le jeu du Morpion, le Puissance 4 et la calculatrice que vous pouvez ouvrir
+                        sur le bureau sont aussi mes créations</div>
                     <div class="projects-container">
                         <div class="project">
                             <img class="projectImg" src="./assets/img/grillmaster.png" alt="grillmaster">
@@ -683,8 +684,8 @@
                     <span class="sidebar-icon"><i class="fa-solid fa-magnifying-glass" title="Recherche"></i></span>
                 </div>
                 <div class="sidebar-item">
-                    <span class="sidebar-icon"><a href="https://github.com/Kleysius/Portfolio-VSCode.git"><i class="fa-solid fa-code-branch"
-                            title="Contrôle de code source"></i></a></span>
+                    <span class="sidebar-icon"><a href="https://github.com/Kleysius/Portfolio-VSCode.git"><i
+                                class="fa-solid fa-code-branch" title="Contrôle de code source"></i></a></span>
                 </div>
                 <div class="sidebar-item">
                     <span class="sidebar-icon"><i class="fa-solid fa-cubes" title="Extensions"></i></span>
@@ -857,7 +858,7 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-        import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
+        import { getDatabase, ref, set, get } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
 
         // Configuration de Firebase
         const firebaseConfig = {
@@ -880,21 +881,20 @@
         /* Like button */
         const like = document.getElementById('like');
         const likeCount = document.getElementById('likeCount');
-        let count = 0;
+        let count = await get(ref(db, 'likeCount'))
+        count = await count.val().count;
+        
+        likeCount.textContent = count;
 
         function saveLikeCount() {
             like.classList.toggle('is-liked');
 
             if (like.classList.contains('is-liked')) {
-                count += 1;
+                count++;
                 likeCount.textContent = count;
             } else {
-                count -= 1;
-                if (count === 0) {
-                    likeCount.textContent = "";
-                } else {
-                    likeCount.textContent = count;
-                }
+                count--;
+                likeCount.textContent = count;
             }
 
             set(ref(db, 'likeCount'), {
@@ -925,6 +925,7 @@
                 .catch((error) => {
                     console.error(error);
                 });
+
         }
 
         like.addEventListener('click', saveLikeCount);
