@@ -1,0 +1,210 @@
+@media screen and (max-width: 576px) {
+    .container {
+        max-width: 100vw;
+        max-height: calc(100vh - 40px);
+    }
+
+    .content {
+        left: 40px;
+        width: calc(100vw - 40px);
+        padding: 0px 10px 0 70px;
+    }
+
+    .logo img {
+        width: 18px;
+        height: 18px;
+    }
+
+    .title-bar-controls {
+        width: 80px;
+    }
+
+    .title-bar-controls .maximize-button {
+        pointer-events: none;
+    }
+
+    .title-bar-controls button i {
+        font-size: 10px;
+    }
+
+    .title-bar-text {
+        text-align: center;
+        font-size: 8px;
+    }
+
+    .sidebar {
+        width: 40px;
+    }
+
+    .sidebar-icon i {
+        font-size: 18px;
+    }
+
+    .menu-bar {
+        left: 40px;
+        height: 39px;
+        width: 100vw;
+    }
+
+    .menu-bar ul li a {
+        font-size: 10px;
+        width: 73px;
+    }
+
+    .menu-bar ul img {
+        width: 10px;
+        height: 10px;
+        margin-right: 5px;
+    }
+
+    .code-column {
+        width: 50px;
+        font-size: 13px;
+    }
+
+    .title .vscode-tag,
+    .title .vscode-tog,
+    .title .vscode-title {
+        font-size: 18px;
+    }
+
+    .para .vscode-tag,
+    .para .vscode-toggle,
+    .para .vscode-para,
+    .vscode-com {
+        font-size: 14px;
+    }
+
+    p {
+        font-size: 14px;
+        margin-bottom: 15px;
+    }
+
+    .checkbox {
+        width: 200px;
+    }
+
+    .checkbox label {
+        font-size: 10px;
+    }
+
+    .containerSkills {
+        grid-template-columns: repeat(1, 1fr);
+        grid-gap: 15px;
+    }
+
+    .projects-container {
+        grid-template-columns: repeat(1, 1fr);
+    }
+
+    .project {
+        padding: 10px 10px 0 10px;
+    }
+
+    .project a {
+        font-size: 14px;
+    }
+
+    .projectImg {
+        height: 140px;
+    }
+
+    .projectsSkills img {
+        width: 30px;
+        height: 30px;
+    }
+
+    .warning-status .status-bar-section,
+    .status-bar-section {
+        font-size: 10px;
+    }
+
+    .taskbar {
+        height: 40px;
+        width: 100vw;
+        padding: 0 10px;
+    }
+
+    .menu {
+        width: auto;
+    }
+
+    .menu img {
+        width: 25px;
+        height: 25px;
+        padding: 5px;
+    }
+
+    .search-bar {
+        padding: 5px 10px;
+        margin-left: 5px;
+    }
+
+    .search-bar i {
+        margin-right: 8px;
+        font-size: 10px;
+    }
+
+    .search-bar input {
+        font-size: 10px;
+        width: 90px;
+    }
+
+    .logo-vscode {
+        width: 25px;
+        height: 25px;
+    }
+
+    .logo-vscode::after {
+        height: 2px;
+    }
+
+    .logo-vscode.active::after {
+        width: 10px;
+    }
+
+    .date,
+    .time {
+        font-size: 10px;
+    }
+
+    .left-section {
+        padding: 2px 10px;
+    }
+
+    .weather-info {
+        display: flex;
+        flex-direction: column;
+        margin-left: 3px;
+        font-size: 10px;
+    }
+
+    .weather-icon img {
+        width: 20px;
+        height: 20px;
+    }
+
+    .explorer {
+        display: none;
+    }
+
+    #desktopGame {
+        flex-direction: row;
+        height: auto;
+        margin-bottom: 0;
+        bottom: 40px;
+    }
+
+    .icon img {
+        width: 30px;
+    }
+
+    .icon-label {
+        font-size: 12px;
+    }
+
+    #game-container {
+        width: 95%;
+        height: 85%;
+    }
+}
