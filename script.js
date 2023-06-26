@@ -1,3 +1,6 @@
+let mailIsLoading = false;
+
+
 document.addEventListener('contextmenu', function (event) {
     event.preventDefault();
 
@@ -261,28 +264,39 @@ themeVscodeNameDracula.addEventListener('click', () => {
 });
 
 async function sendMail() {
-    let name = document.querySelector("#contact_nom").value;
-    let email = document.querySelector("#contact_email").value;
-    let message = document.querySelector("#contact_message").value;
-    let subject = document.querySelector("#contact_sujet").value;
+    if (!mailIsLoading) {
+        mailIsLoading = true;
+        document.querySelector("#btnMail").innerHTML = "Envoi du mail en cours...";
+        let name = document.querySelector("#contact_nom").value;
+        let email = document.querySelector("#contact_email").value;
+        let message = document.querySelector("#contact_message").value;
+        let subject = document.querySelector("#contact_sujet").value;
 
-    let headers = {
-        'Content-Type': 'application/json'
-    };
+        let headers = {
+            'Content-Type': 'application/json'
+        };
 
-    let body = JSON.stringify({
-        name: name,
-        email: email,
-        message: message,
-        subject: subject
-    });
+        let body = JSON.stringify({
+            name: name,
+            email: email,
+            message: message,
+            subject: subject
+        });
 
-    let options = {
-        method: 'POST',
-        headers: headers,
-        body: body
-    };
+        let options = {
+            method: 'POST',
+            headers: headers,
+            body: body
+        };
 
-    let response = await fetch('https://sebastithomas.fr/contactApi', options);
-    
+        let response = await fetch('https://sebastithomas.fr/contactApi', options);
+
+        if (response.status == 200) {
+            document.querySelector("#message-success").innerHTML = "Le mail a bien été envoyé !";
+        } else {
+            document.querySelector("#message-success").innerHTML = "Le mail n'a pas été envoyé !";
+        }
+        document.querySelector("#btnMail").innerHTML = "Envoyer";
+        mailIsLoading = false;
+    }
 }

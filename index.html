@@ -246,6 +246,7 @@
                         <span class="vscode-title">Contactez-moi</span>
                         <span class="vscode-tog">h2</span>
                     </div>
+                    <div id="message-success"></div>
                     <form class="vscode-form" action="" method="post">
                         <div class="form-field">
                             <label for="contact_nom">Nom :</label>
@@ -263,7 +264,7 @@
                             <label for="contact_message">Message :</label>
                             <textarea id="contact_message" name="message" rows="5" required></textarea>
                         </div>
-                        <button type="button" onclick="sendMail()" class="vscode-button">Envoyer</button>
+                        <button type="button" id="btnMail" onclick="sendMail()" class="vscode-button">Envoyer</button>
                     </form>
                 </section>
                 <div class="code-column">
