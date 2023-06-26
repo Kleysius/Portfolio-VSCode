@@ -5,12 +5,15 @@
 }
 
 /* Styles généraux */
+html {
+    height: 100vh;
+}
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: #1e1e1e;
     color: #d4d4d4;
     line-height: 1.5;
-    min-height: 100vh;
+    height: 100%;
     background-image: url('./assets/img/fdwin11.jpg');
     background-repeat: no-repeat;
     background-size: cover;
