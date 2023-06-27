@@ -105,6 +105,12 @@ document.addEventListener('mousemove', function (e) {
     }
     container.style.left = e.clientX - offsetX + 'px';
     container.style.top = e.clientY - offsetY + 'px';
+    // Faire en sorte que le container ne sorte pas de la fenêtre
+    if (parseInt(container.style.top) < 0) {
+        container.style.top = 0;
+    } else if (parseInt(container.style.top) > window.innerHeight - parseInt(container.style.height)) {
+        container.style.top = window.innerHeight - parseInt(container.style.height) + 'px';
+    }
 });
 
 document.addEventListener('mouseup', function (e) {

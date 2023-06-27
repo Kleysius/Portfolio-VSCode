@@ -26,52 +26,8 @@ body.new-background {
     background-position: center;
 }
 
-.modalBg {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 280px;
-    height: auto;
-}
-
-.modal-content-bg {
-    background-color: rgba(37, 49, 63, 0.73);
-    backdrop-filter: blur(10px);
-    width: 100%;
-    padding: 8px 5px;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-}
-
-.context-menu-item {
-    display: block;
-    padding: 8px 16px;
-    font-size: 14px;
-    border-radius: 5px;
-    color: #fff;
-    cursor: pointer;
-    user-select: none;
-    transition: background-color 0.3s;
-}
-
-.context-menu-item i {
-    margin-right: 10px;
-}
-
-.context-menu-item:hover {
-    background-color: rgba(255, 255, 255, 0.084);
-}
-
-
 ::-webkit-scrollbar {
     display: none;
-}
-
-h1,
-h2 {
-    font-weight: 400;
-    margin-bottom: 10px;
 }
 
 li {
@@ -80,290 +36,6 @@ li {
 
 a {
     text-decoration: none;
-}
-
-/* Like animation */
-.love {
-    position: absolute;
-    top: 0;
-    right: 0;
-}
-
-.tweet-heart {
-    background-color: transparent;
-    background-image: url("https://abs.twimg.com/a/1492302959/img/animations/web_heart_animation.png");
-    border: none;
-    cursor: pointer;
-    height: 100px;
-    width: 100px;
-    outline: none;
-    transition: all ease-out 0.8s;
-}
-
-.tweet-heart.is-liked {
-    animation-name: like;
-    animation-duration: 0.8s;
-    animation-timing-function: steps(28);
-    animation-fill-mode: forwards;
-}
-
-#likeCount {
-    position: relative;
-    top: 35px;
-    right: 0;
-    font-size: 1rem;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: #E2264D;
-    font-weight: bold;
-}
-
-@keyframes like {
-    0% {
-        background-position: 0 0;
-    }
-
-    100% {
-        background-position: right;
-    }
-}
-
-/* Jeux bureau */
-#desktopGame {
-    position: fixed;
-    bottom: 60px;
-    left: 10px;
-    margin-bottom: 20px;
-    display: flex;
-    height: 240px;
-    flex-direction: column;
-    justify-content: space-evenly;
-    align-items: center;
-}
-
-.icon {
-    color: #fff;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    border-radius: 5px;
-    cursor: pointer;
-    width: 90px;
-    padding: 10px;
-    transition: all 0.1s ease;
-}
-
-.icon:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-}
-
-.icon img {
-    width: 50px;
-}
-
-.icon-label {
-    font-size: 14px;
-    font-weight: 100;
-    text-shadow: 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000;
-    margin-top: 5px;
-}
-
-#game-container {
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    border: none;
-    width: 80%;
-    height: 80%;
-    border-radius: 10px;
-    box-shadow: 0 0 20px rgba(41, 41, 41, 0.746);
-    z-index: 9990;
-}
-
-#game-iframe {
-    width: 100%;
-    height: 100%;
-    border: none;
-    border-radius: 10px;
-}
-
-#close-button-game {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    background-color: transparent;
-    color: red;
-    font-size: 30px;
-    border: none;
-    cursor: pointer;
-}
-
-/* Barre des tâches windows 11 */
-.taskbar {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 60px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: #1e1f1ff5;
-    backdrop-filter: blur(10px);
-    border-top: 1px solid #333;
-    color: #fff;
-    padding: 0 20px;
-}
-
-.left-section {
-    display: flex;
-    align-items: center;
-    padding: 8px 20px 8px 8px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.left-section:hover {
-    background-color: #333333;
-    border-radius: 5px;
-}
-
-.weather-info {
-    display: flex;
-    align-items: start;
-    justify-content: center;
-    flex-direction: column;
-    margin-left: 3px;
-    font-size: 12px;
-}
-
-.weather-info .description {
-    text-transform: capitalize;
-    opacity: 0.7;
-}
-
-.weather-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 5px;
-}
-
-.weather-icon img {
-    width: 30px;
-    height: 30px;
-}
-
-.menu {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    width: 500px;
-}
-
-.menu img {
-    width: 50px;
-    height: 50px;
-    padding: 10px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.menu img:hover,
-.logo-vscode:hover,
-.logo-vscode.active {
-    background-color: #333333d4;
-    border-radius: 5px;
-}
-
-.logo-vscode img {
-    width: 50px;
-    height: 50px;
-    padding: 10px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.logo-vscode {
-    position: relative;
-    display: inline-block;
-    width: 50px;
-    height: 50px;
-    margin-left: 10px;
-    transition: all 0.3s ease;
-}
-
-.logo-vscode::after {
-    content: '';
-    display: var(--after-display, block);
-    position: absolute;
-    width: 6px;
-    height: 3px;
-    background: #c4c4c4ae;
-    top: 90%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 1;
-    transition: all 0.3s ease;
-}
-
-.logo-vscode.active::after {
-    width: 15px;
-    background: #54BDF1;
-}
-
-.search-bar {
-    display: flex;
-    align-items: center;
-    background-color: #323232;
-    border-radius: 25px;
-    padding: 10px 15px;
-    margin-left: 10px;
-}
-
-.search-bar input {
-    background-color: transparent;
-    border: none;
-    color: #fff;
-    font-size: 14px;
-    width: 200px;
-    outline: none;
-}
-
-.search-bar input::placeholder {
-    color: #ffffffaa;
-}
-
-.search-bar i {
-    color: #ffffffaa;
-    margin-right: 10px;
-}
-
-.right-section {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    padding: 8px 10px 8px 10px;
-    cursor: default;
-}
-
-.right-section:hover {
-    background-color: #333333;
-    border-radius: 5px;
-}
-
-.date-time {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-}
-
-.date,
-.time {
-    font-size: 12px;
 }
 
 /* Container principal */
@@ -379,10 +51,6 @@ a {
     overflow: hidden;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     z-index: 1;
-}
-
-.resize-handle {
-    cursor: nwse-resize;
 }
 
 /* Barre de titre */
@@ -754,6 +422,76 @@ a {
     margin-bottom: 10px;
 }
 
+.contact {
+    padding: 20px 0;
+}
+
+.vscode-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.contact .form-field {
+    margin-bottom: 20px;
+}
+
+.contact label {
+    color: #d4d4d4;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.contact input[type="text"],
+.contact input[type="email"],
+.contact textarea {
+    font-family: 'Victor Mono', monospace;
+    background-color: #2d2d2d;
+    border: none;
+    color: #d4d4d4;
+    padding: 10px;
+    border-radius: 4px;
+    width: 100%;
+}
+
+.contact textarea {
+    height: 150px;
+    resize: none;
+}
+
+.contact input[type="text"]:focus,
+.contact input[type="email"]:focus,
+.contact textarea:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px #007ACC;
+}
+
+#success-message {
+    color: #00ff00;
+    font-size: 14px;
+    margin: 10px 0;
+}
+
+#error-message {
+    color: #ff0000;
+    font-size: 14px;
+    margin: 10px 0;
+}
+
+.vscode-button {
+    font-family: 'Victor Mono', monospace;
+    background-color: #007ACC;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    letter-spacing: 1.2px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.vscode-button:hover {
+    background-color: #026fb9;
+}
+
 /* Barre latérale de gauche */
 .sidebar {
     display: flex;
@@ -927,76 +665,6 @@ aside.explorer {
     margin-right: 5px;
 }
 
-.contact {
-    padding: 20px 0;
-}
-
-.vscode-form {
-    display: flex;
-    flex-direction: column;
-}
-
-.contact .form-field {
-    margin-bottom: 20px;
-}
-
-.contact label {
-    color: #d4d4d4;
-    font-size: 14px;
-    margin-bottom: 5px;
-}
-
-.contact input[type="text"],
-.contact input[type="email"],
-.contact textarea {
-    font-family: 'Victor Mono', monospace;
-    background-color: #2d2d2d;
-    border: none;
-    color: #d4d4d4;
-    padding: 10px;
-    border-radius: 4px;
-    width: 100%;
-}
-
-.contact textarea {
-    height: 150px;
-    resize: none;
-}
-
-.contact input[type="text"]:focus,
-.contact input[type="email"]:focus,
-.contact textarea:focus {
-    outline: none;
-    box-shadow: 0 0 0 2px #007ACC;
-}
-
-#success-message {
-    color: #00ff00;
-    font-size: 14px;
-    margin: 10px 0;
-}
-
-#error-message {
-    color: #ff0000;
-    font-size: 14px;
-    margin: 10px 0;
-}
-
-.vscode-button {
-    font-family: 'Victor Mono', monospace;
-    background-color: #007ACC;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    letter-spacing: 1.2px;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.vscode-button:hover {
-    background-color: #026fb9;
-}
-
 /* Pied de VSCode */
 footer {
     background-color: #007ACC;
@@ -1071,6 +739,326 @@ footer {
 .code-column li::before {
     content: counter(line-numbering);
     color: #888888;
+}
+
+/* Barre des tâches windows 11 */
+.taskbar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #1e1f1ff5;
+    backdrop-filter: blur(10px);
+    border-top: 1px solid #333;
+    color: #fff;
+    padding: 0 20px;
+    z-index: 2;
+}
+
+.left-section {
+    display: flex;
+    align-items: center;
+    padding: 8px 20px 8px 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.left-section:hover {
+    background-color: #333333;
+    border-radius: 5px;
+}
+
+.weather-info {
+    display: flex;
+    align-items: start;
+    justify-content: center;
+    flex-direction: column;
+    margin-left: 3px;
+    font-size: 12px;
+}
+
+.weather-info .description {
+    text-transform: capitalize;
+    opacity: 0.7;
+}
+
+.weather-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 5px;
+}
+
+.weather-icon img {
+    width: 30px;
+    height: 30px;
+}
+
+.menu {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 500px;
+}
+
+.menu img {
+    width: 50px;
+    height: 50px;
+    padding: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.menu img:hover,
+.logo-vscode:hover,
+.logo-vscode.active {
+    background-color: #333333d4;
+    border-radius: 5px;
+}
+
+.logo-vscode img {
+    width: 50px;
+    height: 50px;
+    padding: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.logo-vscode {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    margin-left: 10px;
+    transition: all 0.3s ease;
+}
+
+.logo-vscode::after {
+    content: '';
+    display: var(--after-display, block);
+    position: absolute;
+    width: 6px;
+    height: 3px;
+    background: #c4c4c4ae;
+    top: 90%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    transition: all 0.3s ease;
+}
+
+.logo-vscode.active::after {
+    width: 15px;
+    background: #54BDF1;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    background-color: #323232;
+    border-radius: 25px;
+    padding: 10px 15px;
+    margin-left: 10px;
+}
+
+.search-bar input {
+    background-color: transparent;
+    border: none;
+    color: #fff;
+    font-size: 14px;
+    width: 200px;
+    outline: none;
+}
+
+.search-bar input::placeholder {
+    color: #ffffffaa;
+}
+
+.search-bar i {
+    color: #ffffffaa;
+    margin-right: 10px;
+}
+
+.right-section {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 8px 10px 8px 10px;
+    cursor: default;
+}
+
+.right-section:hover {
+    background-color: #333333;
+    border-radius: 5px;
+}
+
+.date-time {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.date,
+.time {
+    font-size: 12px;
+}
+
+/* Like animation */
+.love {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.tweet-heart {
+    background-color: transparent;
+    background-image: url("https://abs.twimg.com/a/1492302959/img/animations/web_heart_animation.png");
+    border: none;
+    cursor: pointer;
+    height: 100px;
+    width: 100px;
+    outline: none;
+    transition: all ease-out 0.8s;
+}
+
+.tweet-heart.is-liked {
+    animation-name: like;
+    animation-duration: 0.8s;
+    animation-timing-function: steps(28);
+    animation-fill-mode: forwards;
+}
+
+#likeCount {
+    position: relative;
+    top: 35px;
+    right: 0;
+    font-size: 1rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #E2264D;
+    font-weight: bold;
+}
+
+@keyframes like {
+    0% {
+        background-position: 0 0;
+    }
+
+    100% {
+        background-position: right;
+    }
+}
+
+/* Jeux bureau */
+#desktopGame {
+    position: fixed;
+    bottom: 60px;
+    left: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.icon {
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 90px;
+    padding: 10px;
+    transition: all 0.1s ease;
+}
+
+.icon:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.icon img {
+    width: 50px;
+}
+
+.icon-label {
+    font-size: 14px;
+    font-weight: 100;
+    text-shadow: 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000;
+    margin-top: 5px;
+}
+
+#game-container {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: none;
+    width: 80%;
+    height: 80%;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(41, 41, 41, 0.746);
+    z-index: 9990;
+}
+
+#game-iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 10px;
+}
+
+#close-button-game {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: transparent;
+    color: red;
+    font-size: 30px;
+    border: none;
+    cursor: pointer;
+}
+
+.modalBg {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 280px;
+    height: auto;
+}
+
+.modal-content-bg {
+    background-color: rgba(37, 49, 63, 0.73);
+    backdrop-filter: blur(10px);
+    width: 100%;
+    padding: 8px 5px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.context-menu-item {
+    display: block;
+    padding: 8px 16px;
+    font-size: 14px;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.3s;
+}
+
+.context-menu-item i {
+    margin-right: 10px;
+}
+
+.context-menu-item:hover {
+    background-color: rgba(255, 255, 255, 0.084);
 }
 
 /* Thème clair */

@@ -115,7 +115,7 @@
     }
 
     #desktopGame {
-        bottom: 40px;
+        bottom: 60px;
         height: auto;
         flex-direction: row;
     }
@@ -337,7 +337,7 @@
     }
 
     #desktopGame {
-        bottom: 20px;
+        bottom: 40px;
         height: auto;
         flex-direction: row;
     }
