@@ -279,18 +279,21 @@ themeVscodeNameDracula.addEventListener('click', () => {
     themeModal.classList.remove('active');
 });
 
+let loaderBtn = document.querySelector(".loaderBtn");
+loaderBtn.style.display = "none";
+
 async function sendMail() {
     let btnMail = document.querySelector("#btnMail");
-    let loaderBtn = document.querySelector(".loaderBtn");
     let name = document.querySelector("#contact_nom").value;
     let email = document.querySelector("#contact_email").value;
     let message = document.querySelector("#contact_message").value;
     let subject = document.querySelector("#contact_sujet").value;
+
     if (!mailIsLoading) {
         mailIsLoading = true;
         btnMail.classList.add('loading');
-        loaderBtn.style.display = "inline-block";
-        btnMail.innerHTML = "Envoi en cours...";
+        btnMail.innerHTML = `<span id="loaderBtn" class="loaderBtn"></span>Envoi en cours...`;
+        loaderBtn.style.display = "block";
         btnMail.disabled = true;
 
         let headers = {
@@ -314,10 +317,10 @@ async function sendMail() {
 
         if (response.status == 200) {
             document.querySelector("#success-message").innerHTML = "Votre message a bien été envoyé !";
-            name.value = "";
-            email.value = "";
-            message.value = "";
-            subject.value = "";
+            name = "";
+            email = "";
+            message = "";
+            subject = "";
         } else {
             document.querySelector("#error-message").innerHTML = "Une erreur est survenue lors de l'envoi du mail.";
         }
