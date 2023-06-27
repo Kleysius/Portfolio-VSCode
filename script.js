@@ -53,11 +53,21 @@ document.addEventListener('DOMContentLoaded', function () {
     function openMorpion() {
         gameContainer.style.display = 'block';
         gameIframe.src = 'https://kleysius.github.io/Morpion/';
+        gameContainer.style.width = '';
+        gameContainer.style.height = '';
+        closeButton.style.top = '';
+        closeButton.style.right = '';
+        closeButton.style.fontSize = '';
     }
 
     function openPuissance4() {
         gameContainer.style.display = 'block';
         gameIframe.src = 'https://kleysius.github.io/Puissance-4/';
+        gameContainer.style.width = '';
+        gameContainer.style.height = '';
+        closeButton.style.top = '';
+        closeButton.style.right = '';
+        closeButton.style.fontSize = '';
     }
 
     function openCalculatrice() {
