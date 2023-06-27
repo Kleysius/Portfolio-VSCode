@@ -338,6 +338,7 @@ a {
     border: 1px solid #2b2b2b;
     border-radius: 5px;
     padding: 20px;
+    transition: all 0.3s ease;
 }
 
 .skills-list:hover {
@@ -368,6 +369,7 @@ a {
     max-width: 600px;
     border-radius: 5px;
     overflow: hidden;
+    transition: all 0.3s ease;
 }
 
 .project:hover {
@@ -451,6 +453,7 @@ a {
     padding: 10px;
     border-radius: 4px;
     width: 100%;
+    transition: box-shadow 0.3s ease-out;
 }
 
 .contact textarea {
@@ -486,6 +489,7 @@ a {
     letter-spacing: 1.2px;
     border-radius: 4px;
     cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
 .vscode-button:hover {
@@ -531,6 +535,7 @@ a {
 .sidebar-icon i {
     font-size: 26px;
     color: #919191;
+    transition: color 0.3s ease;
 }
 
 .sidebar-icon i:hover {
