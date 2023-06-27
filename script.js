@@ -1,6 +1,5 @@
 let mailIsLoading = false;
 
-
 document.addEventListener('contextmenu', function (event) {
     event.preventDefault();
 
@@ -266,7 +265,7 @@ themeVscodeNameDracula.addEventListener('click', () => {
 async function sendMail() {
     if (!mailIsLoading) {
         mailIsLoading = true;
-        document.querySelector("#btnMail").innerHTML = "Envoi du mail en cours...";
+        document.querySelector("#btnMail").innerHTML = "Envoi en cours...";
         let name = document.querySelector("#contact_nom").value;
         let email = document.querySelector("#contact_email").value;
         let message = document.querySelector("#contact_message").value;
@@ -292,7 +291,7 @@ async function sendMail() {
         let response = await fetch('https://sebastithomas.fr/contactApi', options);
 
         if (response.status == 200) {
-            document.querySelector("#success-message").innerHTML = "Votre message a bien été envoyé.";
+            document.querySelector("#success-message").innerHTML = "Votre message a bien été envoyé !";
             document.querySelector("#contact_nom").value = "";
             document.querySelector("#contact_email").value = "";
             document.querySelector("#contact_message").value = "";
