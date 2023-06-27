@@ -63,11 +63,21 @@ document.addEventListener('DOMContentLoaded', function () {
     function openCalculatrice() {
         gameContainer.style.display = 'block';
         gameIframe.src = 'https://kleysius.github.io/calculatrice/';
+        gameContainer.style.width = '300px';
+        gameContainer.style.height = '410px';
+        closeButton.style.top = '5px';
+        closeButton.style.right = '8px';
+        closeButton.style.fontSize = '20px';
     }
 
     function closeGame() {
         gameContainer.style.display = 'none';
         gameIframe.src = '';
+        gameContainer.style.width = '';
+        gameContainer.style.height = '';
+        closeButton.style.top = '';
+        closeButton.style.right = '';
+        closeButton.style.fontSize = '';
     }
 
     menuItem.addEventListener('click', changeBackground);
