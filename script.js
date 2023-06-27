@@ -1,5 +1,16 @@
 let mailIsLoading = false;
 
+window.addEventListener("load", function () {
+    const loaderContainer = document.getElementById("loader-container");
+
+    setTimeout(function () {
+        loaderContainer.style.backdropFilter = "blur(0)";
+        setTimeout(function () {
+            loaderContainer.style.display = "none";
+        }, 500);
+    }, 2000);
+});
+
 document.addEventListener('contextmenu', function (event) {
     event.preventDefault();
 
@@ -269,13 +280,18 @@ themeVscodeNameDracula.addEventListener('click', () => {
 });
 
 async function sendMail() {
+    let btnMail = document.querySelector("#btnMail");
+    let loaderBtn = document.querySelector(".loaderBtn");
+    let name = document.querySelector("#contact_nom").value;
+    let email = document.querySelector("#contact_email").value;
+    let message = document.querySelector("#contact_message").value;
+    let subject = document.querySelector("#contact_sujet").value;
     if (!mailIsLoading) {
         mailIsLoading = true;
-        document.querySelector("#btnMail").innerHTML = "Envoi en cours...";
-        let name = document.querySelector("#contact_nom").value;
-        let email = document.querySelector("#contact_email").value;
-        let message = document.querySelector("#contact_message").value;
-        let subject = document.querySelector("#contact_sujet").value;
+        btnMail.classList.add('loading');
+        loaderBtn.style.display = "inline-block";
+        btnMail.innerHTML = "Envoi en cours...";
+        btnMail.disabled = true;
 
         let headers = {
             'Content-Type': 'application/json'
@@ -298,14 +314,16 @@ async function sendMail() {
 
         if (response.status == 200) {
             document.querySelector("#success-message").innerHTML = "Votre message a bien été envoyé !";
-            document.querySelector("#contact_nom").value = "";
-            document.querySelector("#contact_email").value = "";
-            document.querySelector("#contact_message").value = "";
-            document.querySelector("#contact_sujet").value = "";
+            name.value = "";
+            email.value = "";
+            message.value = "";
+            subject.value = "";
         } else {
             document.querySelector("#error-message").innerHTML = "Une erreur est survenue lors de l'envoi du mail.";
         }
-        document.querySelector("#btnMail").innerHTML = "Envoyer";
+        btnMail.innerHTML = "Envoyer";
+        loaderBtn.style.display = "none";
+        btnMail.classList.remove('loading');
         mailIsLoading = false;
     }
 }

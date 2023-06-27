@@ -14,6 +14,9 @@
 </head>
 
 <body>
+    <div id="loader-container">
+        <div class="loader"></div>
+    </div>
     <div class="container" id="container">
         <header>
             <!-- Barre de titre -->
@@ -282,7 +285,8 @@
                                 <p>Un site web permettant de créer des cartes sur le thème de Donjon et Dragon avec un
                                     effet
                                     de
-                                    3D. L'utilisateur a la possibilité de modifier, supprimer ou rechercher une carte déjà créée.
+                                    3D. L'utilisateur a la possibilité de modifier, supprimer ou rechercher une carte
+                                    déjà créée.
                                 </p>
                             </div>
                         </div>
@@ -297,7 +301,9 @@
                                     <img src="assets/img/css.svg" alt="css logo">
                                     <img src="assets/img/javascript.svg" alt="javascript logo">
                                 </div>
-                                <p>Premier project d'étude, un site qui permet d'en apprendre plus sur deux frameworks css : Bootstrap et Foundation ainsi que deux frameworks javascript : React et Angular.</p>
+                                <p>Premier project d'étude, un site qui permet d'en apprendre plus sur deux frameworks
+                                    css : Bootstrap et Foundation ainsi que deux frameworks javascript : React et
+                                    Angular.</p>
                             </div>
                         </div>
                     </div>
@@ -328,7 +334,10 @@
                             <label for="contact_message">Message :</label>
                             <textarea id="contact_message" name="message" rows="5" required></textarea>
                         </div>
-                        <button type="button" id="btnMail" onclick="sendMail()" class="vscode-button">Envoyer</button>
+                        <button type="button" id="btnMail" onclick="sendMail()" class="vscode-button">
+                            <span id="loaderBtn" class="loaderBtn"></span>
+                            Envoyer
+                        </button>
                     </form>
                 </section>
                 <div class="code-column">
