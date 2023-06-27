@@ -1,7 +1,139 @@
-@media screen and (max-width: 576px) {
+@media screen and (max-width: 768px) {
+    .love {
+        top: inherit;
+        bottom: 60px;
+    }
+
     #likeCount {
-        right: 0;
-        top: 35px;
+        top: 30px;
+    }
+
+    .container {
+        max-width: 100vw;
+        /* max-height: calc(100vh - 50px); */
+    }
+
+    .title-bar-controls {
+        width: 110px;
+    }
+
+    .logo img {
+        width: 20px;
+        height: 20px;
+    }
+
+    .title-bar-text {
+        text-align: center;
+        font-size: 11px;
+    }
+
+    .title-bar-controls button i {
+        font-size: 14px;
+    }
+
+    .sidebar {
+        width: 45px;
+    }
+
+    .sidebar-icon i {
+        font-size: 22px;
+    }
+
+    aside.explorer {
+        width: 110px;
+        left: 45px;
+    }
+
+    .file-list li a {
+        font-size: 13px;
+    }
+
+    .menu-bar {
+        left: 154px;
+        height: 43px;
+    }
+
+    .menu-bar ul li a {
+        font-size: 13px;
+        width: 100px;
+    }
+
+    .menu-bar ul img {
+        width: 13px;
+        height: 13px;
+        margin-right: 6px;
+    }
+
+    .code-column {
+        width: 60px;
+        font-size: 14px;
+    }
+
+    .title .vscode-tag,
+    .title .vscode-tog,
+    .title .vscode-title {
+        font-size: 19px;
+    }
+
+    .para .vscode-tag,
+    .para .vscode-tog,
+    .para .vscode-para,
+    .vscode-com {
+        font-size: 15px;
+    }
+
+    p {
+        font-size: 15px;
+    }
+
+    .checkbox label {
+        font-size: 12px;
+    }
+
+    .containerSkills {
+        grid-gap: 25px;
+    }
+
+    .skills-list {
+        padding: 15px;
+    }
+
+    .projects-container {
+        grid-template-columns: 1fr;
+    }
+
+    .project a {
+        font-size: 15px;
+    }
+
+    .img-container {
+        height: 175px;
+    }
+
+    .project-content {
+        padding: 15px;
+    }
+
+    #desktopGame {
+        bottom: 40px;
+        height: auto;
+        flex-direction: row;
+    }
+
+    .icon img {
+        width: 40px;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .love {
+        top: inherit;
+        bottom: 35px;
+    }
+
+    #likeCount {
+        top: 25px;
+        font-size: 0.8rem;
     }
 
     .container {
@@ -12,7 +144,7 @@
     .content {
         left: 40px;
         width: calc(100vw - 40px);
-        padding: 0px 10px 0 70px;
+        padding: 0px 15px 0 65px;
     }
 
     .logo img {
@@ -74,7 +206,7 @@
     }
 
     .para .vscode-tag,
-    .para .vscode-toggle,
+    .para .vscode-tog,
     .para .vscode-para,
     .vscode-com {
         font-size: 14px;
@@ -82,7 +214,6 @@
 
     p {
         font-size: 14px;
-        margin-bottom: 15px;
     }
 
     .checkbox {
@@ -98,25 +229,33 @@
         grid-gap: 15px;
     }
 
-    .projects-container {
-        grid-template-columns: repeat(1, 1fr);
+    .skills-list {
+        padding: 10px;
     }
 
-    .project {
-        padding: 10px 10px 0 10px;
+    .projects-container {
+        grid-template-columns: repeat(1, 1fr);
     }
 
     .project a {
         font-size: 14px;
     }
 
-    .projectImg {
-        height: 140px;
+    .img-container {
+        height: 150px;
+    }
+
+    .project-content {
+        padding: 10px;
     }
 
     .projectsSkills img {
         width: 30px;
         height: 30px;
+    }
+
+    section.contact {
+        display: block;
     }
 
     .warning-status .status-bar-section,
