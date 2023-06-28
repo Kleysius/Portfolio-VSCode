@@ -22,8 +22,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
         integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
         crossorigin="anonymous" referrerpolicy="no-referrer">
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-    <script type="text/javascript">
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script>
         (function () {
             emailjs.init('pW9FzYAPEEO9U2BWf');
         })();
@@ -333,7 +333,7 @@
                         <span class="vscode-title">Contactez-moi</span>
                         <span class="vscode-tog">h2</span>
                     </div>
-                    <form class="vscode-form" id="contact-form" action="" method="post">
+                    <form class="vscode-form" id="contact-form" method="post">
                         <div class="form-field">
                             <label for="contact_nom">Nom :</label>
                             <input type="text" id="contact_nom" name="name" required>
@@ -978,9 +978,8 @@
         </div>
     </div>
     <div class="love">
-        <button class="tweet-heart" id="like">
-            <p id="likeCount"></p>
-        </button>
+        <button class="tweet-heart" id="like"></button>
+        <p id="likeCount"></p>
     </div>
 
     <script type="module" src="assets/js/fireBaseConf.js"></script>

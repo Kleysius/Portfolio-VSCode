@@ -999,9 +999,9 @@ footer {
 }
 
 #likeCount {
-    position: relative;
-    top: 35px;
-    right: 0;
+    position: absolute;
+    top: 70px;
+    right: 40px;
     font-size: 1rem;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: #E2264D;
