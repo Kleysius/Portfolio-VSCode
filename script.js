@@ -48,13 +48,6 @@ const loaderContainer = document.getElementById("loader-container");
 const loaderBtn = document.querySelector(".loaderBtn");
 loaderBtn.style.display = "none";
 
-// Constantes pour le formulaire de contact
-const btnMail = document.querySelector("#btnMail");
-const nameInput = document.querySelector("#contact_nom").value;
-const emailInput = document.querySelector("#contact_email").value;
-const messageInput = document.querySelector("#contact_message").value;
-const subjectInput = document.querySelector("#contact_sujet").value;
-
 // Constantes pour les messages de succès/erreur
 const successMessage = document.querySelector("#success-message");
 const errorMessage = document.querySelector("#error-message");
@@ -289,6 +282,13 @@ themeVscodeNameDark.addEventListener('click', () => applyTheme('dark'));
 themeVscodeNameDracula.addEventListener('click', () => applyTheme('dracula'));
 
 async function sendMail() {
+    // Constantes pour le formulaire de contact
+    const btnMail = document.querySelector("#btnMail");
+    const nameInput = document.querySelector("#contact_nom").value;
+    const emailInput = document.querySelector("#contact_email").value;
+    const messageInput = document.querySelector("#contact_message").value;
+    const subjectInput = document.querySelector("#contact_sujet").value;
+    
     if (!mailIsLoading) {
         mailIsLoading = true;
         btnMail.classList.add('loading');
@@ -315,18 +315,25 @@ async function sendMail() {
 
         let response = await fetch('https://sebastithomas.fr/contactApi', options);
 
-        if (response.status == 200) {
-            successMessage.innerHTML = "Votre message a bien été envoyé !";
-            nameInput = "";
-            emailInput = "";
-            messageInput = "";
-            subjectInput = "";
+        if (response.ok) {
+            let data = await response.json();
+            if (data.status === 'success') {
+                // vider les champs
+                nameInput = "";
+                emailInput = "";
+                subjectInput = "";
+                messageInput = "";
+                // afficher le message de succès
+                btnMail.innerHTML = "Envoyé !";
+                btnMail.classList.remove('loading');
+                loaderBtn.style.display = "none";
+                btnMail.disabled = false;
+                mailIsLoading = false;
+            } else {
+                btnMail.innerHTML = "Erreur lors de l'envoi";
+            }
         } else {
-            errorMessage.innerHTML = "Une erreur est survenue lors de l'envoi du mail.";
+            btnMail.innerHTML = "Erreur lors de l'envoi";
         }
-        btnMail.innerHTML = "Envoyer";
-        loaderBtn.style.display = "none";
-        btnMail.classList.remove('loading');
-        mailIsLoading = false;
     }
 }
