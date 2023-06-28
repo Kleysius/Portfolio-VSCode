@@ -11,7 +11,7 @@ body {
     color: #d4d4d4;
     line-height: 1.5;
     height: 100vh;
-    background-image: url('./assets/img/fdwin11.jpg');
+    background-image: url('/assets/img/fdwin11.jpg');
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
@@ -20,7 +20,7 @@ body {
 }
 
 body.new-background {
-    background-image: url('./assets/img/fdwin11.jpg');
+    background-image: url('/assets/img/fdwin11.jpg');
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
@@ -493,13 +493,15 @@ a {
     box-shadow: 0 0 0 2px #007ACC;
 }
 
-#success-message {
+#successMessage {
+    display: none;
     color: #00ff00;
     font-size: 14px;
     margin: 10px 0;
 }
 
-#error-message {
+#errorMessage {
+    display: none;
     color: #ff0000;
     font-size: 14px;
     margin: 10px 0;
@@ -525,10 +527,11 @@ a {
 }
 
 .loaderBtn {
+    display: none;
     width: 15px;
     height: 15px;
     border: 2px solid #fff;
-    border-top: 2px solid #000;
+    border-top: 2px solid transparent;
     border-radius: 50%;
     animation: loader 0.6s linear infinite;
     margin-right: 10px;
@@ -543,7 +546,11 @@ a {
     }
 }
 
-.loading {
+.loading .loaderBtn {
+    display: block;
+}
+
+.loading #btnMail {
     pointer-events: none;
     opacity: 0.6;
 }

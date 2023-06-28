@@ -1,14 +1,13 @@
-// Variable pour le mail
-let mailIsLoading = false;
+
 
 // Constantes pour le fond d'écran
 const backgrounds = [
-    'url(./assets/img/fdwin11-1.jpeg)',
-    'url(./assets/img/fdwin11-2.jpg)',
-    'url(./assets/img/fdwin11-3.jpg)',
-    'url(./assets/img/fdwin11-4.jpeg)',
-    'url(./assets/img/fdwin11-5.jpg)',
-    'url(./assets/img/fdwin11-6.jpg)',
+    'url(assets/img/fdwin11-1.jpeg)',
+    'url(assets/img/fdwin11-2.jpg)',
+    'url(assets/img/fdwin11-3.jpg)',
+    'url(assets/img/fdwin11-4.jpeg)',
+    'url(assets/img/fdwin11-5.jpg)',
+    'url(assets/img/fdwin11-6.jpg)',
     ''
 ];
 let currentBackground = 0;
@@ -45,12 +44,16 @@ const themeModal = document.querySelector('.theme-modal');
 
 // Constante pour le bouton de chargement et le loader
 const loaderContainer = document.getElementById("loader-container");
-const loaderBtn = document.querySelector(".loaderBtn");
-loaderBtn.style.display = "none";
 
-// Constantes pour les messages de succès/erreur
-const successMessage = document.querySelector("#success-message");
-const errorMessage = document.querySelector("#error-message");
+// Variable pour le mail
+let mailIsLoading = false;
+
+// Constantes pour le formulaire de contact
+const btnMail = document.querySelector("#btnMail");
+const loaderBtn = document.querySelector("#loaderBtn");
+const sendText = document.getElementById('sendText');
+const successMessage = document.getElementById('successMessage');
+const errorMessage = document.getElementById('errorMessage');
 
 // Constantes pour la modale de chargement
 const modalBg = document.getElementById('customModal');
@@ -281,74 +284,51 @@ themeVscodeNameLight.addEventListener('click', () => applyTheme('light'));
 themeVscodeNameDark.addEventListener('click', () => applyTheme('dark'));
 themeVscodeNameDracula.addEventListener('click', () => applyTheme('dracula'));
 
-// async function sendMail() {
-//     // Constantes pour le formulaire de contact
-//     const btnMail = document.querySelector("#btnMail");
-//     const nameInput = document.querySelector("#contact_nom").value;
-//     const emailInput = document.querySelector("#contact_email").value;
-//     const subjectInput = document.querySelector("#contact_sujet").value;
-//     const messageInput = document.querySelector("#contact_message").value;
-//     if (!mailIsLoading) {
-//         mailIsLoading = true;
-//         btnMail.classList.add('loading');
-//         btnMail.innerHTML = `<span id="loaderBtn" class="loaderBtn"></span>Envoi en cours...`;
-//         loaderBtn.style.display = "block";
-//         btnMail.disabled = true;
-
-//         if (response.status == 200) {
-//             successMessage.innerHTML = "Votre message a bien été envoyé !";
-//             document.querySelector("#contact_nom").value = "";
-//             document.querySelector("#contact_email").value = "";
-//             document.querySelector("#contact_sujet").value = "";
-//             document.querySelector("#contact_message").value = "";
-//         } else {
-//             errorMessage.innerHTML = "Une erreur est survenue lors de l'envoi du mail.";
-//         }
-//         btnMail.innerHTML = "Envoyer";
-//         loaderBtn.style.display = "none";
-//         btnMail.classList.remove('loading');
-//         mailIsLoading = false;
-//     }
-// }
-
 document.getElementById('contact-form').addEventListener('submit', function (event) {
-    // Constantes pour le formulaire de contact
-    const btnMail = document.querySelector("#btnMail");
     event.preventDefault();
+
     if (!mailIsLoading) {
         mailIsLoading = true;
-        btnMail.classList.add('loading');
-        btnMail.innerHTML = `<span id="loaderBtn" class="loaderBtn"></span>Envoi en cours...`;
-        loaderBtn.style.display = "block";
         btnMail.disabled = true;
-        if (document.getElementById('contact_nom').value && document.getElementById('contact_email').value && document.getElementById('contact_sujet').value && document.getElementById('contact_message').value) {
-            // Envoie l'e-mail
-            emailjs.send("service_0b9ot4g", "template_oy5c70a", {
-                name: document.getElementById('contact_nom').value,
-                email: document.getElementById('contact_email').value,
-                subject: document.getElementById('contact_sujet').value,
-                message: document.getElementById('contact_message').value
-            })
-                .then(function (response) {
-                    if (response.status == 200) {
-                        successMessage.innerHTML = "Votre message a bien été envoyé !";
-                        console.log('Succès !', response.status, response.text);
-                        // Réinitialise le formulaire après l'envoi
-                        document.getElementById('contact-form').reset();
-                    } else {
+        btnMail.classList.add('loading');
+        sendText.innerHTML = "Envoi en cours...";
+        loaderBtn.style.display = "block";
+
+        setTimeout(() => {
+            if (document.getElementById('contact_nom').value && document.getElementById('contact_email').value && document.getElementById('contact_sujet').value && document.getElementById('contact_message').value) {
+                // Envoie l'e-mail
+                emailjs.send("service_0b9ot4g", "template_oy5c70a", {
+                    name: document.getElementById('contact_nom').value,
+                    email: document.getElementById('contact_email').value,
+                    subject: document.getElementById('contact_sujet').value,
+                    message: document.getElementById('contact_message').value
+                })
+                    .then(function (response) {
+                        if (response.status == 200) {
+                            successMessage.style.display = 'block';
+                            successMessage.innerHTML = "Votre message a bien été envoyé !";;
+                            // Réinitialise le formulaire après l'envoi
+                            document.getElementById('contact-form').reset();
+                        } else {
+                            errorMessage.style.display = 'block';
+                            errorMessage.innerHTML = "Une erreur est survenue lors de l'envoi du mail.";
+                        }
+                    })
+                    .catch(function (error) {
+                        console.log('Erreur :', error);
+                        errorMessage.style.display = 'block';
                         errorMessage.innerHTML = "Une erreur est survenue lors de l'envoi du mail.";
-                    }
-                }, function (error) {
-                    console.log('Erreur :', error);
-                    errorMessage.innerHTML = "Une erreur est survenue lors de l'envoi du mail.";
-                });
-        } else {
-            errorMessage.innerHTML = "Veuillez remplir tous les champs.";
-        }
+                    });
+            } else {
+                errorMessage.style.display = 'block';
+                errorMessage.innerHTML = "Veuillez remplir tous les champs.";
+            }
+
+            // Réinitialiser le bouton après l'envoi
+            btnMail.classList.remove('loading');
+            loaderBtn.style.display = 'none';
+            sendText.textContent = 'Message envoyé !';
+            mailIsLoading = false;
+        }, 2000); // Affiche le loader pendant 2 secondes
     }
-    btnMail.innerHTML = "Envoyer";
-    loaderBtn.style.display = "none";
-    btnMail.classList.remove('loading');
-    btnMail.disabled = false;
-    mailIsLoading = false;
 });
