@@ -110,31 +110,30 @@ document.addEventListener('DOMContentLoaded', function () {
     calculatriceIcon.addEventListener('click', openCalculatrice);
     closeButton.addEventListener('click', closeGame);
     menuItem.addEventListener('click', changeBackground);
-
-    function openMorpion() {
-        gameContainer.style.display = 'block';
-        gameIframe.src = 'https://kleysius.github.io/Morpion/';
-        [gameContainer.style.width, gameContainer.style.height, closeButton.style.top, closeButton.style.right, closeButton.style.fontSize] = ['', '', '', '', ''];
-    }
-
-    function openPuissance4() {
-        gameContainer.style.display = 'block';
-        gameIframe.src = 'https://kleysius.github.io/Puissance-4/';
-        [gameContainer.style.width, gameContainer.style.height, closeButton.style.top, closeButton.style.right, closeButton.style.fontSize] = ['', '', '', '', ''];
-    }
-
-    function openCalculatrice() {
-        gameContainer.style.display = 'block';
-        gameIframe.src = 'https://kleysius.github.io/calculatrice/';
-        [gameContainer.style.width, gameContainer.style.height, closeButton.style.top, closeButton.style.right, closeButton.style.fontSize] = ['300px', '410px', '5px', '8px', '20px'];
-    }
-
-    function closeGame() {
-        gameContainer.style.display = 'none';
-        [gameIframe.src, gameContainer.style.width, gameContainer.style.height, closeButton.style.top, closeButton.style.right, closeButton.style.fontSize] = ['', '', '', '', '', ''];
-    }
-
 });
+
+function openMorpion() {
+    gameContainer.style.display = 'block';
+    gameIframe.src = 'https://kleysius.github.io/Morpion/';
+    [gameContainer.style.width, gameContainer.style.height, closeButton.style.top, closeButton.style.right, closeButton.style.fontSize] = ['', '', '', '', ''];
+}
+
+function openPuissance4() {
+    gameContainer.style.display = 'block';
+    gameIframe.src = 'https://kleysius.github.io/Puissance-4/';
+    [gameContainer.style.width, gameContainer.style.height, closeButton.style.top, closeButton.style.right, closeButton.style.fontSize] = ['', '', '', '', ''];
+}
+
+function openCalculatrice() {
+    gameContainer.style.display = 'block';
+    gameIframe.src = 'https://kleysius.github.io/calculatrice/';
+    [gameContainer.style.width, gameContainer.style.height, closeButton.style.top, closeButton.style.right, closeButton.style.fontSize] = ['300px', '410px', '5px', '8px', '20px'];
+}
+
+function closeGame() {
+    gameContainer.style.display = 'none';
+    [gameIframe.src, gameContainer.style.width, gameContainer.style.height, closeButton.style.top, closeButton.style.right, closeButton.style.fontSize] = ['', '', '', '', '', ''];
+}
 
 function changeBackground() {
     document.body.style.backgroundImage = backgrounds[currentBackground];
