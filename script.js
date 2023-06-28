@@ -312,7 +312,7 @@ async function sendMail() {
             body: body
         };
 
-        let response = await fetch('http://51.91.210.190:3000/contactApi', options);
+        let response = await fetch('https://51.91.210.190:3000/contactApi', options);
 
         if (response.status == 200) {
             successMessage.innerHTML = "Votre message a bien été envoyé !";
