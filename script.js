@@ -50,10 +50,10 @@ loaderBtn.style.display = "none";
 
 // Constantes pour le formulaire de contact
 const btnMail = document.querySelector("#btnMail");
-const nameInput = document.querySelector("#contact_nom");
-const emailInput = document.querySelector("#contact_email");
-const messageInput = document.querySelector("#contact_message");
-const subjectInput = document.querySelector("#contact_sujet");
+const nameInput = document.querySelector("#contact_nom").value;
+const emailInput = document.querySelector("#contact_email").value;
+const messageInput = document.querySelector("#contact_message").value;
+const subjectInput = document.querySelector("#contact_sujet").value;
 
 // Constantes pour les messages de succès/erreur
 const successMessage = document.querySelector("#success-message");
