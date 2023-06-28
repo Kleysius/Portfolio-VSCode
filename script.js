@@ -284,11 +284,11 @@ themeVscodeNameDracula.addEventListener('click', () => applyTheme('dracula'));
 async function sendMail() {
     // Constantes pour le formulaire de contact
     const btnMail = document.querySelector("#btnMail");
-    const nameInput = document.querySelector("#contact_nom").value;
-    const emailInput = document.querySelector("#contact_email").value;
-    const messageInput = document.querySelector("#contact_message").value;
-    const subjectInput = document.querySelector("#contact_sujet").value;
-    
+    let nameInput = document.querySelector("#contact_nom").value;
+    let emailInput = document.querySelector("#contact_email").value;
+    let messageInput = document.querySelector("#contact_message").value;
+    let subjectInput = document.querySelector("#contact_sujet").value;
+
     if (!mailIsLoading) {
         mailIsLoading = true;
         btnMail.classList.add('loading');
