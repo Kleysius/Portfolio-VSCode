@@ -11,7 +11,7 @@ body {
     color: #d4d4d4;
     line-height: 1.5;
     height: 100vh;
-    background-image: url('/assets/img/fdwin11.jpg');
+    background-image: url('../img/fdwin11.jpg');
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
@@ -20,7 +20,7 @@ body {
 }
 
 body.new-background {
-    background-image: url('/assets/img/fdwin11.jpg');
+    background-image: url('../img/fdwin11.jpg');
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;

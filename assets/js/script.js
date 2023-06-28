@@ -1,5 +1,3 @@
-
-
 // Constantes pour le fond d'écran
 const backgrounds = [
     'url(assets/img/fdwin11-1.jpeg)',
