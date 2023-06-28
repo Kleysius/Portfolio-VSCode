@@ -48,7 +48,12 @@ const loaderContainer = document.getElementById("loader-container");
 const loaderBtn = document.querySelector(".loaderBtn");
 loaderBtn.style.display = "none";
 
-
+// Constantes pour le formulaire de contact
+const btnMail = document.querySelector("#btnMail");
+const nameInput = document.querySelector("#contact_nom").value;
+const emailInput = document.querySelector("#contact_email").value;
+const subjectInput = document.querySelector("#contact_sujet").value;
+const messageInput = document.querySelector("#contact_message").value;
 
 // Constantes pour les messages de succès/erreur
 const successMessage = document.querySelector("#success-message");
@@ -282,13 +287,6 @@ const applyTheme = (theme) => {
 themeVscodeNameLight.addEventListener('click', () => applyTheme('light'));
 themeVscodeNameDark.addEventListener('click', () => applyTheme('dark'));
 themeVscodeNameDracula.addEventListener('click', () => applyTheme('dracula'));
-
-// Constantes pour le formulaire de contact
-const btnMail = document.querySelector("#btnMail");
-const nameInput = document.querySelector("#contact_nom").value;
-const emailInput = document.querySelector("#contact_email").value;
-const subjectInput = document.querySelector("#contact_sujet").value;
-const messageInput = document.querySelector("#contact_message").value;
 
 async function sendMail() {
     if (!mailIsLoading) {
