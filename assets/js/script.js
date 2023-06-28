@@ -281,51 +281,74 @@ themeVscodeNameLight.addEventListener('click', () => applyTheme('light'));
 themeVscodeNameDark.addEventListener('click', () => applyTheme('dark'));
 themeVscodeNameDracula.addEventListener('click', () => applyTheme('dracula'));
 
-async function sendMail() {
+// async function sendMail() {
+//     // Constantes pour le formulaire de contact
+//     const btnMail = document.querySelector("#btnMail");
+//     const nameInput = document.querySelector("#contact_nom").value;
+//     const emailInput = document.querySelector("#contact_email").value;
+//     const subjectInput = document.querySelector("#contact_sujet").value;
+//     const messageInput = document.querySelector("#contact_message").value;
+//     if (!mailIsLoading) {
+//         mailIsLoading = true;
+//         btnMail.classList.add('loading');
+//         btnMail.innerHTML = `<span id="loaderBtn" class="loaderBtn"></span>Envoi en cours...`;
+//         loaderBtn.style.display = "block";
+//         btnMail.disabled = true;
+
+//         if (response.status == 200) {
+//             successMessage.innerHTML = "Votre message a bien été envoyé !";
+//             document.querySelector("#contact_nom").value = "";
+//             document.querySelector("#contact_email").value = "";
+//             document.querySelector("#contact_sujet").value = "";
+//             document.querySelector("#contact_message").value = "";
+//         } else {
+//             errorMessage.innerHTML = "Une erreur est survenue lors de l'envoi du mail.";
+//         }
+//         btnMail.innerHTML = "Envoyer";
+//         loaderBtn.style.display = "none";
+//         btnMail.classList.remove('loading');
+//         mailIsLoading = false;
+//     }
+// }
+
+document.getElementById('contact-form').addEventListener('submit', function (event) {
     // Constantes pour le formulaire de contact
     const btnMail = document.querySelector("#btnMail");
-    const nameInput = document.querySelector("#contact_nom").value;
-    const emailInput = document.querySelector("#contact_email").value;
-    const subjectInput = document.querySelector("#contact_sujet").value;
-    const messageInput = document.querySelector("#contact_message").value;
+    event.preventDefault();
     if (!mailIsLoading) {
         mailIsLoading = true;
         btnMail.classList.add('loading');
         btnMail.innerHTML = `<span id="loaderBtn" class="loaderBtn"></span>Envoi en cours...`;
         loaderBtn.style.display = "block";
         btnMail.disabled = true;
-
-        let headers = {
-            'Content-Type': 'application/json'
-        };
-
-        let body = JSON.stringify({
-            name: nameInput,
-            email: emailInput,
-            message: messageInput,
-            subject: subjectInput
-        });
-
-        let options = {
-            method: 'POST',
-            headers: headers,
-            body: body
-        };
-
-        let response = await fetch('http://51.91.210.190:3000/contactApi', options);
-
-        if (response.status == 200) {
-            successMessage.innerHTML = "Votre message a bien été envoyé !";
-            document.querySelector("#contact_nom").value = "";
-            document.querySelector("#contact_email").value = "";
-            document.querySelector("#contact_sujet").value = "";
-            document.querySelector("#contact_message").value = "";
+        if (document.getElementById('contact_nom').value && document.getElementById('contact_email').value && document.getElementById('contact_sujet').value && document.getElementById('contact_message').value) {
+            // Envoie l'e-mail
+            emailjs.send("service_0b9ot4g", "template_oy5c70a", {
+                name: document.getElementById('contact_nom').value,
+                email: document.getElementById('contact_email').value,
+                subject: document.getElementById('contact_sujet').value,
+                message: document.getElementById('contact_message').value
+            })
+                .then(function (response) {
+                    if (response.status == 200) {
+                        successMessage.innerHTML = "Votre message a bien été envoyé !";
+                        console.log('Succès !', response.status, response.text);
+                        // Réinitialise le formulaire après l'envoi
+                        document.getElementById('contact-form').reset();
+                    } else {
+                        errorMessage.innerHTML = "Une erreur est survenue lors de l'envoi du mail.";
+                    }
+                }, function (error) {
+                    console.log('Erreur :', error);
+                    errorMessage.innerHTML = "Une erreur est survenue lors de l'envoi du mail.";
+                });
         } else {
-            errorMessage.innerHTML = "Une erreur est survenue lors de l'envoi du mail.";
+            errorMessage.innerHTML = "Veuillez remplir tous les champs.";
         }
-        btnMail.innerHTML = "Envoyer";
-        loaderBtn.style.display = "none";
-        btnMail.classList.remove('loading');
-        mailIsLoading = false;
     }
-}
+    btnMail.innerHTML = "Envoyer";
+    loaderBtn.style.display = "none";
+    btnMail.classList.remove('loading');
+    btnMail.disabled = false;
+    mailIsLoading = false;
+});

@@ -22,6 +22,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
         integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
         crossorigin="anonymous" referrerpolicy="no-referrer">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function () {
+            emailjs.init('pW9FzYAPEEO9U2BWf');
+        })();
+    </script>
 </head>
 
 
@@ -329,7 +335,7 @@
                     </div>
                     <div id="success-message"></div>
                     <div id="error-message"></div>
-                    <form class="vscode-form" action="" method="post">
+                    <form class="vscode-form" id="contact-form" action="" method="post">
                         <div class="form-field">
                             <label for="contact_nom">Nom :</label>
                             <input type="text" id="contact_nom" name="name" required>
@@ -346,7 +352,7 @@
                             <label for="contact_message">Message :</label>
                             <textarea id="contact_message" name="message" rows="5" required></textarea>
                         </div>
-                        <button type="button" id="btnMail" onclick="sendMail()" class="vscode-button">
+                        <button type="submit" id="btnMail" class="vscode-button">
                             <span id="loaderBtn" class="loaderBtn"></span>
                             Envoyer
                         </button>
@@ -976,53 +982,8 @@
         </button>
     </div>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-        import { getDatabase, ref, set, get } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
-
-        // Configuration de Firebase
-        const firebaseConfig = {
-            apiKey: "AIzaSyCkeJquHwKp-cKFSxc4EWTaNOSXaryzkDc",
-            authDomain: "portfolio-vscode-3b363.firebaseapp.com",
-            projectId: "portfolio-vscode-3b363",
-            storageBucket: "portfolio-vscode-3b363.appspot.com",
-            messagingSenderId: "403501326929",
-            appId: "1:403501326929:web:a460ba9aafe21129124e70",
-            measurementId: "G-QW211TB0TH",
-            databaseURL: "https://portfolio-vscode-3b363-default-rtdb.europe-west1.firebasedatabase.app/"
-        };
-
-        // Initialisation de Firebase
-        const app = await initializeApp(firebaseConfig);
-
-        // Récupération de la base de données
-        const db = await getDatabase();
-
-        /* Like button */
-        const like = document.getElementById('like');
-        const likeCount = document.getElementById('likeCount');
-        let count = await get(ref(db, 'likeCount'))
-        count = await count.val().count;
-
-        likeCount.textContent = count;
-
-        function saveLikeCount() {
-            like.classList.toggle('is-liked');
-
-            if (like.classList.contains('is-liked')) {
-                count++;
-                likeCount.textContent = count;
-            } else {
-                count--;
-                likeCount.textContent = count;
-            }
-
-            set(ref(db, 'likeCount'), { count: count });
-        }
-
-        like.addEventListener('click', saveLikeCount);
-    </script>
-    <script src="script.js"></script>
+    <script type="module" src="assets/js/fireBaseConf.js"></script>
+    <script src="assets/js/script.js"></script>
 </body>
 
 </html>
