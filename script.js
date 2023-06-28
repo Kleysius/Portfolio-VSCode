@@ -1,4 +1,7 @@
+// Variable pour le mail
 let mailIsLoading = false;
+
+// Constantes pour le fond d'écran
 const backgrounds = [
     'url(./assets/img/fdwin11-1.jpeg)',
     'url(./assets/img/fdwin11-2.jpg)',
@@ -29,7 +32,7 @@ const menuItem = document.querySelector('.context-menu-item');
 // Constantes pour la section active
 const sections = document.querySelectorAll('section');
 
-// Constantes pour le basculement de la liste de fichiers
+// Constantes pour le basculement de la liste de fichiers de l'explorateur
 const toggleChevron = document.querySelector('.toggle-chevron');
 const fileList = document.querySelector('.explorer-content');
 
