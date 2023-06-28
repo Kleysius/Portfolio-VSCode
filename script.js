@@ -317,7 +317,10 @@ async function sendMail() {
 
         if (response.status == 200) {
             successMessage.innerHTML = "Votre message a bien été envoyé !";
-            [nameInput, emailInput, messageInput, subjectInput] = ["", "", "", ""];
+            nameInput = "";
+            emailInput = "";
+            messageInput = "";
+            subjectInput = "";
         } else {
             errorMessage.innerHTML = "Une erreur est survenue lors de l'envoi du mail.";
         }
