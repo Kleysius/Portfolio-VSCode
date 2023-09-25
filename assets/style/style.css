@@ -546,6 +546,7 @@ a {
     from {
         transform: rotate(0deg);
     }
+
     to {
         transform: rotate(360deg);
     }
@@ -976,6 +977,139 @@ footer {
 .date,
 .time {
     font-size: 12px;
+}
+
+/* Styles pour les widgets */
+.widget {
+    position: absolute;
+    top: 35px;
+    right: -300px;
+    width: 300px;
+    background-color: #27282Df5;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    border: 1px solid #444;
+    overflow-y: auto;
+    transition: right 0.2s ease-in-out;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    z-index: 1000;
+}
+
+.widget.active {
+    right: 10px;
+}
+
+.widget h3 {
+    background-color: #212227;
+    color: #fff;
+    padding: 10px 15px;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.widget ul {
+    height: 150px;
+}
+
+.widget ul li {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    height: 100%;
+}
+
+/* Styles pour le widget de notifications */
+#notification-widget {
+    top: 32%;
+    height: 190px;
+}
+
+/* Styles pour le widget de calendrier */
+#calendar-widget {
+    height: 380px;
+    top: 53%;
+}
+
+#calendar-widget table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#calendar-widget table th,
+#calendar-widget table td {
+    padding: 5px;
+    text-align: center;
+}
+
+#calendar-widget table th {
+    background-color: transparent;
+    color: #fff;
+    font-size: 11px;
+}
+
+#calendar-widget table td {
+    border: none;
+    height: auto;
+    font-size: 14px;
+}
+
+#calendar-widget table td.fc-day-today {
+    background-color: #C0BDDF;
+    border-radius: 50%;
+    color: #212227;
+}
+
+#calendar-widget table td.fc-day-today:hover {
+    background-color: #c0bddfda;
+}
+
+.fc .fc-daygrid-day-top {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center;
+}
+
+#calendar-widget table td.fc-day:hover {
+    background-color: #ffffff1f;
+    border-radius: 50%;
+    cursor: default;
+}
+
+.fc .fc-toolbar.fc-header-toolbar {
+    margin-bottom: 0;
+    padding: 5px
+}
+
+.fc-theme-standard td,
+.fc-theme-standard th,
+.fc-theme-standard .fc-scrollgrid {
+    border: none;
+}
+
+.fc .fc-toolbar-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #fff;
+    padding: 0 10px;
+}
+
+.fc .fc-button .fc-icon {
+    color: #fff;
+    font-size: 14px;
+}
+
+.fc .fc-daygrid-body-natural .fc-daygrid-day-events {
+    display: none;
+}
+
+.fc .fc-button-primary {
+    background-color: transparent;
+    border: none;
+}
+
+.fc .fc-button-primary:disabled {
+    display: none;
 }
 
 /* Like animation */

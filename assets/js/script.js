@@ -68,6 +68,11 @@ const closeButton = document.getElementById('close-button-game');
 const dateElement = document.querySelector('.date');
 const timeElement = document.querySelector('.time');
 
+const dateOfToday = document.querySelector('#calendar-widget .date');
+const currentDate = new Date();
+const options = { weekday: 'long', day: 'numeric', month: 'long' };
+const formattedDate = currentDate.toLocaleDateString('fr-FR', options);
+
 window.addEventListener("load", function () {
     setTimeout(function () {
         loaderContainer.style.backdropFilter = "blur(0)";
@@ -330,3 +335,46 @@ document.getElementById('contact-form').addEventListener('submit', function (eve
         }, 2000); // Affiche le loader pendant 2 secondes
     }
 });
+
+// Fonction pour afficher ou masquer les widgets
+function toggleWidget(widgetId) {
+    const widget = document.getElementById(widgetId);
+    widget.classList.toggle('active');
+}
+
+// Écouteurs d'événements pour les clics sur les boutons
+document.querySelector('.right-section').addEventListener('click', () => {
+    toggleWidget('notification-widget');
+    toggleWidget('calendar-widget');
+});
+
+// Fonction pour fermer les widgets en dehors du clic
+window.addEventListener('click', function (event) {
+    if (!event.target.closest('.widget') && !event.target.closest('.right-section')) {
+        const widgets = document.querySelectorAll('.widget');
+        widgets.forEach(widget => widget.classList.remove('active'));
+    }
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+    let calendarEl = document.getElementById('calendar');
+
+    let calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        locale: 'fr',
+        timeZone: 'Europe/Paris',
+        height: 'auto',
+        firstDay: 1,
+        titleFormat: {
+            month: 'long',
+            year: 'numeric',
+        },
+        dayHeaderFormat: {
+            weekday: 'short',
+        }
+    });
+
+    calendar.render();
+});
+
+dateOfToday.textContent = formattedDate;

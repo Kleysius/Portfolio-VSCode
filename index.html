@@ -1,1007 +1,1009 @@
 <!DOCTYPE html>
 <html lang="fr">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="robots" content="all">
-    <meta name="author" content="SEBASTI Thomas">
-    <meta name="description"
-        content="Je m'appelle SEBASTI Thomas, un développeur web junior passionné par l'informatique et les nouvelles technologies. Actuellement à la recherche d'une alternance dans 12 mois pour devenir Concepteur développeur d'applications. Découvrez mes projets et compétences en développement front-end et back-end dans mon portfolio.">
-    <meta name="keywords"
-        content="portfolio, développeur web, développeur, web, junior, Marseille, SEBASTI Thomas, JavaScript, PHP, Node.js, Aix-en-Provence, informatique, Aubagne, RI7, développement front-end, développement back-end, concepteur développeur d'applications">
-    <meta name="google-site-verification" content="8XPRanyleKFYncj6P7pPQyFUFbNI2-68eMG-wSUoPLo">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="robots" content="all">
+		<meta name="author" content="SEBASTI Thomas">
+		<meta name="description" content="Je m'appelle SEBASTI Thomas, un développeur web junior passionné par l'informatique et les nouvelles technologies. Actuellement à la recherche d'une alternance dans 12 mois pour devenir Concepteur développeur d'applications. Découvrez mes projets et compétences en développement front-end et back-end dans mon portfolio.">
+		<meta name="keywords" content="portfolio, développeur web, développeur, web, junior, Marseille, SEBASTI Thomas, JavaScript, PHP, Node.js, Aix-en-Provence, informatique, Aubagne, RI7, développement front-end, développement back-end, concepteur développeur d'applications">
+		<meta name="google-site-verification" content="8XPRanyleKFYncj6P7pPQyFUFbNI2-68eMG-wSUoPLo">
 
-    <title>Portfolio VSCode | SEBASTI Thomas</title>
+		<title>Portfolio VSCode | SEBASTI Thomas</title>
 
-    <link rel="canonical" href="https://sebastithomas.fr/">
-    <link rel="shortcut icon" href="assets/img/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="assets/style/style.css">
-    <link rel="stylesheet" href="assets/style/responsive.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
-        crossorigin="anonymous" referrerpolicy="no-referrer">
-        
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-    <script>
-        (function () {
-            emailjs.init('pW9FzYAPEEO9U2BWf');
-        })();
-    </script>
-</head>
+		<link rel="canonical" href="https://sebastithomas.fr/">
+		<link rel="shortcut icon" href="assets/img/favicon.ico" type="image/x-icon">
+		<link rel="stylesheet" href="assets/style/style.css">
+		<link rel="stylesheet" href="assets/style/responsive.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer">
+		<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+		<script>
+			(function () {
+emailjs.init('pW9FzYAPEEO9U2BWf');
+})();
+		</script>
+	</head>
 
 
-<body>
-    <div id="loader-container">
-        <div class="loader"></div>
-    </div>
-    <div class="container" id="container">
-        <header>
-            <!-- Barre de titre -->
-            <div class="title-bar">
-                <div class="logo"><img src="assets/img/logo-vscode.svg" alt="logo-vscode"></div>
-                <div class="title-bar-text">index.html - Portfolio VSCode | SEBASTI Thomas - Visual Studio Code</div>
-                <div class="title-bar-controls">
-                    <button class="minimize-button">
-                        <i class="fa-solid fa-minus"></i>
-                    </button>
-                    <button class="maximize-button">
-                        <i class="fa-regular fa-square"></i>
-                    </button>
-                    <button class="close-button">
-                        <i class="fa-solid fa-xmark"></i>
-                    </button>
-                </div>
-            </div>
+	<body>
+		<div id="loader-container">
+			<div class="loader"></div>
+		</div>
+		<div class="container" id="container">
+			<header>
+				<!-- Barre de titre -->
+				<div class="title-bar">
+					<div class="logo"><img src="assets/img/logo-vscode.svg" alt="logo-vscode"></div>
+					<div class="title-bar-text">index.html - Portfolio VSCode | SEBASTI Thomas - Visual Studio Code</div>
+					<div class="title-bar-controls">
+						<button class="minimize-button">
+							<i class="fa-solid fa-minus"></i>
+						</button>
+						<button class="maximize-button">
+							<i class="fa-regular fa-square"></i>
+						</button>
+						<button class="close-button">
+							<i class="fa-solid fa-xmark"></i>
+						</button>
+					</div>
+				</div>
 
-            <!-- Barre de menu -->
-            <nav class="menu-bar">
-                <ul>
-                    <li><a href="#home" class="active aLink"><img src="assets/img/html.png"
-                                alt="html icon">index.html</a></li>
-                    <li><a href="#about" class="aLink"><img src="assets/img/css_icon.svg" alt="css icon">about.css</a>
-                    </li>
-                    <li><a href="#skills" class="aLink"><img src="assets/img/javascript.svg" alt="js icon">skills.js</a>
-                    </li>
-                    <li><a href="#projects" class="aLink"><img src="assets/img/json_icon.svg"
-                                alt="json icon">projets.json</a></li>
-                    <li><a href="#contact" class="aLink"><img src="assets/img/twig.svg" alt="twig icon">contact.twig</a>
-                    </li>
-                </ul>
-            </nav>
-        </header>
+				<!-- Barre de menu -->
+				<nav class="menu-bar">
+					<ul>
+						<li><a href="#home" class="active aLink"><img src="assets/img/html.png" alt="html icon">index.html</a></li>
+						<li><a href="#about" class="aLink"><img src="assets/img/css_icon.svg" alt="css icon">about.css</a></li>
+						<li><a href="#skills" class="aLink"><img src="assets/img/javascript.svg" alt="js icon">skills.js</a></li>
+						<li><a href="#projects" class="aLink"><img src="assets/img/json_icon.svg" alt="json icon">projets.json</a></li>
+						<li><a href="#contact" class="aLink"><img src="assets/img/twig.svg" alt="twig icon">contact.twig</a></li>
+					</ul>
+				</nav>
+			</header>
 
-        <main>
-            <div class="content" id="content">
-                <section class="home" id="home">
-                    <div class="title">
-                        <span class="vscode-tag">h1</span>
-                        <span class="vscode-title">Bienvenue sur VSCode ! Ou pas ...</span>
-                        <span class="vscode-tog">h1</span>
-                    </div>
+			<main>
+				<div class="content" id="content">
+					<section class="home" id="home">
+						<div class="title">
+							<span class="vscode-tag">h1</span>
+							<span class="vscode-title">Bienvenue sur VSCode ! Ou pas ...</span>
+							<span class="vscode-tog">h1</span>
+						</div>
 
-                    <div class="para">
-                        <span class="vscode-tag">p</span>
-                        <span class="vscode-para">Je m'appelle Thomas SEBASTI, développeur web junior passionné par la
-                            création d'applications web et mobiles.</span>
-                        <span class="vscode-tog">p</span>
-                    </div>
-                    <div class="vscode-com">Retrouvez mon CV, GitHub et LinkedIn dans la barre latérale gauche</div>
-                    <div class="checkbox">
-                        <input type="checkbox" id="showHomePage" checked>
-                        <label for="showHomePage">Afficher la page d'accueil au démarrage</label>
-                    </div>
+						<div class="para">
+							<span class="vscode-tag">p</span>
+							<span class="vscode-para">Je m'appelle Thomas SEBASTI, développeur web junior passionné par la
+								                            création d'applications web et mobiles.</span>
+							<span class="vscode-tog">p</span>
+						</div>
+						<div class="vscode-com">Retrouvez mon CV, GitHub et LinkedIn dans la barre latérale gauche</div>
+						<div class="checkbox">
+							<input type="checkbox" id="showHomePage" checked>
+							<label for="showHomePage">Afficher la page d'accueil au démarrage</label>
+						</div>
 
-                </section>
-                <section class="about" id="about">
-                    <div class="title">
-                        <span class="vscode-tag">h2</span>
-                        <span class="vscode-title">Qui suis-je ?</span>
-                        <span class="vscode-tog">h2</span>
-                    </div>
-                    <p>Après avoir travaillé pendant 8 ans dans l'industrie chimique j'ai décidé de me reconvertir
-                        professionnellement dans un domaine alliant créativité et informatique : le Développement Web.
-                    </p>
-                    <p>Diplômé d'une licence de Chimie, j’ai donc complété mon parcours par une formation diplômante à
-                        l'école Ri7 - Ecole de développement supérieur sur Aubagne pour devenir Développeur Web.</p>
-                    <p>Déterminé à perfectionner mes connaissances en programmation, je suis actuellement à la recherche
-                        d'une opportunité d'alternance de 12 mois à partir d'Octobre 2023 pour devenir Concepteur
-                        Développeur d'Applications de niveau bac+3.</p>
-                    <p>Si vous êtes à la recherche d'un développeur web passionné et créatif, n'hésitez pas à
-                        <a href="#contact">me
-                            contacter.</a>
-                    </p>
-                </section>
+					</section>
+					<section class="about" id="about">
+						<div class="title">
+							<span class="vscode-tag">h2</span>
+							<span class="vscode-title">Qui suis-je ?</span>
+							<span class="vscode-tog">h2</span>
+						</div>
+						<p>Après avoir travaillé pendant 8 ans dans l'industrie chimique j'ai décidé de me reconvertir
+							                        professionnellement dans un domaine alliant créativité et informatique : le Développement Web.
+						</p>
+						<p>Diplômé d'une licence de Chimie, j’ai donc complété mon parcours par une formation diplômante à
+							                        l'école Ri7 - Ecole de développement supérieur sur Aubagne pour devenir Développeur Web.</p>
+						<p>Déterminé à perfectionner mes connaissances en programmation, je suis actuellement à la recherche
+							                        d'une opportunité d'alternance de 12 mois à partir d'Octobre 2023 pour devenir Concepteur
+							                        Développeur d'Applications de niveau bac+3.</p>
+						<p>Si vous êtes à la recherche d'un développeur web passionné et créatif, n'hésitez pas à
+							<a href="#contact">me
+								                            contacter.</a>
+						</p>
+					</section>
 
-                <section class="skills" id="skills">
-                    <div class="title">
-                        <span class="vscode-tag">h2</span>
-                        <span class="vscode-title">Mes compétences</span>
-                        <span class="vscode-tog">h2</span>
-                    </div>
-                    <div class="containerSkills">
-                        <div class="skills-list">
-                            <h3>Langages de programmation</h3>
-                            <ul>
-                                <li>HTML</li>
-                                <li>HTML (Twig)</li>
-                                <li>CSS</li>
-                                <li>JavaScript</li>
-                                <li>NodeJS</li>
-                                <li>PHP</li>
-                            </ul>
-                        </div>
-                        <div class="skills-list">
-                            <h3>Frameworks</h3>
-                            <ul>
-                                <li>Bootstrap</li>
-                                <li>Tailwind CSS</li>
-                            </ul>
-                        </div>
-                        <div class="skills-list">
-                            <h3>Bibliothèques</h3>
-                            <ul>
-                                <li>Three.js</li>
-                            </ul>
-                        </div>
-                        <div class="skills-list">
-                            <h3>Base de données</h3>
-                            <ul>
-                                <li>MySQL</li>
-                                <li>MongoDB</li>
-                            </ul>
-                        </div>
-                        <div class="skills-list">
-                            <h3>Outils</h3>
-                            <ul>
-                                <li>Git</li>
-                                <li>VSCode</li>
-                                <li>Linux</li>
-                                <li>Figma</li>
-                                <li>Balsamiq</li>
-                            </ul>
-                        </div>
-                        <div class="skills-list">
-                            <h3>Gestion de contenu</h3>
-                            <ul>
-                                <li>Wordpress</li>
-                            </ul>
-                        </div>
-                    </div>
-                </section>
+					<section class="skills" id="skills">
+						<div class="title">
+							<span class="vscode-tag">h2</span>
+							<span class="vscode-title">Mes compétences</span>
+							<span class="vscode-tog">h2</span>
+						</div>
+						<div class="containerSkills">
+							<div class="skills-list">
+								<h3>Langages de programmation</h3>
+								<ul>
+									<li>HTML</li>
+									<li>HTML (Twig)</li>
+									<li>CSS</li>
+									<li>JavaScript</li>
+									<li>NodeJS</li>
+									<li>PHP</li>
+								</ul>
+							</div>
+							<div class="skills-list">
+								<h3>Frameworks</h3>
+								<ul>
+									<li>Bootstrap</li>
+									<li>Tailwind CSS</li>
+								</ul>
+							</div>
+							<div class="skills-list">
+								<h3>Bibliothèques</h3>
+								<ul>
+									<li>Three.js</li>
+								</ul>
+							</div>
+							<div class="skills-list">
+								<h3>Base de données</h3>
+								<ul>
+									<li>MySQL</li>
+									<li>MongoDB</li>
+								</ul>
+							</div>
+							<div class="skills-list">
+								<h3>Outils</h3>
+								<ul>
+									<li>Git</li>
+									<li>VSCode</li>
+									<li>Linux</li>
+									<li>Figma</li>
+									<li>Balsamiq</li>
+								</ul>
+							</div>
+							<div class="skills-list">
+								<h3>Gestion de contenu</h3>
+								<ul>
+									<li>Wordpress</li>
+								</ul>
+							</div>
+						</div>
+					</section>
 
-                <section class="projects" id="projects">
-                    <div class="title">
-                        <span class="vscode-tag">h2</span>
-                        <span class="vscode-title">Mes projets</span>
-                        <span class="vscode-tog">h2</span>
-                    </div>
-                    <div class="vscode-com">Cliquez sur le lien pour visiter le site</div>
-                    <div class="vscode-com">Le jeu du Morpion, le Puissance 4 et la calculatrice que vous pouvez ouvrir
-                        sur le bureau ont aussi été codés de mes mains.</div>
-                    <div class="projects-container">
-                        <div class="project">
-                            <div class="img-container">
-                                <img class="projectImg" src="./assets/img/estimate.png" alt="estimate">
-                            </div>
-                            <div class="project-content">
-                                <a href="#">Estimer le coût de développement d'un site web - EstiMate</a>
-                                <div class="projectsSkills">
-                                    <img src="assets/img/twig.svg" alt="twig logo">
-                                    <img src="assets/img/css.svg" alt="css logo">
-                                    <img src="assets/img/javascript.svg" alt="javascript logo">
-                                    <img src="assets/img/node-js.svg" alt="node-js logo">
-                                    <img src="assets/img/express-logo.svg" style="background-color: white; padding: 2px; border-radius: 10px;" alt="express logo">
-                                    <img src="assets/img/mongodb-icon.svg" alt="mongodb logo">
-                                </div>
-                                <p>Site web qui propose un formulaire détaillé aux utilisateurs pour comprendre leurs besoins et leurs attentes en matière de développement de site web ou d'application mobile. En fonction des informations fournies, le site calculera et affichera une estimation du coût du projet.
-                                </p>
-                            </div>
-                        </div>
-                        <div class="project">
-                            <div class="img-container">
-                                <img class="projectImg" src="./assets/img/grillmaster.png" alt="grillmaster">
-                            </div>
-                            <div class="project-content">
-                                <a href="http://51.91.210.190:4001">Site vitrine restaurant - GrillMasters</a>
-                                <div class="projectsSkills">
-                                    <img src="assets/img/html.svg" alt="html logo">
-                                    <img src="assets/img/css.svg" alt="css logo">
-                                    <img src="assets/img/javascript.svg" alt="javascript logo">
-                                </div>
-                                <p>Un site vitrine d'un restaurant FastFood que j'ai appelé GrillMasters. Possibilité de
-                                    consulter le menu, les services proposés et une partie contact.
-                                </p>
-                            </div>
-                        </div>
-                        <div class="project">
-                            <div class="img-container">
-                                <img class="projectImg" src="./assets/img/voyage.png" alt="lavishvoyage">
-                            </div>
-                            <div class="project-content">
-                                <a href="http://51.91.210.190:4006">Agence de voyage - Lavish Voyage</a>
-                                <div class="projectsSkills">
-                                    <img src="assets/img/html.svg" alt="html logo">
-                                    <img src="assets/img/css.svg" alt="css logo">
-                                    <img src="assets/img/javascript.svg" alt="javascript logo">
-                                </div>
-                                <p>Interface utilisateur moderne et attrayante, conçue avec HTML5 et CSS3 pour offrir
-                                    une
-                                    esthétique agréable. Utilisation de JavaScript pour créer des animations fluides.
-                                </p>
-                            </div>
-                        </div>
-                        <div class="project">
-                            <div class="img-container">
-                                <img class="projectImg" src="./assets/img/applirh.png" alt="plateformeRH">
-                            </div>
-                            <div class="project-content">
-                                <a href="http://51.91.210.190:3005">Plateforme Ressources Humaines</a>
-                                <div class="projectsSkills">
-                                    <img src="assets/img/twig.svg" alt="twig logo">
-                                    <img src="assets/img/tailwind.svg" alt="tailwind logo">
-                                    <img src="assets/img/node-js.svg" alt="node-js logo">
-                                    <img src="assets/img/mongodb-icon.svg" alt="mongodb logo">
-                                </div>
-                                <p>Une plateforme qui permet de gérer des employés, possibilité d'en ajouter, les
-                                    supprimer,
-                                    les
-                                    modifier ou les blâmer. Une inscription est requise pour se connecter à
-                                    l'application.
-                                </p>
-                            </div>
-                        </div>
-                        <!-- <div class="project">
-                            <div class="img-container">
-                                <img class="projectImg" src="./assets/img/sumz.png" alt="résumeur">
-                            </div>
-                            <div class="project-content">
-                                <a href="http://51.91.210.190:4004">Résumeur API ChatGPT</a>
-                                <div class="projectsSkills">
-                                    <img src="assets/img/reactjs.png" alt="react logo">
-                                    <img src="assets/img/tailwind.svg" alt="tailwind logo">
-                                    <img src="assets/img/javascript.svg" alt="javascript logo">
-                                </div>
-                                <p>J'utilise une API qui extrait le corps de l'article d'une URL et utilise GPT pour
-                                    résumer
-                                    le
-                                    contenu de l'article. Utile pour l'exploration de texte. Les URLs sont enregistrées,
-                                    peuvent
-                                    être copiées et supprimées.</p>
-                            </div>
-                        </div> -->
-                        <!-- <div class="project">
-                            <div class="img-container">
-                                <img class="projectImg" src="./assets/img/port-3d.png" alt="portfolio3d">
-                            </div>
-                            <div class="project-content">
-                                <a href="http://51.91.210.190:4000">Portfolio 3D</a>
-                                <div class="projectsSkills">
-                                    <img src="assets/img/reactjs.png" alt="react logo">
-                                    <img src="assets/img/tailwind.svg" alt="tailwind logo">
-                                    <img src="assets/img/threejs.svg"
-                                        style="background-color: #fff; border-radius: 5px;" alt="threejs logo">
-                                </div>
-                                <p>Portfolio développé en suivant un livecoding qui m'a beaucoup appris sur les
-                                    frameworks
-                                    React, Tailwind ainsi que Three.js et Canvas. J'ai ensuite modifié le site pour le
-                                    rendre
-                                    plus personnel.</p>
-                            </div>
-                        </div> -->
-                        <div class="project">
-                            <div class="img-container">
-                                <img class="projectImg" src="./assets/img/mdp.png" alt="generateurmdp">
-                            </div>
-                            <div class="project-content">
-                                <a href="http://51.91.210.190:4005">Générateur de Mots de passe</a>
-                                <div class="projectsSkills">
-                                    <img src="assets/img/html.svg" alt="html logo">
-                                    <img src="assets/img/css.svg" alt="css logo">
-                                    <img src="assets/img/javascript.svg" alt="javascript logo">
-                                    <img src="assets/img/php.svg" alt="php logo">
-                                </div>
-                                <p>Un générateur de mot de passe complet auquel on accède via des formulaires
-                                    d'inscription
-                                    et
-                                    de connexion codés en PHP.</p>
-                            </div>
-                        </div>
-                        <div class="project">
-                            <div class="img-container">
-                                <img class="projectImg" src="./assets/img/createcard.png" alt="3dcard">
-                            </div>
-                            <div class="project-content">
-                                <a href="http://51.91.210.190:4003">Création de cartes de personnages</a>
-                                <div class="projectsSkills">
-                                    <img src="assets/img/html.svg" alt="html logo">
-                                    <img src="assets/img/css.svg" alt="css logo">
-                                    <img src="assets/img/javascript.svg" alt="javascript logo">
-                                </div>
-                                <p>Un site web permettant de créer des cartes sur le thème de Donjon et Dragon avec un
-                                    effet
-                                    de
-                                    3D. L'utilisateur a la possibilité de modifier, supprimer ou rechercher une carte
-                                    déjà créée.
-                                </p>
-                            </div>
-                        </div>
-                        <div class="project">
-                            <div class="img-container">
-                                <img class="projectImg" src="./assets/img/framework.png" alt="framework">
-                            </div>
-                            <div class="project-content">
-                                <a href="http://51.91.210.190:4002">Les frameworks Css et Javascript</a>
-                                <div class="projectsSkills">
-                                    <img src="assets/img/html.svg" alt="html logo">
-                                    <img src="assets/img/css.svg" alt="css logo">
-                                    <img src="assets/img/javascript.svg" alt="javascript logo">
-                                </div>
-                                <p>Premier project d'étude, un site qui permet d'en apprendre plus sur deux frameworks
-                                    css : Bootstrap et Foundation ainsi que deux frameworks javascript : React et
-                                    Angular.</p>
-                            </div>
-                        </div>
-                    </div>
-                </section>
+					<section class="projects" id="projects">
+						<div class="title">
+							<span class="vscode-tag">h2</span>
+							<span class="vscode-title">Mes projets</span>
+							<span class="vscode-tog">h2</span>
+						</div>
+						<div class="vscode-com">Cliquez sur le lien pour visiter le site</div>
+						<div class="vscode-com">Le jeu du Morpion, le Puissance 4 et la calculatrice que vous pouvez ouvrir
+							                        sur le bureau ont aussi été codés de mes mains.</div>
+						<div class="projects-container">
+							<div class="project">
+								<div class="img-container">
+									<img class="projectImg" src="./assets/img/estimate.png" alt="estimate">
+								</div>
+								<div class="project-content">
+									<a href="#">Estimer le coût de développement d'un site web - EstiMate</a>
+									<div class="projectsSkills">
+										<img src="assets/img/twig.svg" alt="twig logo">
+										<img src="assets/img/css.svg" alt="css logo">
+										<img src="assets/img/javascript.svg" alt="javascript logo">
+										<img src="assets/img/node-js.svg" alt="node-js logo">
+										<img src="assets/img/express-logo.svg" style="background-color: white; padding: 2px; border-radius: 10px;" alt="express logo">
+										<img src="assets/img/mongodb-icon.svg" alt="mongodb logo">
+									</div>
+									<p>Site web qui propose un formulaire détaillé aux utilisateurs pour comprendre leurs besoins et leurs attentes en matière de développement de site web ou d'application mobile. En fonction des informations fournies, le site calculera et affichera une estimation du coût du projet.
+									</p>
+								</div>
+							</div>
+							<div class="project">
+								<div class="img-container">
+									<img class="projectImg" src="./assets/img/grillmaster.png" alt="grillmaster">
+								</div>
+								<div class="project-content">
+									<a href="http://51.91.210.190:4001">Site vitrine restaurant - GrillMasters</a>
+									<div class="projectsSkills">
+										<img src="assets/img/html.svg" alt="html logo">
+										<img src="assets/img/css.svg" alt="css logo">
+										<img src="assets/img/javascript.svg" alt="javascript logo">
+									</div>
+									<p>Un site vitrine d'un restaurant FastFood que j'ai appelé GrillMasters. Possibilité de
+										                                    consulter le menu, les services proposés et une partie contact.
+									</p>
+								</div>
+							</div>
+							<div class="project">
+								<div class="img-container">
+									<img class="projectImg" src="./assets/img/voyage.png" alt="lavishvoyage">
+								</div>
+								<div class="project-content">
+									<a href="http://51.91.210.190:4006">Agence de voyage - Lavish Voyage</a>
+									<div class="projectsSkills">
+										<img src="assets/img/html.svg" alt="html logo">
+										<img src="assets/img/css.svg" alt="css logo">
+										<img src="assets/img/javascript.svg" alt="javascript logo">
+									</div>
+									<p>Interface utilisateur moderne et attrayante, conçue avec HTML5 et CSS3 pour offrir
+										                                    une
+										                                    esthétique agréable. Utilisation de JavaScript pour créer des animations fluides.
+									</p>
+								</div>
+							</div>
+							<div class="project">
+								<div class="img-container">
+									<img class="projectImg" src="./assets/img/applirh.png" alt="plateformeRH">
+								</div>
+								<div class="project-content">
+									<a href="http://51.91.210.190:3005">Plateforme Ressources Humaines</a>
+									<div class="projectsSkills">
+										<img src="assets/img/twig.svg" alt="twig logo">
+										<img src="assets/img/tailwind.svg" alt="tailwind logo">
+										<img src="assets/img/node-js.svg" alt="node-js logo">
+										<img src="assets/img/mongodb-icon.svg" alt="mongodb logo">
+									</div>
+									<p>Une plateforme qui permet de gérer des employés, possibilité d'en ajouter, les
+										                                    supprimer,
+										                                    les
+										                                    modifier ou les blâmer. Une inscription est requise pour se connecter à
+										                                    l'application.
+									</p>
+								</div>
+							</div>
+							<!-- <div class="project">
+							                            <div class="img-container">
+							                                <img class="projectImg" src="./assets/img/sumz.png" alt="résumeur">
+							                            </div>
+							                            <div class="project-content">
+							                                <a href="http://51.91.210.190:4004">Résumeur API ChatGPT</a>
+							                                <div class="projectsSkills">
+							                                    <img src="assets/img/reactjs.png" alt="react logo">
+							                                    <img src="assets/img/tailwind.svg" alt="tailwind logo">
+							                                    <img src="assets/img/javascript.svg" alt="javascript logo">
+							                                </div>
+							                                <p>J'utilise une API qui extrait le corps de l'article d'une URL et utilise GPT pour
+							                                    résumer
+							                                    le
+							                                    contenu de l'article. Utile pour l'exploration de texte. Les URLs sont enregistrées,
+							                                    peuvent
+							                                    être copiées et supprimées.</p>
+							                            </div>
+							                        </div> -->
+							<!-- <div class="project">
+							                            <div class="img-container">
+							                                <img class="projectImg" src="./assets/img/port-3d.png" alt="portfolio3d">
+							                            </div>
+							                            <div class="project-content">
+							                                <a href="http://51.91.210.190:4000">Portfolio 3D</a>
+							                                <div class="projectsSkills">
+							                                    <img src="assets/img/reactjs.png" alt="react logo">
+							                                    <img src="assets/img/tailwind.svg" alt="tailwind logo">
+							                                    <img src="assets/img/threejs.svg"
+							                                        style="background-color: #fff; border-radius: 5px;" alt="threejs logo">
+							                                </div>
+							                                <p>Portfolio développé en suivant un livecoding qui m'a beaucoup appris sur les
+							                                    frameworks
+							                                    React, Tailwind ainsi que Three.js et Canvas. J'ai ensuite modifié le site pour le
+							                                    rendre
+							                                    plus personnel.</p>
+							                            </div>
+							                        </div> -->
+							<div class="project">
+								<div class="img-container">
+									<img class="projectImg" src="./assets/img/mdp.png" alt="generateurmdp">
+								</div>
+								<div class="project-content">
+									<a href="http://51.91.210.190:4005">Générateur de Mots de passe</a>
+									<div class="projectsSkills">
+										<img src="assets/img/html.svg" alt="html logo">
+										<img src="assets/img/css.svg" alt="css logo">
+										<img src="assets/img/javascript.svg" alt="javascript logo">
+										<img src="assets/img/php.svg" alt="php logo">
+									</div>
+									<p>Un générateur de mot de passe complet auquel on accède via des formulaires
+										                                    d'inscription
+										                                    et
+										                                    de connexion codés en PHP.</p>
+								</div>
+							</div>
+							<div class="project">
+								<div class="img-container">
+									<img class="projectImg" src="./assets/img/createcard.png" alt="3dcard">
+								</div>
+								<div class="project-content">
+									<a href="http://51.91.210.190:4003">Création de cartes de personnages</a>
+									<div class="projectsSkills">
+										<img src="assets/img/html.svg" alt="html logo">
+										<img src="assets/img/css.svg" alt="css logo">
+										<img src="assets/img/javascript.svg" alt="javascript logo">
+									</div>
+									<p>Un site web permettant de créer des cartes sur le thème de Donjon et Dragon avec un
+										                                    effet
+										                                    de
+										                                    3D. L'utilisateur a la possibilité de modifier, supprimer ou rechercher une carte
+										                                    déjà créée.
+									</p>
+								</div>
+							</div>
+							<div class="project">
+								<div class="img-container">
+									<img class="projectImg" src="./assets/img/framework.png" alt="framework">
+								</div>
+								<div class="project-content">
+									<a href="http://51.91.210.190:4002">Les frameworks Css et Javascript</a>
+									<div class="projectsSkills">
+										<img src="assets/img/html.svg" alt="html logo">
+										<img src="assets/img/css.svg" alt="css logo">
+										<img src="assets/img/javascript.svg" alt="javascript logo">
+									</div>
+									<p>Premier project d'étude, un site qui permet d'en apprendre plus sur deux frameworks
+										                                    css : Bootstrap et Foundation ainsi que deux frameworks javascript : React et
+										                                    Angular.</p>
+								</div>
+							</div>
+						</div>
+					</section>
 
-                <section class="contact" id="contact">
-                    <div class="title">
-                        <span class="vscode-tag">h2</span>
-                        <span class="vscode-title">Contactez-moi</span>
-                        <span class="vscode-tog">h2</span>
-                    </div>
-                    <form class="vscode-form" id="contact-form" method="post">
-                        <div class="form-field">
-                            <label for="contact_nom">Nom :</label>
-                            <input type="text" id="contact_nom" name="name" required>
-                        </div>
-                        <div class="form-field">
-                            <label for="contact_email">Email :</label>
-                            <input type="email" id="contact_email" name="email" required>
-                        </div>
-                        <div class="form-field">
-                            <label for="contact_sujet">Sujet :</label>
-                            <input type="text" id="contact_sujet" name="subject" required>
-                        </div>
-                        <div class="form-field">
-                            <label for="contact_message">Message :</label>
-                            <textarea id="contact_message" name="message" rows="5" required></textarea>
-                        </div>
-                        <div id="successMessage"></div>
-                        <div id="errorMessage"></div>
-                        <button type="submit" id="btnMail" class="vscode-button">
-                            <span id="loaderBtn" class="loaderBtn"></span>
-                            <span id="sendText">Envoyer</span>
-                        </button>
-                    </form>
-                </section>
+					<section class="contact" id="contact">
+						<div class="title">
+							<span class="vscode-tag">h2</span>
+							<span class="vscode-title">Contactez-moi</span>
+							<span class="vscode-tog">h2</span>
+						</div>
+						<form class="vscode-form" id="contact-form" method="post">
+							<div class="form-field">
+								<label for="contact_nom">Nom :</label>
+								<input type="text" id="contact_nom" name="name" required>
+							</div>
+							<div class="form-field">
+								<label for="contact_email">Email :</label>
+								<input type="email" id="contact_email" name="email" required>
+							</div>
+							<div class="form-field">
+								<label for="contact_sujet">Sujet :</label>
+								<input type="text" id="contact_sujet" name="subject" required>
+							</div>
+							<div class="form-field">
+								<label for="contact_message">Message :</label>
+								<textarea id="contact_message" name="message" rows="5" required></textarea>
+							</div>
+							<div id="successMessage"></div>
+							<div id="errorMessage"></div>
+							<button type="submit" id="btnMail" class="vscode-button">
+								<span id="loaderBtn" class="loaderBtn"></span>
+								<span id="sendText">Envoyer</span>
+							</button>
+						</form>
+					</section>
 
-                <div class="code-column">
-                    <ol>
-                        <!-- Lignes numérotées -->
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <!-- 399 lignes -->
-                    </ol>
-                </div>
-            </div>
-        </main>
+					<div class="code-column">
+						<ol>
+							<!-- Lignes numérotées -->
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<!-- 399 lignes -->
+						</ol>
+					</div>
+				</div>
+			</main>
 
-        <aside class="sidebar">
-            <div class="top-items">
-                <div class="sidebar-item">
-                    <span class="sidebar-icon">
-                        <a href="assets/img/cv.pdf" target="_blank">
-                            <i class="fa-regular fa-file" title="Mon CV"></i>
-                        </a>
-                    </span>
-                </div>
-                <div class="sidebar-item">
-                    <span class="sidebar-icon">
-                        <i class="fa-solid fa-magnifying-glass" title="Recherche"></i>
-                    </span>
-                </div>
-                <div class="sidebar-item">
-                    <span class="sidebar-icon">
-                        <a href="https://github.com/Kleysius/Portfolio-VSCode.git">
-                            <i class="fa-solid fa-code-branch" title="Contrôle de code source"></i>
-                        </a>
-                    </span>
-                </div>
-                <div class="sidebar-item">
-                    <span class="sidebar-icon">
-                        <a href="#projects">
-                            <i class="fa-solid fa-cubes" title="Extensions"></i>
-                        </a>
-                    </span>
-                </div>
-                <div class="sidebar-item">
-                    <span class="sidebar-icon">
-                        <a href="https://github.com/Kleysius">
-                            <i class="fa-brands fa-github" title="GitHub"></i>
-                        </a>
-                    </span>
-                </div>
-                <div class="sidebar-item">
-                    <span class="sidebar-icon">
-                        <a href="https://www.linkedin.com/in/thomas-sebasti/">
-                            <i class="fa-brands fa-linkedin" title="LinkedIn"></i>
-                        </a>
-                    </span>
-                </div>
-            </div>
+			<aside class="sidebar">
+				<div class="top-items">
+					<div class="sidebar-item">
+						<span class="sidebar-icon">
+							<a href="assets/img/cv.pdf" target="_blank">
+								<i class="fa-regular fa-file" title="Mon CV"></i>
+							</a>
+						</span>
+					</div>
+					<div class="sidebar-item">
+						<span class="sidebar-icon">
+							<i class="fa-solid fa-magnifying-glass" title="Recherche"></i>
+						</span>
+					</div>
+					<div class="sidebar-item">
+						<span class="sidebar-icon">
+							<a href="https://github.com/Kleysius/Portfolio-VSCode.git">
+								<i class="fa-solid fa-code-branch" title="Contrôle de code source"></i>
+							</a>
+						</span>
+					</div>
+					<div class="sidebar-item">
+						<span class="sidebar-icon">
+							<a href="#projects">
+								<i class="fa-solid fa-cubes" title="Extensions"></i>
+							</a>
+						</span>
+					</div>
+					<div class="sidebar-item">
+						<span class="sidebar-icon">
+							<a href="https://github.com/Kleysius">
+								<i class="fa-brands fa-github" title="GitHub"></i>
+							</a>
+						</span>
+					</div>
+					<div class="sidebar-item">
+						<span class="sidebar-icon">
+							<a href="https://www.linkedin.com/in/thomas-sebasti/">
+								<i class="fa-brands fa-linkedin" title="LinkedIn"></i>
+							</a>
+						</span>
+					</div>
+				</div>
 
-            <div class="bottom-items">
-                <div class="sidebar-item">
-                    <a href="#about">
-                        <span class="sidebar-icon">
-                            <i class="fa-regular fa-circle-user" title="Comptes"></i>
-                        </span>
-                    </a>
-                </div>
-                <div class="sidebar-item">
-                    <span class="sidebar-icon gear-icon">
-                        <i class="fa-solid fa-gear" title="Gérer"></i>
-                    </span>
-                    <div class="settings">
-                        <div class="theme-modal">
-                            <div class="theme-vscode-name light">
-                                Thème clair
-                                <i class="fa-solid fa-chevron-right"></i>
-                            </div>
-                            <div class="theme-vscode-name dark">
-                                Thème sombre
-                                <i class="fa-solid fa-chevron-right"></i>
-                            </div>
-                            <div class="theme-vscode-name dracula">
-                                Thème Dracula
-                                <i class="fa-solid fa-chevron-right"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </aside>
+				<div class="bottom-items">
+					<div class="sidebar-item">
+						<a href="#about">
+							<span class="sidebar-icon">
+								<i class="fa-regular fa-circle-user" title="Comptes"></i>
+							</span>
+						</a>
+					</div>
+					<div class="sidebar-item">
+						<span class="sidebar-icon gear-icon">
+							<i class="fa-solid fa-gear" title="Gérer"></i>
+						</span>
+						<div class="settings">
+							<div class="theme-modal">
+								<div class="theme-vscode-name light">
+									Thème clair
+									<i class="fa-solid fa-chevron-right"></i>
+								</div>
+								<div class="theme-vscode-name dark">
+									Thème sombre
+									<i class="fa-solid fa-chevron-right"></i>
+								</div>
+								<div class="theme-vscode-name dracula">
+									Thème Dracula
+									<i class="fa-solid fa-chevron-right"></i>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</aside>
 
-        <aside class="explorer">
-            <div class="explorer-header">explorateur</div>
-            <div class="explorer-content">
-                <div class="toggle-chevron">
-                    <svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="" stroke="">
-                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                        <g id="SVGRepo_iconCarrier">
-                            <title></title>
-                            <g id="Complete">
-                                <g id="F-Chevron">
-                                    <polyline fill="none" id="Right" points="8.5 5 15.5 12 8.5 19" stroke="#d4d4d4"
-                                        stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></polyline>
-                                </g>
-                            </g>
-                        </g>
-                    </svg>
-                    PORTFOLIO
-                </div>
-                <ul class="file-list">
-                    <li>
-                        <a href="#home" class="active aLink">
-                            <span class="file-icon"><img src="assets/img/html.png" alt="html icon"></span>index.html</a>
-                    </li>
-                    <li>
-                        <a href="#about" class="aLink">
-                            <span class="file-icon"><img src="assets/img/css_icon.svg"
-                                    alt="css icon"></span>about.css</a>
-                    </li>
-                    <li>
-                        <a href="#skills" class="aLink">
-                            <span class="file-icon"><img src="assets/img/javascript.svg"
-                                    alt="js icon"></span>skills.js</a>
-                    </li>
-                    <li>
-                        <a href="#projects" class="aLink">
-                            <span class="file-icon"><img src="assets/img/json_icon.svg"
-                                    alt="json icon"></span>projets.json</a>
-                    </li>
-                    <li>
-                        <a href="#contact" class="aLink">
-                            <span class="file-icon"><img src="assets/img/twig.svg"
-                                    alt="twig icon"></span>contact.twig</a>
-                    </li>
-                </ul>
-            </div>
-        </aside>
+			<aside class="explorer">
+				<div class="explorer-header">explorateur</div>
+				<div class="explorer-content">
+					<div class="toggle-chevron">
+						<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="" stroke="">
+							<g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+							<g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+							<g id="SVGRepo_iconCarrier">
+								<title></title>
+								<g id="Complete">
+									<g id="F-Chevron">
+										<polyline fill="none" id="Right" points="8.5 5 15.5 12 8.5 19" stroke="#d4d4d4" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></polyline>
+									</g>
+								</g>
+							</g>
+						</svg>
+						PORTFOLIO
+					</div>
+					<ul class="file-list">
+						<li>
+							<a href="#home" class="active aLink">
+								<span class="file-icon"><img src="assets/img/html.png" alt="html icon"></span>index.html</a>
+						</li>
+						<li>
+							<a href="#about" class="aLink">
+								<span class="file-icon"><img src="assets/img/css_icon.svg" alt="css icon"></span>about.css</a>
+						</li>
+						<li>
+							<a href="#skills" class="aLink">
+								<span class="file-icon"><img src="assets/img/javascript.svg" alt="js icon"></span>skills.js</a>
+						</li>
+						<li>
+							<a href="#projects" class="aLink">
+								<span class="file-icon"><img src="assets/img/json_icon.svg" alt="json icon"></span>projets.json</a>
+						</li>
+						<li>
+							<a href="#contact" class="aLink">
+								<span class="file-icon"><img src="assets/img/twig.svg" alt="twig icon"></span>contact.twig</a>
+						</li>
+					</ul>
+				</div>
+			</aside>
 
-        <footer>
-            <!-- Pied de vscode -->
-            <div class="warning-status">
-                <div class="status-bar-section">
-                    <i class="fas fa-times-circle"></i>
-                    0
-                </div>
-                <div class="status-bar-section">
-                    <i class="fas fa-exclamation-triangle"></i>
-                    0
-                </div>
-            </div>
-            <div class="status-bar">
-                <div class="status-bar-section">L 217, col 8</div>
-                <div class="status-bar-section">Espaces : 4</div>
-                <div class="status-bar-section">UTF-8</div>
-                <div class="status-bar-section">CRLF</div>
-                <div class="status-bar-section">HTML</div>
-            </div>
-        </footer>
-    </div>
+			<footer>
+				<!-- Pied de vscode -->
+				<div class="warning-status">
+					<div class="status-bar-section">
+						<i class="fas fa-times-circle"></i>
+						0
+					</div>
+					<div class="status-bar-section">
+						<i class="fas fa-exclamation-triangle"></i>
+						0
+					</div>
+				</div>
+				<div class="status-bar">
+					<div class="status-bar-section">L 217, col 8</div>
+					<div class="status-bar-section">Espaces : 4</div>
+					<div class="status-bar-section">UTF-8</div>
+					<div class="status-bar-section">CRLF</div>
+					<div class="status-bar-section">HTML</div>
+				</div>
+			</footer>
+		</div>
 
-    <!-- Modale pour changer le fond d'écran -->
-    <div id="customModal" class="modalBg">
-        <div class="modal-content-bg">
-            <ul class="context-menu">
-                <li class="context-menu-item">
-                    <i class="fa-solid fa-paintbrush"></i>Fond d'écran suivant
-                </li>
-            </ul>
-        </div>
-    </div>
+		<!-- Modale pour changer le fond d'écran -->
+		<div id="customModal" class="modalBg">
+			<div class="modal-content-bg">
+				<ul class="context-menu">
+					<li class="context-menu-item">
+						<i class="fa-solid fa-paintbrush"></i>Fond d'écran suivant
+					</li>
+				</ul>
+			</div>
+		</div>
 
-    <!-- Jeux bureau -->
-    <div id="desktopGame">
-        <!-- Morpion -->
-        <div class="icon" id="morpion-icon">
-            <img src="./assets/img/morpion.png" alt="jeu du morpion">
-            <span class="icon-label">Morpion</span>
-        </div>
-        <!-- Puissance 4 -->
-        <div class="icon" id="puissance4-icon">
-            <img src="./assets/img/puissance4.png" alt="jeu du puissance 4">
-            <span class="icon-label">Puissance 4</span>
-        </div>
-        <!-- Calculatrice -->
-        <div class="icon" id="calculatrice-icon">
-            <img src="./assets/img/calculatrice.png" alt="calculatrice">
-            <span class="icon-label">Calculatrice</span>
-        </div>
-    </div>
+		<!-- Jeux bureau -->
+		<div
+			id="desktopGame">
+			<!-- Morpion -->
+			<div class="icon" id="morpion-icon">
+				<img src="./assets/img/morpion.png" alt="jeu du morpion">
+				<span class="icon-label">Morpion</span>
+			</div>
+			<!-- Puissance 4 -->
+			<div class="icon" id="puissance4-icon">
+				<img src="./assets/img/puissance4.png" alt="jeu du puissance 4">
+				<span class="icon-label">Puissance 4</span>
+			</div>
+			<!-- Calculatrice -->
+			<div class="icon" id="calculatrice-icon">
+				<img src="./assets/img/calculatrice.png" alt="calculatrice">
+				<span class="icon-label">Calculatrice</span>
+			</div>
+		</div>
 
-    <div id="game-container">
-        <iframe id="game-iframe"></iframe>
-        <button id="close-button-game">
-            <i class="fa-solid fa-xmark"></i>
-        </button>
-    </div>
+		<div id="game-container">
+			<iframe id="game-iframe"></iframe>
+			<button id="close-button-game">
+				<i class="fa-solid fa-xmark"></i>
+			</button>
+		</div>
 
-    <!-- Barre des tâches windows 11 -->
-    <div class="taskbar">
-        <div class="left-section">
-            <div class="weather-icon"><img src="./assets/img/soleil.png" alt="soleil"></div>
-            <div class="weather-info">
-                <div class="temperature">25°C</div>
-                <div class="description">Ensoleillé</div>
-            </div>
-        </div>
-        <div class="menu">
-            <img src="assets/img/logo-win11.svg" alt="logo windows 11" title="Démarrer">
-            <div class="search-bar">
-                <i class="fa-solid fa-search"></i>
-                <input type="text" placeholder="Rechercher" disabled>
-            </div>
-            <div class="logo-vscode active">
-                <img src="assets/img/logo-vscode.svg" alt="logo-vscode"
-                    title="index.html - Portfolio VSCode | SEBASTI Thomas - Visual Studio Code">
-            </div>
-        </div>
-        <div class="right-section">
-            <div class="date-time">
-                <div class="time"></div>
-                <div class="date"></div>
-            </div>
-        </div>
-    </div>
-    <div class="love">
-        <button class="tweet-heart" id="like"></button>
-        <p id="likeCount"></p>
-    </div>
+		<!-- Barre des tâches windows 11 -->
+		<div class="taskbar">
+			<div class="left-section">
+				<div class="weather-icon"><img src="./assets/img/soleil.png" alt="soleil"></div>
+				<div class="weather-info">
+					<div class="temperature">25°C</div>
+					<div class="description">Ensoleillé</div>
+				</div>
+			</div>
+			<div class="menu">
+				<img src="assets/img/logo-win11.svg" alt="logo windows 11" title="Démarrer">
+				<div class="search-bar">
+					<i class="fa-solid fa-search"></i>
+					<input type="text" placeholder="Rechercher" disabled>
+				</div>
+				<div class="logo-vscode active">
+					<img src="assets/img/logo-vscode.svg" alt="logo-vscode" title="index.html - Portfolio VSCode | SEBASTI Thomas - Visual Studio Code">
+				</div>
+			</div>
+			<div class="right-section">
+				<div class="date-time">
+					<div class="time"></div>
+					<div class="date"></div>
+				</div>
+			</div>
+		</div>
 
-    <script type="module" src="assets/js/fireBaseConf.js"></script>
-    <script src="assets/js/script.js"></script>
-</body>
+		<!-- Widget de Notifications -->
+		<div id="notification-widget" class="widget">
+			<h3>Notifications</h3>
+			<ul>
+				<li>Aucune nouvelle notification</li>
+			</ul>
+		</div>
+
+		<!-- Widget de Calendrier -->
+		<div id="calendar-widget" class="widget">
+            <h3 class="date"></h3>
+			<div id="calendar"></div>
+		</div>
+
+
+		<div class="love">
+			<button class="tweet-heart" id="like"></button>
+			<p id="likeCount"></p>
+		</div>
+
+		<script type="module" src="assets/js/fireBaseConf.js"></script>
+		<script src="assets/js/script.js"></script>
+	</body>
 
 </html>
