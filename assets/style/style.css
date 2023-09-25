@@ -1095,7 +1095,7 @@ footer {
 }
 
 .fc .fc-button .fc-icon {
-    color: #fff;
+    color: #b8b8b8;
     font-size: 14px;
 }
 
@@ -1106,6 +1106,12 @@ footer {
 .fc .fc-button-primary {
     background-color: transparent;
     border: none;
+    border-radius: 50%;
+}
+
+.fc .fc-button-primary:hover {
+    background-color: #ffffff1f;
+    border-radius: 50%;
 }
 
 .fc .fc-button-primary:disabled {
