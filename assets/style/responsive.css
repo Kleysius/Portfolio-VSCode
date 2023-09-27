@@ -85,8 +85,17 @@
         font-size: 15px;
     }
 
+    .checkbox input[type="checkbox"] {
+        width: 15px;
+        height: 15px;
+    }
+
+    .checkbox input[type="checkbox"]:checked::before {
+        font-size: 15px;
+    }
+
     .checkbox label {
-        font-size: 12px;
+        font-size: 11px;
     }
 
     .containerSkills {
@@ -195,32 +204,41 @@
 
     .code-column {
         width: 50px;
-        font-size: 13px;
+        font-size: 12px;
     }
 
     .title .vscode-tag,
     .title .vscode-tog,
     .title .vscode-title {
-        font-size: 18px;
+        font-size: 16px;
     }
 
     .para .vscode-tag,
     .para .vscode-tog,
     .para .vscode-para,
     .vscode-com {
-        font-size: 14px;
+        font-size: 12px;
     }
 
     p {
-        font-size: 14px;
+        font-size: 12px;
     }
 
     .checkbox {
         width: 200px;
     }
 
+    .checkbox input[type="checkbox"] {
+        width: 12px;
+        height: 12px;
+    }
+
+    .checkbox input[type="checkbox"]:checked::before {
+        font-size: 12px;
+    }
+
     .checkbox label {
-        font-size: 10px;
+        font-size: 9px;
     }
 
     .containerSkills {
@@ -230,6 +248,14 @@
 
     .skills-list {
         padding: 10px;
+    }
+
+    .skills-list h3 {
+        font-size: 14px;
+    }
+
+    .skills-list ul li {
+        font-size: 12px;
     }
 
     .projects-container {
