@@ -60,6 +60,7 @@ const modalBg = document.getElementById('customModal');
 const morpionIcon = document.getElementById('morpion-icon');
 const puissance4Icon = document.getElementById('puissance4-icon');
 const calculatriceIcon = document.getElementById('calculatrice-icon');
+const snakeIcon = document.getElementById('snake-icon');
 const gameContainer = document.getElementById('game-container');
 const gameIframe = document.getElementById('game-iframe');
 const closeButton = document.getElementById('close-button-game');
@@ -110,6 +111,7 @@ document.addEventListener('DOMContentLoaded', function () {
     morpionIcon.addEventListener('click', openMorpion);
     puissance4Icon.addEventListener('click', openPuissance4);
     calculatriceIcon.addEventListener('click', openCalculatrice);
+    snakeIcon.addEventListener('click', openSnake);
     closeButton.addEventListener('click', closeGame);
     menuItem.addEventListener('click', changeBackground);
 });
@@ -130,6 +132,12 @@ function openCalculatrice() {
     gameContainer.style.display = 'block';
     gameIframe.src = 'https://kleysius.github.io/calculatrice/';
     [gameContainer.style.width, gameContainer.style.height, closeButton.style.top, closeButton.style.right, closeButton.style.fontSize] = ['300px', '410px', '5px', '8px', '20px'];
+}
+
+function openSnake() {
+    gameContainer.style.display = 'block';
+    gameIframe.src = 'https://kleysius.github.io/SnakeGame/';
+    [gameContainer.style.width, gameContainer.style.height, closeButton.style.top, closeButton.style.right, closeButton.style.fontSize] = ['', '', '', '', ''];
 }
 
 function closeGame() {
