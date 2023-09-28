@@ -125,7 +125,7 @@
     #desktopGame {
         bottom: 60px;
         height: auto;
-        flex-direction: row;
+        display: flex;
     }
 
     .icon img {
@@ -364,7 +364,12 @@
     #desktopGame {
         bottom: 40px;
         height: auto;
-        flex-direction: row;
+        display: flex;
+    }
+
+    .icon {
+        width: 80px;
+        padding: 5px;
     }
 
     .icon img {

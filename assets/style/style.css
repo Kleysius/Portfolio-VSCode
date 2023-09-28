@@ -1168,10 +1168,9 @@ footer {
     position: fixed;
     bottom: 60px;
     left: 10px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    align-items: center;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin-bottom: 5px;
 }
 
 .icon {
