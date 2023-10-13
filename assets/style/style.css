@@ -977,6 +977,7 @@ footer {
 .date,
 .time {
     font-size: 12px;
+    color: #c1c1c1;
 }
 
 /* Styles pour les widgets */
