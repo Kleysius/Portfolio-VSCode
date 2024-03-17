@@ -981,23 +981,29 @@ footer {
 }
 
 /* Styles pour les widgets */
-.widget {
+.all-widgets {
     position: absolute;
-    top: 35px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    bottom: 70px;
     right: -300px;
     width: 300px;
+    transition: right 0.2s ease-in-out;
+    z-index: 1000;
+}
+
+.all-widgets.active {
+    right: 10px;
+}
+
+.widget {
     background-color: #27282Df5;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
     border: 1px solid #444;
     overflow-y: auto;
-    transition: right 0.2s ease-in-out;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    z-index: 1000;
-}
-
-.widget.active {
-    right: 10px;
 }
 
 .widget h3 {
@@ -1147,7 +1153,7 @@ footer {
 #likeCount {
     position: absolute;
     top: 70px;
-    right: 40px;
+    right: 37px;
     font-size: 1rem;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: #E2264D;

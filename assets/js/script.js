@@ -352,8 +352,7 @@ function toggleWidget(widgetId) {
 
 // Écouteurs d'événements pour les clics sur les boutons
 document.querySelector('.right-section').addEventListener('click', () => {
-    toggleWidget('notification-widget');
-    toggleWidget('calendar-widget');
+    document.querySelector('.all-widgets').classList.toggle('active');
 });
 
 // Fonction pour fermer les widgets en dehors du clic
@@ -361,6 +360,7 @@ window.addEventListener('click', function (event) {
     if (!event.target.closest('.widget') && !event.target.closest('.right-section')) {
         const widgets = document.querySelectorAll('.widget');
         widgets.forEach(widget => widget.classList.remove('active'));
+        document.querySelector('.all-widgets').classList.remove('active');
     }
 });
 
