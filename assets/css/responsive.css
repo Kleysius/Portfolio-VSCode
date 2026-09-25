@@ -1,0 +1,370 @@
+/* ==========================================================================
+   Adaptations tablette / mobile
+   ========================================================================== */
+
+@media (max-width: 1100px) {
+    .vs-titlebar-center {
+        width: 30%;
+    }
+    .vs-copilot {
+        display: none !important;
+    }
+}
+
+@media (max-width: 900px) {
+    .vs-menubar {
+        display: none;
+    }
+    .vs-hamburger {
+        display: inline-grid;
+        width: 30px;
+        height: 30px;
+    }
+    .pv-contact-layout,
+    .vs-ext-body {
+        grid-template-columns: 1fr;
+    }
+    .vs-welcome-columns {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+    .tb-search span {
+        display: none;
+    }
+    .tb-search {
+        width: 40px;
+        padding: 0;
+        justify-content: center;
+        border-color: transparent;
+        background: transparent;
+    }
+    .tb-search svg {
+        width: 20px;
+        height: 20px;
+    }
+    .fe-sidebar,
+    .st-nav {
+        width: 64px;
+        padding-left: 6px;
+        padding-right: 6px;
+    }
+    .fe-side-item span,
+    .fe-side-item .fe-pin,
+    .st-user span,
+    .st-search {
+        display: none;
+    }
+    .fe-side-item {
+        justify-content: center;
+        padding: 0;
+    }
+    .st-nav-item {
+        justify-content: center;
+        padding: 0;
+        font-size: 0;
+        gap: 0;
+    }
+    .st-user img {
+        width: 40px;
+        height: 40px;
+    }
+    .st-preview {
+        grid-template-columns: 1fr;
+    }
+    .st-specs dl {
+        grid-template-columns: 1fr;
+        gap: 2px;
+        padding-left: 0;
+    }
+    .st-specs dd {
+        margin-bottom: 8px;
+    }
+}
+
+@media (max-width: 768px) {
+    :root {
+        --taskbar-height: 52px;
+    }
+    .tb-widgets .tb-weather-text,
+    .tb-taskview,
+    .tb-clock-text .tb-date,
+    .tb-quick-battery,
+    .tb-show-desktop {
+        display: none;
+    }
+    .taskbar {
+        padding-left: 4px;
+    }
+    .tb-center {
+        position: static;
+        transform: none;
+        margin: 0 auto;
+        gap: 0;
+    }
+    .tb-apps {
+        gap: 0;
+    }
+    .tb-btn {
+        width: 38px;
+    }
+    .tb-tray-btn {
+        padding: 0 5px;
+    }
+    .tb-like {
+        display: none;
+    }
+    .tb-center .tb-app:nth-child(n + 5) {
+        display: none;
+    }
+
+    .window {
+        border-radius: 0;
+    }
+    .window .resize-handle {
+        display: none;
+    }
+    .window-controls .wc-max {
+        display: none;
+    }
+
+    .vs-titlebar-center {
+        position: static;
+        width: auto;
+        flex: 1;
+        min-width: 0;
+        transform: none;
+        margin: 0 6px;
+    }
+    .vs-titlebar-left {
+        flex: none;
+    }
+    .vs-nav-btn,
+    .vs-layout-controls {
+        display: none !important;
+    }
+    .vs-app-icon {
+        margin: 0 4px 0 10px;
+    }
+    .vs-activitybar {
+        width: 40px;
+    }
+    .vs-activity {
+        width: 40px;
+        height: 44px;
+    }
+    .vs-activity .codicon {
+        font-size: 20px;
+    }
+    .vs-sidebar {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 40px;
+        z-index: 25;
+        width: min(80vw, 300px) !important;
+        box-shadow: 4px 0 16px var(--vs-shadow);
+    }
+    .vs-main {
+        position: relative;
+    }
+    [data-sash] {
+        display: none !important;
+    }
+    .vs-minimap {
+        display: none !important;
+    }
+    .vs-status-right [data-status='indent'],
+    .vs-status-right [data-status='encoding'],
+    .vs-status-right [data-status='eol'],
+    .vs-status-right [data-status='prettier'],
+    .vs-status-left [data-status='sync'],
+    .vs-status-left [data-status='problems'] {
+        display: none;
+    }
+    .vs-panel {
+        height: 45% !important;
+    }
+    .vs-welcome {
+        padding: 0 20px;
+    }
+    .vs-welcome-inner {
+        padding-top: 32px;
+    }
+    .vs-welcome-header h1 {
+        font-size: 28px;
+    }
+    .vs-welcome-recent span {
+        display: none;
+    }
+    .pv {
+        padding: 20px 16px 40px;
+    }
+    .pv-form {
+        grid-template-columns: 1fr;
+    }
+    .pv-project-grid {
+        grid-template-columns: 1fr;
+    }
+    .vs-extension {
+        padding: 20px 16px;
+    }
+    .vs-ext-header {
+        flex-direction: column;
+        gap: 12px;
+    }
+    .vs-ext-icon {
+        width: 72px;
+        height: 72px;
+    }
+    .vs-ext-icon img {
+        width: 64px;
+        height: 64px;
+    }
+    .vs-settings {
+        padding: 8px 16px 32px;
+    }
+    .vs-notifications {
+        right: 8px;
+        left: 8px;
+        width: auto;
+    }
+    .vs-quick-input {
+        top: 8px;
+    }
+    .qi-keybinding {
+        display: none;
+    }
+
+    .start-menu {
+        height: calc(100% - var(--taskbar-height) - 16px);
+        bottom: calc(var(--taskbar-height) + 8px);
+    }
+    .start-search {
+        margin: 20px 16px 12px;
+    }
+    .start-views {
+        padding: 0 12px;
+    }
+    .start-pinned {
+        grid-template-columns: repeat(4, 1fr);
+    }
+    .start-recommended {
+        grid-template-columns: 1fr;
+    }
+    .start-results-grid {
+        grid-template-columns: 1fr;
+    }
+    .start-best {
+        display: none;
+    }
+    .start-footer {
+        padding: 0 16px;
+    }
+    .quick-settings,
+    .notification-center {
+        right: 8px;
+        left: 8px;
+        width: auto;
+        max-width: none;
+    }
+    .notification-center {
+        top: 8px;
+    }
+    .widgets-panel {
+        left: 8px;
+        right: 8px;
+        top: 8px;
+        width: auto;
+    }
+    .wg-grid {
+        grid-template-columns: 1fr;
+        padding: 4px 16px 20px;
+    }
+    .wg-weather {
+        grid-row: auto;
+    }
+    .toasts {
+        right: 8px;
+        left: 8px;
+        width: auto;
+    }
+
+    .fe-toolbar .fe-tool:not([data-tool]),
+    .fe-toolbar .fe-tool-sep {
+        display: none;
+    }
+    .fe-sidebar {
+        display: none;
+    }
+    .fe-search {
+        display: none;
+    }
+    .fe-details-header span:nth-child(n + 3),
+    .fe-row span:nth-child(n + 3) {
+        display: none;
+    }
+    .fe-details-header,
+    .fe-row {
+        grid-template-columns: minmax(0, 2fr) 1fr;
+    }
+    .edge-favorites,
+    .edge-toolbar [data-nav='home'],
+    .edge-toolbar [data-nav='forward'] {
+        display: none;
+    }
+    .edge-tab {
+        width: 150px;
+    }
+    .st-content {
+        padding: 4px 16px 24px 12px;
+    }
+    .st-content h1 {
+        font-size: 22px;
+    }
+    .snap-layouts {
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .desktop-icon-label {
+        font-size: 11px;
+    }
+    .start-pinned {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    .vs-command-center span {
+        display: none;
+    }
+    .vs-command-center {
+        flex: none;
+        width: 32px;
+        padding: 0;
+    }
+    .vs-titlebar-center {
+        justify-content: flex-end;
+    }
+    .vs-status-left [data-status='branch'] {
+        display: none;
+    }
+    .lock-time {
+        font-size: 64px;
+    }
+    .login-avatar {
+        width: 140px;
+        height: 140px;
+    }
+    .wt-tab {
+        width: 150px;
+    }
+}
+
+/* Écrans très bas (paysage mobile) */
+@media (max-height: 500px) {
+    .start-menu {
+        height: calc(100% - var(--taskbar-height) - 16px);
+    }
+    .lock-clock {
+        padding-top: 4vh;
+    }
+}

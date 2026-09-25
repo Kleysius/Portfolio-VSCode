@@ -1,0 +1,262 @@
+/* ==========================================================================
+   Barre des tâches Windows 11
+   ========================================================================== */
+
+.taskbar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    height: var(--taskbar-height);
+    padding: 0 0 0 12px;
+    background: var(--os-acrylic);
+    backdrop-filter: blur(40px) saturate(1.25);
+    -webkit-backdrop-filter: blur(40px) saturate(1.25);
+    border-top: 1px solid var(--os-stroke);
+    color: var(--os-text);
+    font-size: 12px;
+}
+
+/* Widgets / météo */
+.tb-widgets {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 40px;
+    padding: 0 12px 0 6px;
+    border-radius: var(--radius-sm);
+    transition: background 0.1s;
+    z-index: 1;
+}
+.tb-widgets:hover,
+.tb-widgets.is-pressed {
+    background: var(--os-subtle-hover);
+}
+.tb-weather-icon {
+    font-size: 24px;
+    line-height: 1;
+}
+.tb-weather-text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    line-height: 16px;
+}
+.tb-weather-temp {
+    font-weight: 600;
+}
+.tb-weather-desc {
+    color: var(--os-text-2);
+    max-width: 130px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+/* Zone centrale */
+.tb-center {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    height: 100%;
+}
+.tb-apps {
+    display: flex;
+    gap: 4px;
+}
+
+.tb-btn {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-sm);
+    border: 1px solid transparent;
+    transition: background 0.1s;
+}
+.tb-btn img,
+.tb-btn > svg {
+    width: 24px;
+    height: 24px;
+    transition: transform 0.15s var(--ease-out);
+}
+.tb-btn:hover,
+.tb-btn.is-pressed,
+.tb-app.is-active {
+    background: var(--os-subtle-hover);
+    border-color: var(--os-stroke);
+}
+.tb-btn:active img,
+.tb-btn:active > svg {
+    transform: scale(0.84);
+}
+.tb-start:hover img {
+    filter: brightness(1.1);
+}
+.tb-start.is-pressed img {
+    transform: scale(0.9);
+}
+
+.tb-indicator {
+    position: absolute;
+    bottom: 2px;
+    left: 50%;
+    width: 0;
+    height: 3px;
+    border-radius: 2px;
+    background: var(--os-text-3);
+    transform: translateX(-50%);
+    transition: width 0.2s var(--ease-out), background 0.2s;
+}
+.tb-app.is-running .tb-indicator {
+    width: 6px;
+}
+.tb-app.is-active .tb-indicator {
+    width: 16px;
+    background: var(--os-accent-text);
+}
+.tb-app.is-bouncing img {
+    animation: tb-bounce 0.6s var(--ease-out);
+}
+@keyframes tb-bounce {
+    0%, 100% { transform: translateY(0); }
+    30% { transform: translateY(-6px); }
+    60% { transform: translateY(1px); }
+}
+
+/* Recherche */
+.tb-search {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 220px;
+    height: 32px;
+    margin: 0 2px;
+    padding: 0 14px;
+    border-radius: 16px;
+    border: 1px solid var(--os-stroke-strong);
+    background: var(--os-control);
+    color: var(--os-text-2);
+    font-size: 13px;
+    transition: background 0.1s;
+}
+.tb-search:hover,
+.tb-search.is-pressed {
+    background: var(--os-control-hover);
+}
+.tb-search svg {
+    width: 16px;
+    height: 16px;
+    flex: none;
+}
+.tb-taskview svg {
+    width: 22px;
+    height: 22px;
+}
+[data-mode='light'] .tb-taskview svg rect:last-child {
+    fill: #fff;
+}
+[data-mode='dark'] .tb-taskview svg rect:first-child {
+    fill: #9a9a9a;
+}
+[data-mode='dark'] .tb-taskview svg rect:last-child {
+    fill: #3a3a3a;
+    stroke: #d0d0d0;
+}
+
+/* Zone de notification */
+.tb-tray {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    height: 100%;
+    margin-left: auto;
+    z-index: 1;
+}
+.tb-tray-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 40px;
+    padding: 0 8px;
+    border-radius: var(--radius-sm);
+    transition: background 0.1s;
+}
+.tb-tray-btn:hover,
+.tb-tray-btn.is-pressed {
+    background: var(--os-subtle-hover);
+}
+.tb-tray-btn svg {
+    width: 16px;
+    height: 16px;
+}
+.tb-quick {
+    gap: 10px;
+}
+.tb-quick > span {
+    display: grid;
+}
+.tb-like {
+    gap: 4px;
+    color: var(--os-text-2);
+}
+.tb-like.is-liked {
+    color: #ff4d6d;
+}
+.tb-like.is-liked svg {
+    fill: currentColor;
+    animation: tb-heart 0.45s var(--ease-out);
+}
+@keyframes tb-heart {
+    40% { transform: scale(1.35); }
+}
+.tb-like-count {
+    font-size: 12px;
+    font-variant-numeric: tabular-nums;
+}
+.tb-clock {
+    gap: 10px;
+    padding-right: 10px;
+}
+.tb-clock-text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    line-height: 16px;
+    font-variant-numeric: tabular-nums;
+}
+.tb-bell {
+    position: relative;
+    display: grid;
+}
+.tb-bell-badge {
+    position: absolute;
+    top: -7px;
+    right: -8px;
+    min-width: 16px;
+    height: 16px;
+    padding: 0 4px;
+    border-radius: 8px;
+    background: var(--os-accent-text);
+    color: var(--os-on-accent);
+    font-size: 10px;
+    font-weight: 600;
+    line-height: 16px;
+    text-align: center;
+}
+.tb-show-desktop {
+    width: 8px;
+    height: 100%;
+    margin-left: 4px;
+    border-left: 1px solid transparent;
+}
+.tb-show-desktop:hover {
+    border-left-color: var(--os-stroke-strong);
+}

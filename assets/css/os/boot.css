@@ -1,0 +1,275 @@
+/* ==========================================================================
+   Démarrage, écran de verrouillage, connexion, alimentation
+   ========================================================================== */
+
+.boot-screen {
+    position: fixed;
+    inset: 0;
+    z-index: 6000;
+    display: grid;
+    place-items: center;
+    grid-template-rows: 1fr auto;
+    padding-bottom: 12vh;
+    background: #000;
+    transition: opacity 0.5s ease;
+}
+.boot-screen.is-hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+.boot-logo {
+    width: 88px;
+    height: 88px;
+    align-self: end;
+    margin-bottom: 14vh;
+}
+
+/* Spinner « points qui tournent » de Windows */
+.boot-spinner {
+    position: relative;
+    width: 44px;
+    height: 44px;
+}
+.boot-spinner i {
+    position: absolute;
+    inset: 0;
+    animation: boot-orbit 4.2s infinite;
+    opacity: 0;
+}
+.boot-spinner i::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #fff;
+    transform: translateX(-50%);
+}
+.boot-spinner i:nth-child(2) { animation-delay: 0.24s; }
+.boot-spinner i:nth-child(3) { animation-delay: 0.48s; }
+.boot-spinner i:nth-child(4) { animation-delay: 0.72s; }
+.boot-spinner i:nth-child(5) { animation-delay: 0.96s; }
+.boot-spinner.is-small {
+    width: 28px;
+    height: 28px;
+}
+.boot-spinner.is-small i::before {
+    width: 4px;
+    height: 4px;
+}
+
+@keyframes boot-orbit {
+    0% { transform: rotate(225deg); opacity: 1; animation-timing-function: ease-out; }
+    7% { transform: rotate(345deg); animation-timing-function: linear; }
+    30% { transform: rotate(455deg); animation-timing-function: ease-in-out; }
+    39% { transform: rotate(690deg); animation-timing-function: linear; }
+    70% { transform: rotate(815deg); opacity: 1; animation-timing-function: ease-out; }
+    75% { transform: rotate(945deg); animation-timing-function: ease-out; }
+    76%, 100% { transform: rotate(945deg); opacity: 0; }
+}
+
+/* ---------- Écran de verrouillage ---------- */
+.lock-screen {
+    position: fixed;
+    inset: 0;
+    z-index: 5000;
+    overflow: hidden;
+    color: #fff;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+.lock-screen.is-visible {
+    opacity: 1;
+}
+.lock-screen::before {
+    content: '';
+    position: absolute;
+    inset: -40px;
+    background: #0b1a2e var(--wallpaper) center / cover no-repeat;
+    transition: filter 0.4s ease, transform 0.4s ease;
+}
+.lock-screen::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgb(0 0 0 / 0.08);
+    transition: background 0.4s;
+}
+.lock-screen.is-login::before {
+    filter: blur(28px) brightness(0.9);
+    transform: scale(1.04);
+}
+.lock-screen.is-login::after {
+    background: rgb(0 0 0 / 0.25);
+}
+.lock-screen.is-leaving {
+    opacity: 0;
+    transition: opacity 0.4s;
+}
+
+.lock-clock,
+.lock-hint,
+.lock-status,
+.login {
+    position: relative;
+    z-index: 1;
+}
+.lock-clock {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 11vh;
+    text-shadow: 0 2px 12px rgb(0 0 0 / 0.25);
+    transition: transform 0.4s var(--ease-out), opacity 0.3s;
+}
+.lock-time {
+    font-family: var(--font-display);
+    font-size: clamp(72px, 12vw, 128px);
+    font-weight: 600;
+    line-height: 1;
+}
+.lock-date {
+    margin-top: 8px;
+    font-size: clamp(18px, 2.4vw, 26px);
+    font-weight: 500;
+}
+.lock-date::first-letter {
+    text-transform: uppercase;
+}
+.lock-hint {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 12vh;
+    text-align: center;
+    font-size: 14px;
+    opacity: 0.85;
+    animation: lock-hint 2.4s ease-in-out infinite;
+    transition: opacity 0.3s;
+}
+@keyframes lock-hint {
+    50% { transform: translateY(-6px); }
+}
+.lock-status {
+    position: absolute;
+    right: 24px;
+    bottom: 24px;
+    display: flex;
+    gap: 16px;
+}
+.lock-status svg {
+    width: 20px;
+    height: 20px;
+}
+.lock-screen.is-login .lock-clock {
+    transform: translateY(-40vh);
+    opacity: 0;
+}
+.lock-screen.is-login .lock-hint {
+    opacity: 0;
+    animation: none;
+}
+
+.login {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    padding-bottom: 8vh;
+    opacity: 0;
+    transform: translateY(20px);
+    pointer-events: none;
+    transition: opacity 0.35s 0.1s, transform 0.35s 0.1s var(--ease-out);
+}
+.lock-screen.is-login .login {
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+}
+.login-avatar {
+    width: 190px;
+    height: 190px;
+    border-radius: 50%;
+    box-shadow: 0 4px 24px rgb(0 0 0 / 0.3);
+}
+.login-name {
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 600;
+    text-shadow: 0 1px 6px rgb(0 0 0 / 0.3);
+}
+.login-button {
+    min-width: 200px;
+    min-height: 36px;
+    padding: 6px 20px;
+    border-radius: var(--radius-sm);
+    border: 1px solid rgb(255 255 255 / 0.2);
+    background: rgb(255 255 255 / 0.12);
+    backdrop-filter: blur(20px);
+    color: #fff;
+    font-size: 15px;
+    transition: background 0.15s;
+}
+.login-button:hover {
+    background: rgb(255 255 255 / 0.2);
+}
+.login-hint {
+    font-size: 13px;
+    opacity: 0.8;
+}
+.login-welcome {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+    font-size: 20px;
+}
+
+/* ---------- Alimentation ---------- */
+.power-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 7000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    color: #fff;
+    font-size: 20px;
+    opacity: 0;
+    transition: opacity 0.6s;
+}
+.power-overlay.is-visible {
+    opacity: 1;
+}
+.power-overlay.is-sleep {
+    background: #000;
+    cursor: pointer;
+}
+.power-overlay.is-shutdown {
+    background: #0063b1 linear-gradient(135deg, #004a8f, #0078d4);
+}
+.power-overlay.is-off {
+    background: #000;
+}
+.power-on {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    border: 2px solid rgb(255 255 255 / 0.3);
+    color: rgb(255 255 255 / 0.6);
+    font-size: 28px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.power-on:hover {
+    color: #4cc2ff;
+    border-color: #4cc2ff;
+    box-shadow: 0 0 24px rgb(76 194 255 / 0.4);
+}
