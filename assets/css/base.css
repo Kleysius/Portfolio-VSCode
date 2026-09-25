@@ -1,0 +1,414 @@
+/* ==========================================================================
+   Base : polices, jetons de design (Windows 11 clair/sombre), reset, contrôles
+   ========================================================================== */
+
+@font-face {
+    font-family: 'Cascadia Code';
+    src: url('../fonts/cascadia-code-latin-400-normal.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Cascadia Code';
+    src: url('../fonts/cascadia-code-latin-400-italic.woff2') format('woff2');
+    font-weight: 400;
+    font-style: italic;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Cascadia Code';
+    src: url('../fonts/cascadia-code-latin-700-normal.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Cascadia Code';
+    src: url('../fonts/cascadia-code-latin-700-italic.woff2') format('woff2');
+    font-weight: 700;
+    font-style: italic;
+    font-display: swap;
+}
+
+:root {
+    --font-ui: 'Segoe UI Variable Text', 'Segoe UI Variable', 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Roboto, Ubuntu, sans-serif;
+    --font-display: 'Segoe UI Variable Display', 'Segoe UI', system-ui, -apple-system, sans-serif;
+    --font-code: 'Cascadia Code', Consolas, 'Courier New', monospace;
+
+    --accent: #0078d4;
+    --accent-rgb: 0 120 212;
+    --accent-light: #4cc2ff;
+    --accent-dark: #005a9e;
+
+    --taskbar-height: 48px;
+    --radius-sm: 4px;
+    --radius: 8px;
+    --radius-lg: 12px;
+    --ease-out: cubic-bezier(0.1, 0.9, 0.2, 1);
+    --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+    --os-brightness: 1;
+
+    /* Mode sombre (par défaut) */
+    --os-text: #ffffff;
+    --os-text-2: rgb(255 255 255 / 0.786);
+    --os-text-3: rgb(255 255 255 / 0.544);
+    --os-text-disabled: rgb(255 255 255 / 0.363);
+    --os-accent-text: var(--accent-light);
+    --os-on-accent: #000000;
+    --os-acrylic: rgb(32 32 32 / 0.8);
+    --os-acrylic-strong: rgb(40 40 40 / 0.88);
+    --os-mica: #202020;
+    --os-layer: rgb(58 58 58 / 0.3);
+    --os-card: rgb(255 255 255 / 0.0512);
+    --os-card-hover: rgb(255 255 255 / 0.0837);
+    --os-subtle-hover: rgb(255 255 255 / 0.0605);
+    --os-subtle-pressed: rgb(255 255 255 / 0.0419);
+    --os-control: rgb(255 255 255 / 0.0605);
+    --os-control-hover: rgb(255 255 255 / 0.0837);
+    --os-control-strong: rgb(255 255 255 / 0.544);
+    --os-input: rgb(255 255 255 / 0.0605);
+    --os-stroke: rgb(255 255 255 / 0.0698);
+    --os-stroke-strong: rgb(255 255 255 / 0.093);
+    --os-stroke-flyout: rgb(0 0 0 / 0.2);
+    --os-divider: rgb(255 255 255 / 0.0837);
+    --os-shadow-flyout: 0 8px 16px rgb(0 0 0 / 0.26), 0 32px 64px rgb(0 0 0 / 0.28);
+    --os-shadow-window: 0 8px 20px rgb(0 0 0 / 0.36), 0 32px 64px rgb(0 0 0 / 0.37);
+    --os-shadow-window-inactive: 0 2px 10px rgb(0 0 0 / 0.3), 0 16px 32px rgb(0 0 0 / 0.2);
+    --os-window: #202020;
+    --os-window-border: rgb(117 117 117 / 0.4);
+    --os-titlebar: #202020;
+    --os-selection: rgb(255 255 255 / 0.12);
+    color-scheme: dark;
+}
+
+[data-mode='light'] {
+    --os-text: rgb(0 0 0 / 0.896);
+    --os-text-2: rgb(0 0 0 / 0.606);
+    --os-text-3: rgb(0 0 0 / 0.446);
+    --os-text-disabled: rgb(0 0 0 / 0.361);
+    --os-accent-text: var(--accent-dark);
+    --os-on-accent: #ffffff;
+    --os-acrylic: rgb(243 243 243 / 0.82);
+    --os-acrylic-strong: rgb(249 249 249 / 0.9);
+    --os-mica: #f3f3f3;
+    --os-layer: rgb(255 255 255 / 0.5);
+    --os-card: rgb(255 255 255 / 0.7);
+    --os-card-hover: rgb(249 249 249 / 0.5);
+    --os-subtle-hover: rgb(0 0 0 / 0.0373);
+    --os-subtle-pressed: rgb(0 0 0 / 0.0241);
+    --os-control: rgb(255 255 255 / 0.7);
+    --os-control-hover: rgb(249 249 249 / 0.5);
+    --os-control-strong: rgb(0 0 0 / 0.446);
+    --os-input: rgb(255 255 255 / 0.7);
+    --os-stroke: rgb(0 0 0 / 0.0578);
+    --os-stroke-strong: rgb(0 0 0 / 0.1);
+    --os-stroke-flyout: rgb(0 0 0 / 0.0578);
+    --os-divider: rgb(0 0 0 / 0.0803);
+    --os-shadow-flyout: 0 8px 16px rgb(0 0 0 / 0.14), 0 32px 64px rgb(0 0 0 / 0.18);
+    --os-shadow-window: 0 8px 20px rgb(0 0 0 / 0.2), 0 32px 64px rgb(0 0 0 / 0.24);
+    --os-shadow-window-inactive: 0 2px 10px rgb(0 0 0 / 0.14), 0 16px 32px rgb(0 0 0 / 0.1);
+    --os-window: #f3f3f3;
+    --os-window-border: rgb(0 0 0 / 0.15);
+    --os-titlebar: #f3f3f3;
+    --os-selection: rgb(0 0 0 / 0.06);
+    color-scheme: light;
+}
+
+/* ---------- Reset ---------- */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    height: 100%;
+    overflow: hidden;
+    overscroll-behavior: none;
+}
+
+body {
+    font-family: var(--font-ui);
+    font-size: 14px;
+    line-height: 1.43;
+    color: var(--os-text);
+    background: #0b1a2e;
+    -webkit-font-smoothing: antialiased;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    touch-action: manipulation;
+}
+
+/* Luminosité (Paramètres rapides) */
+body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: #000;
+    opacity: calc(1 - var(--os-brightness));
+    pointer-events: none;
+    z-index: 99999;
+    transition: opacity 0.2s;
+}
+
+img,
+svg {
+    display: block;
+    max-width: 100%;
+}
+
+button,
+input,
+textarea,
+select {
+    font: inherit;
+    color: inherit;
+}
+
+button {
+    background: none;
+    border: 0;
+    cursor: default;
+}
+
+a {
+    color: inherit;
+}
+
+ul,
+ol {
+    list-style: none;
+}
+
+[hidden] {
+    display: none !important;
+}
+
+::selection {
+    background: rgb(var(--accent-rgb) / 0.45);
+}
+
+:focus-visible {
+    outline: 2px solid var(--os-text);
+    outline-offset: 1px;
+    border-radius: var(--radius-sm);
+}
+
+.visually-hidden {
+    position: absolute !important;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+}
+
+/* ---------- Barres de défilement Windows 11 ---------- */
+.os-scroll {
+    overflow: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--os-control-strong) transparent;
+}
+
+/* ---------- Boutons Fluent ---------- */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-height: 32px;
+    padding: 4px 12px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--os-stroke-strong);
+    background: var(--os-control);
+    color: var(--os-text);
+    font-size: 14px;
+    line-height: 20px;
+    transition: background 0.1s;
+}
+.btn svg {
+    width: 16px;
+    height: 16px;
+}
+.btn:hover:not(:disabled) {
+    background: var(--os-control-hover);
+}
+.btn:active:not(:disabled) {
+    color: var(--os-text-2);
+}
+.btn:disabled {
+    color: var(--os-text-disabled);
+}
+.btn-accent {
+    background: var(--os-accent-text);
+    border-color: transparent;
+    color: var(--os-on-accent);
+}
+.btn-accent:hover:not(:disabled) {
+    background: color-mix(in srgb, var(--os-accent-text) 90%, transparent);
+}
+.btn-small {
+    min-height: 24px;
+    padding: 2px 8px;
+    font-size: 12px;
+}
+.btn-small svg {
+    width: 12px;
+    height: 12px;
+}
+
+/* ---------- Champs ---------- */
+.os-input {
+    width: 100%;
+    min-height: 32px;
+    padding: 5px 11px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--os-stroke);
+    border-bottom-color: var(--os-control-strong);
+    background: var(--os-input);
+    outline: none;
+}
+.os-input:focus {
+    border-bottom: 2px solid var(--os-accent-text);
+    padding-bottom: 4px;
+}
+
+/* ---------- Curseurs ---------- */
+input[type='range'] {
+    --fill: 50%;
+    appearance: none;
+    width: 100%;
+    height: 20px;
+    background: transparent;
+}
+input[type='range']::-webkit-slider-runnable-track {
+    height: 4px;
+    border-radius: 2px;
+    background: linear-gradient(to right, var(--os-accent-text) var(--fill), var(--os-control-strong) var(--fill));
+}
+input[type='range']::-moz-range-track {
+    height: 4px;
+    border-radius: 2px;
+    background: linear-gradient(to right, var(--os-accent-text) var(--fill), var(--os-control-strong) var(--fill));
+}
+input[type='range']::-webkit-slider-thumb {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    margin-top: -8px;
+    border-radius: 50%;
+    background: var(--os-mica);
+    border: 5px solid var(--os-mica);
+    box-shadow: 0 0 0 1px var(--os-stroke-strong), inset 0 0 0 10px var(--os-accent-text);
+    transition: border-width 0.1s;
+}
+input[type='range']::-moz-range-thumb {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--os-accent-text);
+    border: 4px solid var(--os-mica);
+    box-shadow: 0 0 0 1px var(--os-stroke-strong);
+}
+input[type='range']:hover::-webkit-slider-thumb {
+    border-width: 4px;
+}
+input[type='range']:active::-webkit-slider-thumb {
+    border-width: 6px;
+}
+
+/* ---------- Interrupteur ---------- */
+.toggle {
+    position: relative;
+    width: 40px;
+    height: 20px;
+    flex: none;
+    appearance: none;
+    border-radius: 10px;
+    border: 1px solid var(--os-control-strong);
+    background: transparent;
+    transition: background 0.15s;
+}
+.toggle::after {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--os-text-2);
+    transition: transform 0.15s var(--ease-out), background 0.15s;
+}
+.toggle:checked {
+    background: var(--os-accent-text);
+    border-color: transparent;
+}
+.toggle:checked::after {
+    transform: translateX(20px);
+    background: var(--os-on-accent);
+}
+
+/* ---------- Fond d'écran ---------- */
+.wallpaper {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    background: #0b1a2e var(--wallpaper) center / cover no-repeat;
+}
+.wallpaper-layer {
+    position: absolute;
+    inset: 0;
+    background: center / cover no-repeat;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+}
+.wallpaper-layer.is-visible {
+    opacity: 1;
+}
+
+/* Éclairage nocturne */
+.night-light-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 99998;
+    pointer-events: none;
+    background: rgb(255 145 40 / 0.2);
+    mix-blend-mode: multiply;
+    opacity: 0;
+    transition: opacity 0.6s;
+}
+.night-light .night-light-overlay {
+    opacity: 1;
+}
+
+.is-launching,
+.is-launching * {
+    cursor: progress !important;
+}
+
+.noscript {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    display: grid;
+    place-content: center;
+    gap: 12px;
+    padding: 24px;
+    text-align: center;
+    background: #202020;
+    color: #fff;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+    }
+}
