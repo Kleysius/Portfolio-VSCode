@@ -250,7 +250,7 @@
 }
 .power-overlay.is-sleep {
     background: #000;
-    cursor: pointer;
+    cursor: var(--c-arrow);
 }
 .power-overlay.is-shutdown {
     background: #0063b1 linear-gradient(135deg, #004a8f, #0078d4);
@@ -265,7 +265,7 @@
     border: 2px solid rgb(255 255 255 / 0.3);
     color: rgb(255 255 255 / 0.6);
     font-size: 28px;
-    cursor: pointer;
+    cursor: var(--c-arrow);
     transition: all 0.2s;
 }
 .power-on:hover {

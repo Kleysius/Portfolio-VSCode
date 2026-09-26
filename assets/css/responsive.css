@@ -202,9 +202,6 @@
     .pv-form {
         grid-template-columns: 1fr;
     }
-    .pv-project-grid {
-        grid-template-columns: 1fr;
-    }
     .vs-extension {
         padding: 20px 16px;
     }

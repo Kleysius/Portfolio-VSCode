@@ -90,6 +90,13 @@ export const appIcons = {
         <ellipse cx="24" cy="13" rx="14" ry="3" fill="#e9f3fc" stroke="#8fb3d6" stroke-width="1"/>
         <path d="M17 20l1.5 17M24 20v17M31 20l-1.5 17" stroke="#9cbddd" stroke-width="1.2" stroke-linecap="round"/>`),
 
+    recycleFull: svg('0 0 48 48', `
+        <defs><linearGradient id="ico-binf" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#cfe3f5" stop-opacity=".9"/><stop offset=".5" stop-color="#f4f9ff" stop-opacity=".95"/><stop offset="1" stop-color="#b9d3ea" stop-opacity=".9"/></linearGradient></defs>
+        <path d="M14 7.5 22 4l3 7-8 3.4Z" fill="#fff" stroke="#9cbddd"/><path d="m24 6 9-1 1 8.5-9 1Z" fill="#ffe08a" stroke="#d9b24a"/><path d="M19 9h12v6H19z" fill="#8fd3ff" stroke="#5aa3d6"/>
+        <path d="M10 13h28l-2.6 27.4A3 3 0 0 1 32.4 43H15.6a3 3 0 0 1-3-2.6Z" fill="url(#ico-binf)" stroke="#8fb3d6" stroke-width="1"/>
+        <ellipse cx="24" cy="13" rx="14" ry="3" fill="#e9f3fc" stroke="#8fb3d6" stroke-width="1"/>
+        <path d="M17 20l1.5 17M24 20v17M31 20l-1.5 17" stroke="#9cbddd" stroke-width="1.2" stroke-linecap="round"/>`),
+
     pc: svg('0 0 48 48', `
         <defs><linearGradient id="ico-pc" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3bb3ff"/><stop offset="1" stop-color="#0c62c9"/></linearGradient></defs>
         <rect x="5" y="8" width="38" height="25" rx="3" fill="#2b2f36"/>

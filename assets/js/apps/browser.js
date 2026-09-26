@@ -73,6 +73,7 @@ export function open({ url = NEW_TAB } = {}) {
         width: 1080,
         height: 700,
         className: 'window--edge',
+        mica: true,
         content: root,
     });
     root.querySelector('.edge-titlebar').append(win.controls);
@@ -120,9 +121,9 @@ export function open({ url = NEW_TAB } = {}) {
                             <h2>Projets de ${profile.firstName}</h2>
                             <div class="edge-feed-grid">
                                 ${projects.map((project) => raw(html`
-                                    <article class="edge-card" data-url="${project.url ?? ''}">
+                                    <article class="edge-card" data-url="${project.repo ?? ''}">
                                         <img src="${project.image}" alt="" loading="lazy">
-                                        <div><h3>${project.name}</h3><p>${project.title}</p></div>
+                                        <div><h3>${project.name}</h3><p>${project.title}</p><small>${project.context}</small></div>
                                     </article>`))}
                             </div>
                         </section>

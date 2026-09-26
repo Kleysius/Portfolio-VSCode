@@ -165,7 +165,7 @@ export class Shell {
             '',
             ...projects.flatMap((project) => [
                 `  ${c('green', '●')} ${c('yellow', project.name)} — ${esc(project.title)}`,
-                `    ${c('gray', project.stack.map((id) => technologies[id].name).join(' · '))}${project.url ? `  <a class="t-link" data-href="${esc(project.url)}">${esc(project.url)}</a>` : ''}`,
+                `    ${c('gray', `${project.context} · ${project.stack.map((id) => technologies[id].name).join(' · ')}`)}${project.repo ? `  <a class="t-link" data-href="${esc(project.repo)}">${esc(project.repo)}</a>` : ''}`,
             ]),
             '',
             `Astuce : ${c('yellow', 'cd Projets')} puis ${c('yellow', 'ls')} pour explorer les dossiers.`,

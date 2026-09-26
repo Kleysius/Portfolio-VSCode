@@ -49,6 +49,11 @@
     --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
     --os-brightness: 1;
 
+    /* Pointeurs (remplacés par les curseurs Windows quand html.win-cursors est actif) */
+    --c-arrow: default;
+    --c-hand: pointer;
+    --c-busy: progress;
+
     /* Mode sombre (par défaut) */
     --os-text: #ffffff;
     --os-text-2: rgb(255 255 255 / 0.786);
@@ -59,6 +64,9 @@
     --os-acrylic: rgb(32 32 32 / 0.8);
     --os-acrylic-strong: rgb(40 40 40 / 0.88);
     --os-mica: #202020;
+    --os-mica-tint: rgb(32 32 32 / 0.72);
+    --os-layer-bar: rgb(58 58 58 / 0.3);
+    --os-layer-solid: #1c1c1c;
     --os-layer: rgb(58 58 58 / 0.3);
     --os-card: rgb(255 255 255 / 0.0512);
     --os-card-hover: rgb(255 255 255 / 0.0837);
@@ -92,6 +100,9 @@
     --os-acrylic: rgb(243 243 243 / 0.82);
     --os-acrylic-strong: rgb(249 249 249 / 0.9);
     --os-mica: #f3f3f3;
+    --os-mica-tint: rgb(243 243 243 / 0.78);
+    --os-layer-bar: rgb(255 255 255 / 0.5);
+    --os-layer-solid: #f9f9f9;
     --os-layer: rgb(255 255 255 / 0.5);
     --os-card: rgb(255 255 255 / 0.7);
     --os-card-hover: rgb(249 249 249 / 0.5);
@@ -141,6 +152,19 @@ body {
     -webkit-tap-highlight-color: transparent;
     user-select: none;
     touch-action: manipulation;
+    cursor: var(--c-arrow);
+}
+
+a[href],
+[data-href],
+.tk-link,
+.t-link,
+.vs-welcome-link,
+.pv-btn,
+.markdown-body a,
+.pv-contact-link,
+.pv-hero-social a {
+    cursor: var(--c-hand);
 }
 
 /* Luminosité (Paramètres rapides) */
@@ -172,7 +196,7 @@ select {
 button {
     background: none;
     border: 0;
-    cursor: default;
+    cursor: inherit;
 }
 
 a {
@@ -388,7 +412,7 @@ input[type='range']:active::-webkit-slider-thumb {
 
 .is-launching,
 .is-launching * {
-    cursor: progress !important;
+    cursor: var(--c-busy) !important;
 }
 
 .noscript {

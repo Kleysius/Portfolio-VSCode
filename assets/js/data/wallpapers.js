@@ -5,6 +5,7 @@ export const wallpapers = [0, 1, 2, 3, 4, 5, 6].map((index) => ({
     name: `Fond d'écran ${index + 1}`,
     src: `${DIR}wallpaper-${index}.webp`,
     thumb: `${DIR}wallpaper-${index}-thumb.webp`,
+    mica: `${DIR}wallpaper-${index}-mica.webp`,
 }));
 
 export const accentColors = [

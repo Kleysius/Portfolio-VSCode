@@ -48,6 +48,13 @@ export const system = {
         bus.emit('system:change', 'volume');
     },
 
+    get winCursors() { return store.get('winCursors', true); },
+    setWinCursors(enabled) {
+        store.set('winCursors', enabled);
+        applyCursors(enabled);
+        bus.emit('system:change', 'cursors');
+    },
+
     setNightLight(enabled) {
         store.set('nightLight', enabled);
         root.classList.toggle('night-light', enabled);
@@ -71,6 +78,21 @@ function applyWallpaper(index) {
     };
     img.src = src;
     root.style.setProperty('--wallpaper', `url("${src}")`);
+    root.style.setProperty('--mica-image', `url("${new URL(wallpapers[index].mica, document.baseURI).href}")`);
+}
+
+/**
+ * Curseurs Windows (flèche, main, « occupé en arrière-plan »). Définis en URL absolues :
+ * une url() relative dans une variable CSS serait résolue depuis la feuille qui l'utilise.
+ */
+function applyCursors(enabled) {
+    const coarse = window.matchMedia('(pointer: coarse)').matches;
+    const cursor = (name, x, y, fallback) => `url("${new URL(`assets/img/cursors/${name}.svg`, document.baseURI).href}") ${x} ${y}, ${fallback}`;
+    const on = enabled && !coarse;
+    root.classList.toggle('win-cursors', on);
+    root.style.setProperty('--c-arrow', on ? cursor('arrow', 1, 1, 'default') : 'default');
+    root.style.setProperty('--c-hand', on ? cursor('hand', 7, 1, 'pointer') : 'pointer');
+    root.style.setProperty('--c-busy', on ? cursor('busy', 1, 1, 'progress') : 'progress');
 }
 
 /** Dérive les nuances d'accentuation (clair/sombre) à partir d'une couleur. */
@@ -91,4 +113,5 @@ export function initSystem() {
     applyWallpaper(system.wallpaper);
     root.style.setProperty('--os-brightness', `${Math.max(30, system.brightness) / 100}`);
     root.classList.toggle('night-light', system.nightLight);
+    applyCursors(system.winCursors);
 }

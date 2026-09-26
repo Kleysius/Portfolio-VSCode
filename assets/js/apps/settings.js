@@ -57,6 +57,7 @@ export function open({ page = 'system' } = {}) {
         width: 1000,
         height: 680,
         className: 'window--settings',
+        mica: true,
         content: root,
     });
     root.querySelector('.st-titlebar').append(win.controls);

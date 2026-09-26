@@ -43,6 +43,7 @@ export function open({ name = 'Sans titre.txt', content = '' } = {}) {
         width: 760,
         height: 540,
         className: 'window--notepad',
+        mica: true,
         content: root,
     });
     root.querySelector('.np-titlebar').append(win.controls);

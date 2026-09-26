@@ -52,9 +52,9 @@ class AppWindow {
     }
 
     build() {
-        const { frame = 'default', className = '', resizable = true } = this.options;
+        const { frame = 'default', className = '', resizable = true, mica = false } = this.options;
         this.el = el(html`
-            <section class="window ${className} ${frame === 'custom' ? 'window--custom' : ''}" role="dialog" aria-label="${this.title}" data-app="${this.appId}" tabindex="-1">
+            <section class="window ${className} ${frame === 'custom' ? 'window--custom' : ''} ${mica ? 'has-mica' : ''}" role="dialog" aria-label="${this.title}" data-app="${this.appId}" tabindex="-1">
                 ${frame === 'custom' ? '' : raw(html`
                     <header class="window-titlebar" data-drag>
                         <img class="window-icon" src="${this.icon}" alt="" draggable="false">
@@ -146,6 +146,7 @@ class AppWindow {
                 const top = clamp(move.clientY - offsetY, 0, workArea().height - 32);
                 this.el.style.left = `${left}px`;
                 this.el.style.top = `${top}px`;
+                this.syncMica(left, top);
 
                 snapZone = detectSnapZone(move.clientX, move.clientY);
                 showSnapPreview(snapZone);
@@ -158,7 +159,10 @@ class AppWindow {
                 showSnapPreview(null);
                 if (!moved) return;
                 if (snapZone === 'max') this.maximize();
-                else if (snapZone) this.snap(snapZone);
+                else if (snapZone) {
+                    this.snap(snapZone);
+                    if (snapZone === 'left' || snapZone === 'right') showSnapAssist(this, snapZone === 'left' ? 'right' : 'left');
+                }
                 else this.restoreRect = this.currentRect();
             };
 
@@ -166,9 +170,38 @@ class AppWindow {
             document.addEventListener('pointerup', onUp);
         });
 
+        this.el.addEventListener('contextmenu', (event) => {
+            if (!event.target.closest('[data-drag]') || event.target.closest('button, a, input, textarea, [data-no-drag]')) return;
+            event.preventDefault();
+            this.showSystemMenu(event.clientX, event.clientY);
+        });
+        this.el.querySelector('.window-icon')?.addEventListener('dblclick', (event) => {
+            event.stopPropagation();
+            this.close();
+        });
+
         this.el.addEventListener('dblclick', (event) => {
             if (!event.target.closest('[data-drag]') || event.target.closest('button, a, input, [data-no-drag]')) return;
             this.toggleMaximize();
+        });
+    }
+
+    /** Menu système classique (clic droit sur la barre de titre, Alt+Espace). */
+    async showSystemMenu(x, y) {
+        const { showContextMenu } = await import('./context-menu.js');
+        const restored = this.state === 'normal';
+        showContextMenu({
+            x,
+            y,
+            items: [
+                { label: 'Restaurer', icon: ui.restore, disabled: restored, action: () => this.restore() },
+                { label: 'Déplacer', disabled: this.state === 'maximized' },
+                { label: 'Taille', disabled: this.state === 'maximized' },
+                { label: 'Réduire', icon: ui.minimize, action: () => this.minimize() },
+                { label: 'Agrandir', icon: ui.maximize, disabled: this.state === 'maximized' || this.options.resizable === false, action: () => this.maximize() },
+                { separator: true },
+                { label: 'Fermer', icon: ui.close, shortcut: 'Alt+F4', action: () => this.close() },
+            ],
         });
     }
 
@@ -244,6 +277,13 @@ class AppWindow {
 
     applyRect({ left, top, width, height }) {
         Object.assign(this.el.style, { left: `${left}px`, top: `${top}px`, width: `${width}px`, height: `${height}px` });
+        this.syncMica(left, top);
+    }
+
+    /** Aligne le matériau Mica sur le fond d'écran, derrière la fenêtre. */
+    syncMica(left = this.el.offsetLeft, top = this.el.offsetTop) {
+        this.el.style.setProperty('--win-x', `${-left}px`);
+        this.el.style.setProperty('--win-y', `${-top}px`);
     }
 
     animate(fn) {
@@ -413,6 +453,52 @@ function showSnapPreview(zone) {
     node.classList.add('is-visible');
 }
 
+/** Assistant d'ancrage : propose les autres fenêtres pour remplir la moitié restante. */
+function showSnapAssist(snapped, side) {
+    const others = [...windows.values()].filter((win) => win !== snapped && !win.closing);
+    if (!others.length) return;
+    const zone = side === 'left' ? { x: 0, y: 0, w: 0.5, h: 1 } : { x: 0.5, y: 0, w: 0.5, h: 1 };
+    const rect = zoneToRect(zone);
+    const assist = el(`<div class="snap-assist" style="left:${rect.left}px;top:${rect.top}px;width:${rect.width}px;height:${rect.height}px"><div class="snap-assist-grid"></div></div>`);
+    const grid = assist.querySelector('.snap-assist-grid');
+    others.forEach((win) => {
+        const width = Number.parseFloat(win.el.style.width) || win.el.offsetWidth;
+        const height = Number.parseFloat(win.el.style.height) || win.el.offsetHeight;
+        const scale = Math.min(220 / width, 150 / height);
+        const card = el(html`
+            <button class="snap-assist-card" type="button">
+                <span class="snap-assist-title"><img src="${win.icon}" alt=""><span>${win.title}</span></span>
+                <span class="snap-assist-thumb" style="width:${width * scale}px;height:${height * scale}px"></span>
+            </button>`);
+        const clone = win.el.cloneNode(true);
+        clone.querySelectorAll('iframe').forEach((frame) => frame.replaceWith(el('<div class="iframe-placeholder"></div>')));
+        clone.classList.remove('is-minimized', 'is-opening', 'is-closing');
+        Object.assign(clone.style, { position: 'absolute', left: '0', top: '0', width: `${width}px`, height: `${height}px`, transform: `scale(${scale})`, transformOrigin: '0 0', transition: 'none', pointerEvents: 'none' });
+        card.querySelector('.snap-assist-thumb').append(clone);
+        card.addEventListener('click', () => {
+            close();
+            if (win.state === 'minimized') win.unminimize();
+            win.snap(zone);
+        });
+        grid.append(card);
+    });
+    layer().append(assist);
+    assist.style.zIndex = ++zIndex;
+    requestAnimationFrame(() => assist.classList.add('is-open'));
+
+    function close() {
+        assist.remove();
+        document.removeEventListener('pointerdown', onOutside, true);
+        document.removeEventListener('keydown', onKey, true);
+    }
+    const onOutside = (event) => { if (!assist.contains(event.target)) close(); };
+    const onKey = (event) => { if (event.key === 'Escape') close(); };
+    setTimeout(() => {
+        document.addEventListener('pointerdown', onOutside, true);
+        document.addEventListener('keydown', onKey, true);
+    });
+}
+
 let snapFlyout = null;
 function showSnapLayouts(win, anchor) {
     snapFlyout?.remove();
@@ -518,6 +604,26 @@ export const wm = {
         }
     },
 };
+
+// Quand le navigateur perd le focus, toutes les fenêtres paraissent inactives (comme sous Windows).
+// Exception : un clic dans une iframe (jeux, Edge) déplace le focus sans quitter le « bureau ».
+window.addEventListener('blur', () => {
+    setTimeout(() => {
+        if (document.activeElement?.tagName !== 'IFRAME') document.body.classList.add('os-unfocused');
+    });
+});
+window.addEventListener('focus', () => document.body.classList.remove('os-unfocused'));
+
+// Alt+Espace : menu système de la fenêtre active
+document.addEventListener('keydown', (event) => {
+    if (event.altKey && event.code === 'Space') {
+        const win = wm.active();
+        if (!win) return;
+        event.preventDefault();
+        const rect = win.el.getBoundingClientRect();
+        win.showSystemMenu(rect.left + 8, rect.top + 32);
+    }
+});
 
 // Ré-adapte les fenêtres agrandies/ancrées quand le navigateur est redimensionné
 window.addEventListener('resize', () => {

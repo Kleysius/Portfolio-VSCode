@@ -9,6 +9,7 @@ import { initQuickSettings } from './os/quick-settings.js';
 import { initNotificationCenter } from './os/notification-center.js';
 import { initWidgets } from './os/widgets.js';
 import { initShortcuts } from './os/shortcuts.js';
+import { initTooltips } from './os/tooltip.js';
 import { bootSequence } from './os/boot.js';
 import { launch } from './os/apps.js';
 import { notify } from './os/notifications.js';
@@ -25,6 +26,7 @@ initQuickSettings();
 initNotificationCenter();
 initWidgets();
 initShortcuts();
+initTooltips();
 
 // Précharge VS Code pendant l'écran de démarrage
 const vscodeReady = import('./apps/vscode/index.js');

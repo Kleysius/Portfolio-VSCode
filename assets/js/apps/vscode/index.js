@@ -321,7 +321,8 @@ class Workbench {
     openFileByName(name, { preview = false } = {}) {
         const file = findFile(name);
         if (!file) return;
-        if (preview && file.preview) this.editor.openPreview(file.path);
+        if (file.language === 'image') this.editor.openImage(file.path);
+        else if (preview && file.preview) this.editor.openPreview(file.path);
         else this.editor.openFile(file.path);
     }
 
