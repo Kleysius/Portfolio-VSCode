@@ -44,17 +44,19 @@ const aboutMd = `# Qui suis-je ?
 
 > ${profile.tagline}
 
-${profile.about.slice(0, 2).join('\n\n')}
+${profile.about.slice(0, 3).join('\n\n')}
 
 ## Mon parcours
 
-- 🧪 **${profile.experience}**
-- 🎓 **${profile.degree}**
-- 💻 **Formation diplômante** — ${profile.school}
+${profile.career.map((job) => `### ${job.role} — ${job.company}\n\n*${job.period} · ${job.place}*\n\n${job.summary}`).join('\n\n')}
 
-## Mon objectif
+## Formation
 
-${profile.about.slice(2).join('\n\n')}
+${profile.education.map((item) => `- 🎓 **${item.title}** — ${item.school} (${item.period})`).join('\n')}
+
+## Ce que j'apporte
+
+${profile.about.slice(3).join('\n\n')}
 
 ---
 

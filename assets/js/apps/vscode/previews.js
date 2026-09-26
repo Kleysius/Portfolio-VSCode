@@ -128,7 +128,7 @@ function homePreview(wb) {
                 </div>
             </section>
             <section class="pv-facts">
-                <div class="pv-fact"><strong>8 ans</strong><span>dans l'industrie chimique</span></div>
+                <div class="pv-fact"><strong>${profile.yearsChemistry} ans</strong><span>en laboratoire et industrie chimique</span></div>
                 <div class="pv-fact"><strong>${projects.length}</strong><span>applications réalisées</span></div>
                 <div class="pv-fact"><strong>${Object.keys(technologies).length}</strong><span>technologies & outils</span></div>
             </section>
