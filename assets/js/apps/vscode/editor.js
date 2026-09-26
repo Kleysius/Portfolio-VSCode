@@ -2,7 +2,7 @@
  * Groupe d'éditeurs : onglets (aperçu en italique, épinglage, glisser-déposer, menu contextuel),
  * fil d'Ariane, actions d'éditeur et vues (code, aperçu, accueil, extension, paramètres).
  */
-import { el, html, raw, escapeHtml } from '../../core/dom.js';
+import { el, html, raw, escapeHtml, onDismiss } from '../../core/dom.js';
 import { codicon, fileIcon, fileIcons } from '../../core/icons.js';
 import { files, languageNames } from '../../data/workspace.js';
 import { technologies } from '../../data/skills.js';
@@ -112,13 +112,14 @@ export class EditorService {
                     settings: wb.settings,
                     onCursor: (pos) => {
                         if (this.activeId === tab.id) {
-                            wb.statusbar.set('cursor', `Ln ${pos.line}, Col ${pos.col}`);
+                            wb.statusbar.set('cursor', `Ln ${pos.line}, Col ${pos.col}${pos.selected ? ` (${pos.selected} sélectionné${pos.selected > 1 ? 's' : ''})` : ''}`);
                             this.renderBreadcrumbs();
                         }
                     },
                     onOpenFile: (name) => wb.openFileByName(name),
                     onOpenLink: (url) => wb.openExternal(url),
                     onReadOnly: () => wb.statusbar.flash('Impossible de modifier dans l\'éditeur en lecture seule'),
+                    onCommand: (id, arg) => (id === 'search' ? wb.sidebar.focusSearch(arg) : wb.commands.run(id)),
                 });
                 tab.code = code;
                 return code.element;
@@ -159,6 +160,7 @@ export class EditorService {
         const index = this.tabs.findIndex((t) => t.id === id);
         if (index === -1) return;
         const [tab] = this.tabs.splice(index, 1);
+        tab.code?.dispose();
         tab.view?.remove();
         if (this.activeId === id) {
             const next = this.tabs[index] ?? this.tabs[index - 1];
@@ -243,8 +245,9 @@ export class EditorService {
         const parts = [];
         if (tab.path) {
             const segments = tab.path.split('/');
-            segments.slice(0, -1).forEach((segment) => parts.push(`<span class="vs-crumb">${escapeHtml(segment)}</span>`));
-            parts.push(`<span class="vs-crumb">${fileIcon(segments.at(-1))}${escapeHtml(segments.at(-1))}</span>`);
+            const crumb = (i, content) => `<span class="vs-crumb" data-parent="${escapeHtml(segments.slice(0, i).join('/'))}" data-name="${escapeHtml(segments[i])}">${content}</span>`;
+            segments.slice(0, -1).forEach((segment, i) => parts.push(crumb(i, escapeHtml(segment))));
+            parts.push(crumb(segments.length - 1, `${fileIcon(segments.at(-1))}${escapeHtml(segments.at(-1))}`));
             const file = files.get(tab.path);
             if (tab.kind === 'code' && file.language === 'markdown' && tab.code) {
                 const heading = markdownOutline(file.content).filter((h) => h.line <= tab.code.cursor.line).at(-1);
@@ -358,7 +361,55 @@ export class EditorService {
             }
         });
 
-        this.breadcrumbsEl.addEventListener('click', () => this.wb.commands.run('workbench.action.quickOpen'));
+        this.breadcrumbsEl.addEventListener('click', (event) => {
+            const crumb = event.target.closest('[data-parent]');
+            if (crumb) this.showCrumbPicker(crumb);
+            else if (!event.target.closest('.vs-crumb-sep')) this.wb.commands.run('workbench.action.gotoSymbol');
+        });
+    }
+
+    /** Sélecteur des fils d'Ariane : liste le dossier parent de l'élément cliqué (comme VS Code). */
+    showCrumbPicker(crumb) {
+        this.crumbPicker?.close();
+        const list = (folder) => {
+            const prefix = folder ? `${folder}/` : '';
+            const entries = new Map();
+            [...files.values()].filter((file) => file.path.startsWith(prefix)).forEach((file) => {
+                const rest = file.path.slice(prefix.length);
+                const [name, ...deeper] = rest.split('/');
+                if (!entries.has(name)) entries.set(name, { name, folder: deeper.length > 0, path: `${prefix}${name}` });
+            });
+            return [...entries.values()].sort((a, b) => (b.folder - a.folder) || a.name.localeCompare(b.name));
+        };
+        const picker = el('<div class="vs-crumb-picker" role="tree"></div>');
+        const render = (folder, selected) => {
+            picker.innerHTML = list(folder).map((entry) => `
+                <button class="vs-crumb-item ${entry.name === selected ? 'is-selected' : ''}" type="button" role="treeitem" data-path="${escapeHtml(entry.path)}" data-folder="${entry.folder}">
+                    ${entry.folder ? codicon('chevron-right', 'vs-crumb-twistie') : '<span class="vs-crumb-twistie"></span>'}
+                    ${fileIcon(entry.name, { folder: entry.folder })}
+                    <span>${escapeHtml(entry.name)}</span>
+                </button>`).join('');
+        };
+        render(crumb.dataset.parent, crumb.dataset.name);
+        picker.addEventListener('click', (event) => {
+            const item = event.target.closest('[data-path]');
+            if (!item) return;
+            if (item.dataset.folder === 'true') render(item.dataset.path);
+            else {
+                close();
+                this.openFile(item.dataset.path);
+            }
+        });
+        const container = this.wb.root;
+        container.append(picker);
+        const box = container.getBoundingClientRect();
+        const rect = crumb.getBoundingClientRect();
+        picker.style.left = `${Math.max(4, Math.min(rect.left - box.left - 8, box.width - picker.offsetWidth - 8))}px`;
+        picker.style.top = `${rect.bottom - box.top + 2}px`;
+        const stop = onDismiss(picker, () => close());
+        const close = () => { stop(); picker.remove(); this.crumbPicker = null; };
+        this.crumbPicker = { close };
+        picker.querySelector('.is-selected')?.focus();
     }
 
     languageOf(tab) {

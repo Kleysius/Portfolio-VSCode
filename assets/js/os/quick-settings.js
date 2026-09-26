@@ -10,6 +10,7 @@ import { registerFlyout, closeFlyouts } from './flyout.js';
 import { system } from './system.js';
 import { launch } from './apps.js';
 import { notifications } from './notifications.js';
+import { sounds } from '../core/sound.js';
 
 const tiles = [
     { id: 'wifi', label: 'Wi-Fi', sub: 'Portfolio-5G', icon: ui.wifi, chevron: true },
@@ -95,6 +96,8 @@ export function initQuickSettings() {
             else system.setVolume(value);
             paintSlider(slider);
         });
+        // Comme Windows : un « ding » au relâchement du curseur de volume, au nouveau niveau
+        if (slider.dataset.slider === 'volume') slider.addEventListener('change', () => sounds.ding());
     });
 
     registerFlyout('quick', { element: root, buttons: [$('.tb-quick')], onOpen: render });

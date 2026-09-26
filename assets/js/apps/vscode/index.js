@@ -39,6 +39,9 @@ class Workbench {
             panelHeight: store.get('vs-panel-height', 220),
             view: 'explorer',
         };
+        this.layoutExtra = { activityBar: true, statusBar: true, menuBar: true, sidebarRight: false, centered: false, ...store.get('vs-layout-extra', {}) };
+        this.notificationLog = [];
+        this.doNotDisturb = false;
         this.commands = createCommands(this);
         this.build();
         this.window = wm.open({
@@ -78,6 +81,14 @@ class Workbench {
         this.bindActivityBar();
         this.bindSashes();
         this.bindStatusbar();
+        this.bindNotificationCenter();
+        this.applyExtraLayout();
+        // Démarrage : barre de progression + « Activation des extensions... » comme au lancement de VS Code
+        this.setProgress(true);
+        setTimeout(() => {
+            this.setProgress(false);
+            this.root.querySelector('[data-status="activating"]').hidden = true;
+        }, 1600);
 
         this.unsubscribers = [bus.on('likes:change', () => this.updateLikes())];
         this.updateLikes();
@@ -136,7 +147,7 @@ class Workbench {
                         <div class="vs-layout-controls">
                             <button class="vs-icon-btn" type="button" data-command="workbench.action.toggleSidebarVisibility" title="Activer/désactiver la barre latérale principale (Ctrl+B)" data-layout="sidebar"></button>
                             <button class="vs-icon-btn" type="button" data-command="workbench.action.togglePanel" title="Activer/désactiver le panneau (Ctrl+J)" data-layout="panel"></button>
-                            <button class="vs-icon-btn" type="button" data-command="workbench.action.selectTheme" title="Personnaliser la disposition...">${raw(codicon('layout'))}</button>
+                            <button class="vs-icon-btn" type="button" data-command="workbench.action.customizeLayout" title="Personnaliser la disposition...">${raw(codicon('layout'))}</button>
                         </div>
                     </div>
                 </header>
@@ -198,6 +209,7 @@ class Workbench {
                         <button class="vs-status-item" type="button" data-status="sync" title="Synchroniser les modifications">${raw(codicon('sync'))} 0${raw(codicon('arrow-down'))} 1${raw(codicon('arrow-up'))}</button>
                         <button class="vs-status-item" type="button" data-status="problems" title="Aucun problème">${raw(codicon('error'))} 0 ${raw(codicon('warning'))} 0</button>
                         <span class="vs-status-item vs-status-debug" data-status="debug" hidden>${raw(codicon('debug-alt'))} Portfolio (PORTFOLIO-THOMAS)</span>
+                        <span class="vs-status-item" data-status="activating" title="Activation des extensions">${raw(codicon('sync', 'codicon-modifier-spin'))} Activation des extensions...</span>
                         <span class="vs-status-item vs-status-flash" data-status="flash" hidden></span>
                     </div>
                     <div class="vs-status-right">
@@ -213,6 +225,15 @@ class Workbench {
                     </div>
                 </footer>
                 <div class="vs-notifications" aria-live="polite"></div>
+                <section class="vs-notification-center" aria-label="Centre de notifications" hidden>
+                    <header class="vs-nc-header">
+                        <span class="vs-nc-title">AUCUNE NOUVELLE NOTIFICATION</span>
+                        <button class="vs-icon-btn" type="button" data-nc="clear" title="Effacer toutes les notifications">${raw(codicon('clear-all'))}</button>
+                        <button class="vs-icon-btn" type="button" data-nc="dnd" title="Activer le mode Ne pas déranger">${raw(codicon('bell-slash'))}</button>
+                        <button class="vs-icon-btn" type="button" data-nc="hide" title="Masquer les notifications">${raw(codicon('chevron-down'))}</button>
+                    </header>
+                    <div class="vs-nc-list"></div>
+                </section>
             </div>`);
 
         this.statusbar = {
@@ -243,7 +264,7 @@ class Workbench {
         this.root.classList.toggle('is-panel-hidden', !panel);
         this.root.style.setProperty('--sidebar-width', `${sidebarWidth}px`);
         this.root.style.setProperty('--panel-height', `${panelHeight}px`);
-        this.root.querySelector('[data-layout="sidebar"]').innerHTML = codicon(sidebar ? 'layout-sidebar-left' : 'layout-sidebar-left-off');
+        this.root.querySelector('[data-layout="sidebar"]').innerHTML = codicon(`layout-sidebar-${this.layoutExtra.sidebarRight ? 'right' : 'left'}${sidebar ? '' : '-off'}`);
         this.root.querySelector('[data-layout="panel"]').innerHTML = codicon(panel ? 'layout-panel' : 'layout-panel-off');
         store.set('vs-sidebar', sidebar);
         store.set('vs-sidebar-width', sidebarWidth);
@@ -401,6 +422,10 @@ class Workbench {
 
     /** Notification VS Code (en bas à droite de la fenêtre). */
     notify(type, message, actions = []) {
+        const entry = { type, message, actions, id: Date.now() + Math.random() };
+        this.notificationLog.unshift(entry);
+        this.renderNotificationCenter();
+        if (this.doNotDisturb || this.root.classList.contains('is-center-open')) return () => {};
         const container = this.root.querySelector('.vs-notifications');
         const icon = { info: 'info', warning: 'warning', error: 'error' }[type] ?? 'info';
         const toast = el(html`
@@ -416,14 +441,200 @@ class Workbench {
             toast.classList.add('is-leaving');
             setTimeout(() => toast.remove(), 200);
         };
-        toast.querySelector('.vs-toast-close').addEventListener('click', close);
+        const dismiss = () => {
+            this.notificationLog = this.notificationLog.filter((item) => item !== entry);
+            this.renderNotificationCenter();
+            close();
+        };
+        toast.querySelector('.vs-toast-close').addEventListener('click', dismiss);
         toast.querySelectorAll('[data-index]').forEach((button) => button.addEventListener('click', () => {
             actions[Number(button.dataset.index)].run?.();
-            close();
+            dismiss();
         }));
         container.append(toast);
         setTimeout(close, actions.length ? 15000 : 6000);
         return close;
+    }
+
+    /** Centre de notifications (clic sur la cloche) : historique, « Ne pas déranger ». */
+    renderNotificationCenter() {
+        const bell = this.root.querySelector('[data-status="bell"]');
+        if (!bell) return;
+        const unread = this.notificationLog.length > 0;
+        bell.innerHTML = codicon(this.doNotDisturb ? 'bell-slash' : unread ? 'bell-dot' : 'bell');
+        bell.title = this.doNotDisturb ? 'Mode Ne pas déranger activé' : unread ? `${this.notificationLog.length} nouvelle${this.notificationLog.length > 1 ? 's' : ''} notification${this.notificationLog.length > 1 ? 's' : ''}` : 'Aucune notification';
+        const center = this.root.querySelector('.vs-notification-center');
+        if (!center || center.hidden) return;
+        center.querySelector('.vs-nc-title').textContent = unread ? 'NOTIFICATIONS' : 'AUCUNE NOUVELLE NOTIFICATION';
+        center.querySelector('.vs-nc-list').innerHTML = this.notificationLog.map((item, i) => `
+            <div class="vs-toast is-${item.type} is-static" data-log="${i}">
+                <div class="vs-toast-main">
+                    ${codicon({ warning: 'warning', error: 'error' }[item.type] ?? 'info', 'vs-toast-icon')}
+                    <p>${escapeHtml(item.message)}</p>
+                    <button class="vs-icon-btn vs-toast-close" type="button" aria-label="Effacer la notification" data-clear="${i}">${codicon('close')}</button>
+                </div>
+                ${item.actions.length ? `<div class="vs-toast-actions">${item.actions.map((action, j) => `<button class="vs-button ${action.secondary ? 'is-secondary' : ''}" type="button" data-log-action="${i}:${j}">${escapeHtml(action.label)}</button>`).join('')}</div>` : ''}
+            </div>`).join('');
+        center.querySelector('[data-nc="dnd"]').innerHTML = codicon(this.doNotDisturb ? 'bell' : 'bell-slash');
+        center.querySelector('[data-nc="dnd"]').title = this.doNotDisturb ? 'Désactiver le mode Ne pas déranger' : 'Activer le mode Ne pas déranger';
+    }
+
+    toggleNotificationCenter(force) {
+        const center = this.root.querySelector('.vs-notification-center');
+        const open = force ?? center.hidden;
+        center.hidden = !open;
+        this.root.classList.toggle('is-center-open', open);
+        if (open) {
+            this.root.querySelectorAll('.vs-notifications .vs-toast').forEach((toast) => toast.remove());
+            this.renderNotificationCenter();
+        }
+    }
+
+    bindNotificationCenter() {
+        const center = this.root.querySelector('.vs-notification-center');
+        center.addEventListener('click', (event) => {
+            const button = event.target.closest('button');
+            if (!button) return;
+            if (button.dataset.nc === 'clear') this.notificationLog = [];
+            else if (button.dataset.nc === 'dnd') this.doNotDisturb = !this.doNotDisturb;
+            else if (button.dataset.nc === 'hide') { this.toggleNotificationCenter(false); return; }
+            else if (button.dataset.clear) this.notificationLog.splice(Number(button.dataset.clear), 1);
+            else if (button.dataset.logAction) {
+                const [i, j] = button.dataset.logAction.split(':').map(Number);
+                const item = this.notificationLog[i];
+                this.notificationLog.splice(i, 1);
+                item?.actions[j]?.run?.();
+            }
+            this.renderNotificationCenter();
+        });
+    }
+
+    /** Sélecteurs de la barre d'état : mise en retrait, encodage, fin de ligne, mode de langage. */
+    statusPicker(kind) {
+        const tab = this.editor.active;
+        const file = tab?.path ? files.get(tab.path) : null;
+        const readOnly = () => this.statusbar.flash('Impossible de modifier dans l\'éditeur en lecture seule');
+        const pickers = {
+            indent: () => this.quickInput.show({
+                placeholder: 'Sélectionner une action',
+                items: [
+                    { label: 'Indenter avec des espaces', detail: 'modifier la vue', run: () => this.indentPicker('Espaces') },
+                    { label: 'Indenter avec des tabulations', detail: 'modifier la vue', run: () => this.indentPicker('Taille de tabulation') },
+                    { label: 'Modifier la taille d\'affichage de la tabulation', detail: 'modifier la vue', run: () => this.indentPicker('Taille de tabulation') },
+                    { label: 'Détecter la mise en retrait à partir du contenu', detail: 'modifier la vue', run: () => this.statusbar.flash(`Mise en retrait détectée : ${tab?.code?.tabSize ?? 4} espaces`) },
+                    { label: 'Convertir la mise en retrait en espaces', detail: 'modifier le fichier', group: 'modifier le fichier', run: readOnly },
+                    { label: 'Convertir la mise en retrait en tabulations', detail: 'modifier le fichier', group: 'modifier le fichier', run: readOnly },
+                    { label: 'Supprimer l\'espace blanc de fin', detail: 'modifier le fichier', group: 'modifier le fichier', run: readOnly },
+                ],
+            }),
+            encoding: () => this.quickInput.show({
+                placeholder: 'Sélectionner une action',
+                items: [
+                    { label: 'Rouvrir avec l\'encodage', run: () => this.encodingPicker('Sélectionner l\'encodage du fichier à rouvrir') },
+                    { label: 'Enregistrer avec l\'encodage', run: readOnly },
+                ],
+            }),
+            eol: () => this.quickInput.show({
+                placeholder: 'Sélectionner la séquence de fin de ligne',
+                items: [{ label: 'LF' }, { label: 'CRLF' }],
+                activeIndex: 1,
+                onAccept: readOnly,
+            }),
+            language: () => {
+                const languages = ['Batch', 'C', 'C#', 'C++', 'CSS', 'Dockerfile', 'HTML', 'Ignore', 'JavaScript', 'JavaScript JSX', 'JSON', 'JSON with Comments', 'Markdown', 'PHP', 'Plain Text', 'PowerShell', 'Python', 'SCSS', 'Shell Script', 'SQL', 'TypeScript', 'TypeScript JSX', 'Twig', 'XML', 'YAML'];
+                const current = this.root.querySelector('[data-status="language"]').textContent.replace('{ }', '').trim();
+                this.quickInput.show({
+                    placeholder: 'Sélectionner le mode de langage',
+                    items: [
+                        { label: 'Détection automatique', group: 'automatique' },
+                        { label: `Configurer les paramètres basés sur le langage « ${current} »...`, group: 'automatique', run: () => this.editor.openSettings() },
+                        ...(file ? [{ label: `Configurer l'association de fichier pour « .${file.name.split('.').pop()} »...`, group: 'automatique' }] : []),
+                        ...languages.map((name, i) => ({ label: name, description: name === current ? '(Configuré)' : '', group: i === 0 ? 'langages (identificateur)' : 'langages (identificateur)' })),
+                    ],
+                    activeIndex: Math.max(0, languages.indexOf(current) + (file ? 3 : 2)),
+                    onAccept: (item) => this.statusbar.flash(`Mode de langage « ${item.label} » : aperçu uniquement (lecture seule)`),
+                });
+            },
+        };
+        pickers[kind]?.();
+    }
+
+    indentPicker(label) {
+        const size = this.editor.active?.code?.tabSize ?? 4;
+        this.quickInput.show({
+            placeholder: 'Sélectionner la taille de tabulation pour le fichier actuel',
+            items: [1, 2, 3, 4, 5, 6, 7, 8].map((n) => ({ label: String(n), description: n === size ? 'Configuré' : '' })),
+            activeIndex: size - 1,
+            onAccept: (item) => this.statusbar.set('indent', `${label} : ${item.label}`),
+        });
+    }
+
+    encodingPicker(placeholder) {
+        const encodings = [['UTF-8', 'utf8'], ['UTF-8 avec BOM', 'utf8bom'], ['UTF-16 LE', 'utf16le'], ['UTF-16 BE', 'utf16be'], ['Western (Windows 1252)', 'windows1252'], ['Western (ISO 8859-1)', 'iso88591'], ['Western (ISO 8859-15)', 'iso885915'], ['Central European (Windows 1250)', 'windows1250']];
+        this.quickInput.show({
+            placeholder,
+            items: encodings.map(([label, id], i) => ({ label, description: id, detail: i === 0 ? 'Deviné à partir du contenu' : '' })),
+            onAccept: (item) => this.statusbar.flash(`Fichier rouvert en ${item.label} (aucun changement : le contenu est déjà en UTF-8)`),
+        });
+    }
+
+    /* ------------------------------------------------------------------ */
+    /* Disposition : quick pick « Personnaliser la disposition », mode zen  */
+    /* ------------------------------------------------------------------ */
+    applyExtraLayout() {
+        const extra = this.layoutExtra;
+        this.root.classList.toggle('is-activitybar-hidden', !extra.activityBar);
+        this.root.classList.toggle('is-statusbar-hidden', !extra.statusBar);
+        this.root.classList.toggle('is-menubar-hidden', !extra.menuBar);
+        this.root.classList.toggle('is-sidebar-right', extra.sidebarRight);
+        this.root.classList.toggle('is-centered', extra.centered);
+        this.root.querySelector('[data-layout="sidebar"]').innerHTML = codicon(`layout-sidebar-${extra.sidebarRight ? 'right' : 'left'}${this.layout.sidebar ? '' : '-off'}`);
+        store.set('vs-layout-extra', extra);
+        requestAnimationFrame(() => { this.editor?.active?.code?.redraw(); this.fitMenubar?.(); });
+    }
+
+    customizeLayout() {
+        const eye = (on) => codicon(on ? 'eye' : 'eye-closed');
+        const check = (on) => (on ? codicon('check') : '<span class="codicon"></span>');
+        const extra = this.layoutExtra;
+        const zen = this.root.classList.contains('is-zen');
+        const toggle = (fn) => (quick) => {
+            fn();
+            this.applyExtraLayout();
+            quick.options.items = build();
+            quick.update(quick.index);
+        };
+        const build = () => [
+            { label: 'Barre de menus', icon: eye(extra.menuBar), group: 'visibilité', keepOpen: true, run: toggle(() => { extra.menuBar = !extra.menuBar; }) },
+            { label: 'Barre d\'activité', icon: eye(extra.activityBar), group: 'visibilité', keepOpen: true, run: toggle(() => { extra.activityBar = !extra.activityBar; }) },
+            { label: 'Barre latérale principale', icon: eye(this.layout.sidebar), keybinding: 'Ctrl+B', group: 'visibilité', keepOpen: true, run: toggle(() => this.toggleSidebar()) },
+            { label: 'Barre d\'état', icon: eye(extra.statusBar), group: 'visibilité', keepOpen: true, run: toggle(() => { extra.statusBar = !extra.statusBar; }) },
+            { label: 'Panneau', icon: eye(this.layout.panel), keybinding: 'Ctrl+J', group: 'visibilité', keepOpen: true, run: toggle(() => this.togglePanel()) },
+            { label: 'Gauche', icon: check(!extra.sidebarRight), group: 'position de la barre latérale principale', keepOpen: true, run: toggle(() => { extra.sidebarRight = false; }) },
+            { label: 'Droite', icon: check(extra.sidebarRight), keepOpen: true, run: toggle(() => { extra.sidebarRight = true; }) },
+            { label: 'Centrer la disposition', icon: check(extra.centered), group: 'modes', keepOpen: true, run: toggle(() => { extra.centered = !extra.centered; }) },
+            { label: 'Mode zen', icon: check(zen), keybinding: 'Ctrl+K Z', group: 'modes', run: () => this.toggleZenMode() },
+            { label: 'Plein écran', icon: check(this.window.state === 'maximized'), keybinding: 'F11', group: 'modes', run: () => this.window.toggleMaximize() },
+        ];
+        this.quickInput.show({ placeholder: 'Visibilité', items: build() });
+        this.quickInput.element.classList.add('is-layout');
+        const off = () => this.quickInput.element.classList.remove('is-layout');
+        const hide = this.quickInput.options.onHide;
+        this.quickInput.options.onHide = (accepted) => { off(); hide?.(accepted); };
+    }
+
+    toggleZenMode(force) {
+        const zen = force ?? !this.root.classList.contains('is-zen');
+        if (zen === this.root.classList.contains('is-zen')) return;
+        this.root.classList.toggle('is-zen', zen);
+        if (zen) {
+            this.zenRestore = this.window.state !== 'maximized';
+            if (this.zenRestore) this.window.maximize();
+            this.statusbar.flash('Mode zen : appuyez deux fois sur Échap pour quitter');
+        } else if (this.zenRestore) {
+            this.window.restore();
+        }
+        requestAnimationFrame(() => this.editor?.active?.code?.redraw());
     }
 
     /* ------------------------------------------------------------------ */
@@ -622,8 +833,11 @@ class Workbench {
                 case 'branch': this.showView('scm', { force: true }); break;
                 case 'sync': this.notify('info', 'Synchronisation avec origin/main... terminé ✔'); break;
                 case 'remote': this.openExternal(profile.links.repo); break;
-                case 'language': this.quickOpen('>'); break;
-                case 'bell': this.notify('info', 'Aucune nouvelle notification'); break;
+                case 'language':
+                case 'indent':
+                case 'encoding':
+                case 'eol': this.statusPicker(item); break;
+                case 'bell': this.toggleNotificationCenter(); break;
                 case 'prettier': this.panel.show('output'); break;
                 default: break;
             }
@@ -641,7 +855,7 @@ class Workbench {
                 this.root.classList.add('is-resizing');
                 const onMove = (move) => {
                     if (type === 'sidebar') {
-                        const width = start + move.clientX - origin;
+                        const width = start + (move.clientX - origin) * (this.layoutExtra.sidebarRight ? -1 : 1);
                         if (width < 120) { this.layout.sidebar = false; }
                         else { this.layout.sidebar = true; this.layout.sidebarWidth = clamp(width, 170, 600); }
                     } else {
@@ -674,6 +888,12 @@ class Workbench {
             if (target.closest?.('.window') && !this.root.contains(target)) return;
             const key = event.key.toLowerCase();
             const ctrl = event.ctrlKey || event.metaKey;
+
+            // Mode zen : Échap Échap pour quitter
+            if (key === 'escape' && this.root.classList.contains('is-zen')) {
+                if (Date.now() - (this.lastEscape ?? 0) < 600) this.toggleZenMode(false);
+                this.lastEscape = Date.now();
+            }
 
             if (chord) {
                 const second = `${ctrl ? 'ctrl+' : ''}${key}`;
@@ -715,6 +935,9 @@ function createCommands(wb) {
     const commands = [
         { id: 'workbench.action.showCommands', en: 'Show All Commands', title: 'Afficher toutes les commandes', key: 'ctrl+shift+p', alt: 'f1', run: () => wb.quickOpen('>') },
         { id: 'workbench.action.quickOpen', en: 'Go to File...', title: 'Atteindre le fichier...', key: 'ctrl+p', alt: 'ctrl+e', run: () => wb.quickOpen('') },
+        { id: 'actions.find', en: 'Find', title: 'Rechercher', key: 'ctrl+f', run: () => (wb.editor.active?.code ? wb.editor.active.code.openFind() : wb.sidebar.focusSearch(window.getSelection()?.toString())) },
+        { id: 'workbench.action.customizeLayout', en: 'View: Customize Layout...', title: 'Affichage : Personnaliser la disposition...', run: () => wb.customizeLayout() },
+        { id: 'workbench.action.toggleZenMode', en: 'View: Toggle Zen Mode', title: 'Affichage : Activer/désactiver le mode zen', chord: 'ctrl+k z', run: () => wb.toggleZenMode() },
         { id: 'workbench.action.gotoLine', en: 'Go to Line/Column...', title: 'Atteindre la ligne/colonne...', key: 'ctrl+g', run: () => wb.quickOpen(':') },
         { id: 'workbench.action.gotoSymbol', title: 'Atteindre le symbole dans l\'éditeur...', key: 'ctrl+shift+o', run: () => wb.quickOpen('@') },
         { id: 'workbench.action.selectTheme', en: 'Preferences: Color Theme', title: 'Préférences : Thème de couleur', chord: 'ctrl+k ctrl+t', run: () => wb.selectTheme() },

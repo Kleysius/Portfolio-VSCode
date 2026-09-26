@@ -122,6 +122,11 @@ export function open({ page = 'system' } = {}) {
                 <span class="st-card-icon">${raw(ui.nightLight)}</span>
                 <span class="st-card-text"><strong>Éclairage nocturne</strong><small>Utiliser des couleurs plus chaudes pour aider à dormir</small></span>
                 <input type="checkbox" class="toggle" data-setting="night" ${system.nightLight ? 'checked' : ''} aria-label="Éclairage nocturne">
+            </div>
+            <div class="st-card">
+                <span class="st-card-icon">${raw(ui.cursor)}</span>
+                <span class="st-card-text"><strong>Pointeur de la souris</strong><small>Utiliser les pointeurs Windows (flèche, main, occupé en arrière-plan)</small></span>
+                <input type="checkbox" class="toggle" data-setting="cursors" ${system.winCursors ? 'checked' : ''} aria-label="Pointeurs Windows">
             </div>`,
 
         apps: () => html`
@@ -233,6 +238,7 @@ export function open({ page = 'system' } = {}) {
         const setting = event.target.dataset.setting;
         if (setting === 'mode') system.setMode(event.target.value);
         if (setting === 'night') system.setNightLight(event.target.checked);
+        if (setting === 'cursors') system.setWinCursors(event.target.checked);
     });
     root.querySelector('.st-search input').addEventListener('input', (event) => {
         const query = event.target.value.toLowerCase();

@@ -74,6 +74,7 @@ export class Panel {
         this.terminal = createTerminalView({
             shell,
             className: 'vs-terminal',
+            decorations: true,
             banner: [
                 'PowerShell 7.4.5',
                 `Tapez <span class="t-yellow">help</span> pour voir les commandes disponibles. Essayez <span class="t-yellow">neofetch</span> 😉`,

@@ -89,7 +89,9 @@
     .tb-taskview,
     .tb-clock-text .tb-date,
     .tb-quick-battery,
-    .tb-show-desktop {
+    .tb-show-desktop,
+    .tb-lang,
+    .tb-overflow {
         display: none;
     }
     .taskbar {

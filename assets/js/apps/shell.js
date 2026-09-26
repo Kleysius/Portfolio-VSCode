@@ -65,16 +65,52 @@ function windowsLogo() {
     return [row(r, g), row(r, g), row(r, g), '', row(b, y), row(b, y), row(b, y)];
 }
 
+/** Historique « déjà tapé » : alimente les prédictions PSReadLine dès la première frappe. */
+const SEED_HISTORY = ['help', 'about', 'projects', 'skills', 'git log', 'git status', 'code .', 'npm run dev', 'neofetch'];
+
+/** Chemin Windows → chemin WSL (C:\Users\X → /mnt/c/Users/X). */
+const toWslPath = (path) => path.replace(/^([A-Z]):/, (_, drive) => `/mnt/${drive.toLowerCase()}`).replace(/\\/g, '/');
+
 export class Shell {
-    constructor({ cwd = filesystem, onExit, onClear } = {}) {
+    /** @param {{ cwd?: object, onExit?: Function, onClear?: Function, profile?: 'pwsh' | 'cmd' | 'wsl' }} options */
+    constructor({ cwd = filesystem, onExit, onClear, profile: shellProfile = 'pwsh' } = {}) {
         this.cwd = cwd;
         this.history = [];
+        this.profile = shellProfile;
+        this.lastExitCode = 0;
         this.onExit = onExit;
         this.onClear = onClear;
     }
 
     get prompt() {
+        if (this.profile === 'cmd') return `${this.cwd.path}>`;
+        if (this.profile === 'wsl') return `${profile.username.toLowerCase()}@PORTFOLIO:${toWslPath(this.cwd.path)}$ `;
         return `PS ${this.cwd.path}> `;
+    }
+
+    /** Invite colorée (bash affiche utilisateur et dossier en couleur). */
+    get promptHtml() {
+        if (this.profile === 'wsl') {
+            return `${c('bgreen', `${profile.username.toLowerCase()}@PORTFOLIO`)}:${c('bblue', toWslPath(this.cwd.path))}$ `;
+        }
+        return esc(this.prompt);
+    }
+
+    /** Prédiction « façon PSReadLine » : la commande la plus récente qui commence par la saisie. */
+    predict(input) {
+        if (this.profile !== 'pwsh' || !input.trim()) return '';
+        const needle = input.toLowerCase();
+        const pool = [...SEED_HISTORY, ...this.history];
+        for (let i = pool.length - 1; i >= 0; i -= 1) {
+            if (pool[i].length > input.length && pool[i].toLowerCase().startsWith(needle)) return pool[i].slice(input.length);
+        }
+        return '';
+    }
+
+    /** Commandes connues (pour la coloration de la saisie). */
+    isCommand(name) {
+        const lower = name.toLowerCase();
+        return lower in COMMANDS || lower in ALIASES || typeof this[`cmd_${lower.replace(/-/g, '_')}`] === 'function';
     }
 
     complete(input) {
@@ -98,12 +134,19 @@ export class Shell {
         const name = ALIASES[first.toLowerCase()] ?? first.toLowerCase();
         const handler = this[`cmd_${name.replace(/-/g, '_')}`];
         if (!handler) {
+            this.lastExitCode = 1;
+            if (this.profile === 'cmd') {
+                return [`'${esc(first)}' n'est pas reconnu en tant que commande interne`, 'ou externe, un programme exécutable ou un fichier de commandes.'];
+            }
+            if (this.profile === 'wsl') return [`${esc(first)}: command not found`];
             return [
                 `<span class="t-red">${esc(first)} : Le terme «${esc(first)}» n'est pas reconnu comme nom d'applet de commande, fonction, fichier de script ou programme exécutable.</span>`,
                 `<span class="t-red">Vérifiez l'orthographe du nom, ou tapez ${c('yellow', 'help')}<span class="t-red"> pour la liste des commandes.</span></span>`,
             ];
         }
-        return handler.call(this, args, line);
+        const result = await handler.call(this, args, line);
+        this.lastExitCode = /^<span class="t-red">/.test(result?.[0] ?? '') ? 1 : 0;
+        return result;
     }
 
     cmd_help() {
@@ -344,6 +387,7 @@ export class Shell {
     }
 
     cmd_whoami() {
+        if (this.profile === 'wsl') return [esc(profile.username.toLowerCase())];
         return [`portfolio\\${esc(profile.username.toLowerCase())}`];
     }
 
@@ -362,24 +406,51 @@ export class Shell {
     }
 }
 
+/** Découpe la saisie en jetons colorés, comme PSReadLine (commande jaune, paramètre gris, chaîne cyan…). */
+function colorize(value, shell) {
+    const pattern = /(\s+)|('[^']*'?|"[^"]*"?)|(\$[\w:]+)|(--?[\w-]+)|(\d+(?:\.\d+)?(?![\w.]))|([|;&<>=]+)|([^\s'"|;&<>=]+)/g;
+    let expectCommand = true;
+    let out = '';
+    for (const [token, space, string, variable, parameter, number, operator] of value.matchAll(pattern)) {
+        if (space) out += token;
+        else if (string) { out += `<span class="ps-string">${esc(token)}</span>`; expectCommand = false; }
+        else if (variable) out += `<span class="ps-variable">${esc(token)}</span>`;
+        else if (parameter) out += `<span class="ps-parameter">${esc(token)}</span>`;
+        else if (operator) { out += `<span class="ps-operator">${esc(token)}</span>`; expectCommand = /[|;&]/.test(token); }
+        else if (number && !expectCommand) out += `<span class="ps-number">${esc(token)}</span>`;
+        else if (expectCommand) {
+            out += `<span class="${shell.isCommand(token) ? 'ps-command' : 'ps-command is-unknown'}">${esc(token)}</span>`;
+            expectCommand = false;
+        } else out += esc(token);
+    }
+    return out;
+}
+
 /**
- * Vue terminal réutilisable : sortie + ligne de saisie, historique, complétion.
+ * Vue terminal (sortie + ligne de saisie). Réutilisée par Windows Terminal et VS Code.
+ * `decorations` : pastilles de statut de VS Code (intégration shell) devant chaque commande.
  */
-export function createTerminalView({ shell, banner = [], className = '' }) {
+export function createTerminalView({ shell, banner = [], className = '', decorations = false }) {
+    const psReadLine = shell.profile === 'pwsh';
     const root = el(`
-        <div class="term ${className}" tabindex="-1">
+        <div class="term ${className} ${decorations ? 'has-decorations' : ''}" tabindex="-1">
             <div class="term-output" role="log" aria-live="polite"></div>
             <form class="term-input-line">
                 <span class="term-prompt"></span>
-                <input class="term-input" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Commande">
+                <span class="term-edit">
+                    ${psReadLine ? '<span class="term-render" aria-hidden="true"></span>' : ''}
+                    <input class="term-input ${psReadLine ? 'is-rendered' : ''}" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Commande">
+                </span>
             </form>
-        </div>`);
+        </div>`.replace(/>\s+</g, '><')); // .term est en pre-wrap : pas d'espaces parasites
     const output = root.querySelector('.term-output');
     const input = root.querySelector('.term-input');
     const prompt = root.querySelector('.term-prompt');
+    const render = root.querySelector('.term-render');
     let historyIndex = -1;
+    let prediction = '';
 
-    const print = (lines) => {
+    const print = (lines, target = output) => {
         const fragment = document.createDocumentFragment();
         lines.forEach((line) => {
             const div = document.createElement('div');
@@ -387,29 +458,89 @@ export function createTerminalView({ shell, banner = [], className = '' }) {
             div.innerHTML = line || '&nbsp;';
             fragment.append(div);
         });
-        output.append(fragment);
+        target.append(fragment);
         root.scrollTop = root.scrollHeight;
     };
-    const updatePrompt = () => { prompt.textContent = shell.prompt; };
+    const updatePrompt = () => { prompt.innerHTML = shell.promptHtml; };
+
+    const refresh = () => {
+        if (!render) return;
+        const atEnd = input.selectionStart === input.value.length && input.selectionEnd === input.value.length;
+        prediction = atEnd ? shell.predict(input.value) : '';
+        render.innerHTML = colorize(input.value, shell) + (prediction ? `<span class="ps-prediction">${esc(prediction)}</span>` : '');
+        render.scrollLeft = input.scrollLeft;
+    };
+    const setValue = (value) => {
+        input.value = value;
+        input.setSelectionRange(value.length, value.length);
+        refresh();
+    };
+
+    /** Bloc de commande : ligne d'invite + sortie, avec sa pastille de statut. */
+    const execute = async (value) => {
+        const block = el('<div class="term-command"></div>');
+        const echo = el(`<div class="term-line term-echo"><span class="term-prompt-echo">${shell.promptHtml}</span>${psReadLine ? colorize(value, shell) : esc(value)}</div>`);
+        if (decorations && value.trim()) {
+            echo.prepend(el('<button class="term-decoration is-running" type="button" aria-label="Commande en cours"></button>'));
+        }
+        block.append(echo);
+        output.append(block);
+        root.classList.add('is-busy');
+        const result = await shell.run(value);
+        root.classList.remove('is-busy');
+        if (!block.isConnected) return; // effacé par clear/cls
+        print(result, block);
+        if (value.trim() && shell.profile !== 'cmd') print([''], block);
+        const decoration = echo.querySelector('.term-decoration');
+        if (decoration) {
+            const failed = shell.lastExitCode !== 0;
+            decoration.className = `term-decoration ${failed ? 'is-error' : 'is-success'}`;
+            decoration.dataset.tip = failed ? `Commande exécutée il y a quelques instants et a échoué (code de sortie ${shell.lastExitCode})` : 'Commande exécutée il y a quelques instants';
+            decoration.setAttribute('aria-label', decoration.dataset.tip);
+            decoration.addEventListener('click', (event) => {
+                event.stopPropagation();
+                const rect = decoration.getBoundingClientRect();
+                const text = () => [...block.querySelectorAll('.term-line:not(.term-echo)')].map((line) => line.textContent).join('\n').trim();
+                import('../os/context-menu.js').then(({ showContextMenu }) => showContextMenu({
+                    x: rect.right + 4,
+                    y: rect.top,
+                    variant: 'vscode',
+                    items: [
+                        { label: 'Copier la commande', action: () => navigator.clipboard?.writeText(value) },
+                        { label: 'Copier la sortie', action: () => navigator.clipboard?.writeText(text()) },
+                        { label: 'Copier la sortie au format HTML', action: () => navigator.clipboard?.writeText(block.innerHTML) },
+                        { separator: true },
+                        { label: 'Réexécuter la commande', action: () => execute(value) },
+                        { separator: true },
+                        { label: 'En savoir plus sur l\'intégration de l\'interpréteur de commandes', action: () => window.open('https://code.visualstudio.com/docs/terminal/shell-integration', '_blank', 'noopener') },
+                    ],
+                }));
+            });
+        }
+        updatePrompt();
+        root.scrollTop = root.scrollHeight;
+    };
 
     shell.onClear = () => { output.innerHTML = ''; };
     print(banner);
     updatePrompt();
+    refresh();
 
-    root.querySelector('form').addEventListener('submit', async (event) => {
+    root.querySelector('form').addEventListener('submit', (event) => {
         event.preventDefault();
         const value = input.value;
-        input.value = '';
+        setValue('');
         historyIndex = -1;
-        print([`<span class="term-prompt-echo">${esc(shell.prompt)}</span>${esc(value)}`]);
-        const result = await shell.run(value);
-        print(result);
-        if (value.trim()) print(['']);
-        updatePrompt();
-        root.scrollTop = root.scrollHeight;
+        execute(value);
     });
 
+    input.addEventListener('input', refresh);
+    input.addEventListener('scroll', refresh);
+    input.addEventListener('keyup', (event) => { if (event.key.startsWith('Arrow') || event.key === 'Home' || event.key === 'End') refresh(); });
+    input.addEventListener('pointerup', () => requestAnimationFrame(refresh));
+
     input.addEventListener('keydown', (event) => {
+        const atEnd = input.selectionStart === input.value.length;
         if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
             event.preventDefault();
             const list = shell.history;
@@ -418,21 +549,28 @@ export function createTerminalView({ shell, banner = [], className = '' }) {
                 ? (historyIndex === -1 ? list.length - 1 : Math.max(0, historyIndex - 1))
                 : (historyIndex === -1 ? -1 : historyIndex + 1);
             if (historyIndex >= list.length) historyIndex = -1;
-            input.value = historyIndex === -1 ? '' : list[historyIndex];
+            setValue(historyIndex === -1 ? '' : list[historyIndex]);
+        } else if ((event.key === 'ArrowRight' || event.key === 'End') && atEnd && prediction) {
+            // PSReadLine : → ou Fin accepte la prédiction, Ctrl+→ n'en accepte qu'un mot.
+            event.preventDefault();
+            const chunk = event.ctrlKey ? prediction.match(/^\s*\S+/)[0] : prediction;
+            setValue(input.value + chunk);
         } else if (event.key === 'Tab') {
             event.preventDefault();
             const result = shell.complete(input.value);
-            if (typeof result === 'string') input.value = result;
+            if (typeof result === 'string') setValue(result);
             else if (result.matches.length > 1) {
-                print([`<span class="term-prompt-echo">${esc(shell.prompt)}</span>${esc(input.value)}`, result.matches.map(esc).join('    ')]);
+                print([`<span class="term-prompt-echo">${shell.promptHtml}</span>${esc(input.value)}`, result.matches.map(esc).join('    ')]);
             }
+        } else if (event.key === 'Escape' && psReadLine) {
+            setValue('');
         } else if (event.key === 'l' && event.ctrlKey) {
             event.preventDefault();
             output.innerHTML = '';
         } else if (event.key === 'c' && event.ctrlKey && input.selectionStart === input.selectionEnd) {
             event.preventDefault();
-            print([`<span class="term-prompt-echo">${esc(shell.prompt)}</span>${esc(input.value)}^C`]);
-            input.value = '';
+            print([`<span class="term-prompt-echo">${shell.promptHtml}</span>${esc(input.value)}^C`]);
+            setValue('');
         }
     });
 
@@ -447,12 +585,10 @@ export function createTerminalView({ shell, banner = [], className = '' }) {
 
     return {
         element: root,
+        shell,
         focus: () => input.focus({ preventScroll: true }),
         print,
-        run: async (command) => {
-            print([`<span class="term-prompt-echo">${esc(shell.prompt)}</span>${esc(command)}`]);
-            print(await shell.run(command));
-            updatePrompt();
-        },
+        clear: () => { output.innerHTML = ''; },
+        run: (command) => execute(command),
     };
 }

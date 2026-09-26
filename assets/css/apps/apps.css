@@ -94,13 +94,14 @@
 .wt-tab:hover:not(.is-active) {
     background: rgb(255 255 255 / 0.06);
 }
-.wt-tab.is-active {
-    background: #0c0c0c;
+.wt-tab.is-active,
+[data-mode='light'] .wt-tab.is-active {
+    background: var(--wt-tab-bg, #0c0c0c);
     color: #fff;
 }
-[data-mode='light'] .wt-tab.is-active {
-    background: #0c0c0c;
-    color: #fff;
+.wt-profile-icon {
+    width: 16px;
+    height: 16px;
 }
 .wt-tab-close,
 .wt-new-tab,
@@ -148,7 +149,18 @@
 .wt-term .t-blue { color: #3b78ff; }
 .wt-term .term-input {
     caret-color: #fff;
+    --term-caret: #fff;
 }
+.wt-term .ps-command { color: #f9f1a5; }
+.wt-term .ps-string { color: #3a96dd; }
+.wt-term .ps-variable { color: #16c60c; }
+.wt-term .ps-parameter,
+.wt-term .ps-operator { color: #767676; }
+.wt-term .t-bgreen { color: #16c60c; }
+.wt-term .t-bblue { color: #3b78ff; }
+.wt-term.is-cmd,
+.wt-term.is-wsl { background: #0c0c0c; }
+.wt-term.is-wsl { background: #300a24; font-family: 'Ubuntu Mono', 'Cascadia Mono', var(--font-code); }
 
 /* ---------------- Explorateur de fichiers ---------------- */
 .fe {

@@ -141,6 +141,7 @@ export const ui = {
     moon: stroke('<path d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5Z"/>'),
     sun: stroke('<circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M2.5 12h2M19.5 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4"/>'),
     nightLight: stroke('<path d="M12 3v1.5M5.6 5.6l1 1M3 12h1.5"/><path d="M19.5 14A7.5 7.5 0 0 1 10 4.5a7.5 7.5 0 1 0 9.5 9.5Z"/>'),
+    cursor: stroke('<path d="M6 3.5v15l4-3.8 2.6 5.8 2.6-1.2-2.6-5.7H18L6 3.5Z" stroke-linejoin="round"/>'),
     accessibility: stroke('<circle cx="12" cy="4.5" r="1.8"/><path d="M5 8.5 12 10l7-1.5M12 10v4.5m0 0-3 6m3-6 3 6"/>'),
     leaf: stroke('<path d="M5 19c0-8 5-13 14-14 0 9-5 14-13 14"/><path d="M5 19c3-4 6-7 10-9"/>'),
     focus: stroke('<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4"/>'),
