@@ -508,7 +508,7 @@ export class Sidebar {
                     <div class="vs-pane-body vs-watch">
                         <div class="vs-tree-row"><span class="vs-debug-name">motivation</span>: <span class="vs-debug-value">Infinity</span></div>
                         <div class="vs-tree-row"><span class="vs-debug-name">cafe</span>: <span class="vs-debug-value is-string">"☕ indispensable"</span></div>
-                        <div class="vs-tree-row"><span class="vs-debug-name">experienceChimie</span>: <span class="vs-debug-value">8</span></div>
+                        <div class="vs-tree-row"><span class="vs-debug-name">experienceChimie</span>: <span class="vs-debug-value">${profile.yearsChemistry}</span></div>
                     </div>
                 </section>
                 <section class="vs-pane is-open"><header class="vs-pane-header">${raw(codicon('chevron-right'))}<span>Points d'arrêt</span></header>

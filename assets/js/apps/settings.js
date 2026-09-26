@@ -172,6 +172,7 @@ export function open({ page = 'system' } = {}) {
                     <dt>Nom de l'appareil</dt><dd>PORTFOLIO-THOMAS</dd>
                     <dt>Processeur</dt><dd>Cerveau de chimiste · ${profile.experience}</dd>
                     <dt>Mémoire installée</dt><dd>${profile.degree} + formation Ri7</dd>
+                    <dt>Carte graphique</dt><dd>Technicien lubrification chez I-care (depuis 2024)</dd>
                     <dt>Type du système</dt><dd>Développeur web, système d'exploitation curieux</dd>
                     <dt>Projets réalisés</dt><dd>${projects.length}</dd>
                     <dt>Stylet et fonction tactile</dt><dd>Compatible souris, clavier et écran tactile</dd>

@@ -23,6 +23,7 @@ const COMMANDS = {
     neofetch: 'Informations système (façon winfetch)',
     skills: 'Mes compétences',
     projects: 'Mes projets',
+    parcours: 'Mon parcours professionnel et mes formations (alias : cv, experience)',
     contact: 'Me contacter',
     social: 'Mes réseaux',
     ls: 'Liste le contenu du dossier (alias : dir, Get-ChildItem)',
@@ -53,6 +54,7 @@ const ALIASES = {
     'get-date': 'date', 'set-location': 'cd', sl: 'cd', 'get-location': 'pwd',
     winfetch: 'neofetch', fastfetch: 'neofetch',
     'write-output': 'echo', 'write-host': 'echo',
+    cv: 'parcours', experience: 'parcours',
     bonjour: 'hello', hi: 'hello', salut: 'hello',
 };
 
@@ -173,6 +175,21 @@ export class Shell {
         ];
     }
 
+    cmd_parcours() {
+        return [
+            c('cyan', 'Parcours professionnel'),
+            '',
+            ...profile.career.flatMap((job) => [
+                `  ${c('yellow', pad(job.period, 26))}${c('green', job.role)} — ${esc(job.company)} ${c('gray', `(${job.place})`)}`,
+                `  ${' '.repeat(26)}${esc(job.summary)}`,
+            ]),
+            '',
+            c('cyan', 'Formation'),
+            '',
+            ...profile.education.map((item) => `  ${c('yellow', pad(item.period, 26))}${esc(item.title)} — ${esc(item.school)}`),
+        ];
+    }
+
     cmd_neofetch() {
         const uptime = Math.round((Date.now() - startTime) / 60000);
         const info = [
@@ -184,6 +201,7 @@ export class Shell {
             `${c('cyan', 'Shell')}: PowerShell 7.4 (simulé)`,
             `${c('cyan', 'Résolution')}: ${window.innerWidth}x${window.innerHeight}`,
             `${c('cyan', 'Thème')}: ${system.mode === 'dark' ? 'Sombre' : 'Clair'}`,
+            `${c('cyan', 'Poste')}: ${esc(profile.career[0].role)} @ ${esc(profile.career[0].company)}`,
             `${c('cyan', 'Formation')}: ${esc(profile.degree)} + Ri7`,
             `${c('cyan', 'Expérience')}: ${esc(profile.experience)}`,
             `${c('cyan', 'Langages')}: ${esc(skillGroups[0].items.map((id) => technologies[id].name).join(', '))}`,
