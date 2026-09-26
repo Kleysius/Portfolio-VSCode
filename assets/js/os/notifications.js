@@ -4,6 +4,7 @@
 import { $, el, html, raw } from '../core/dom.js';
 import { bus } from '../core/bus.js';
 import { ui } from '../core/icons.js';
+import { sounds } from '../core/sound.js';
 
 const history = [];
 let doNotDisturb = false;
@@ -85,6 +86,7 @@ function showToast(item) {
     });
 
     container.append(toast);
+    sounds.notify();
     requestAnimationFrame(() => requestAnimationFrame(() => toast.classList.add('is-visible')));
 }
 

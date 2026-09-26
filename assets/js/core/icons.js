@@ -90,6 +90,13 @@ export const appIcons = {
         <ellipse cx="24" cy="13" rx="14" ry="3" fill="#e9f3fc" stroke="#8fb3d6" stroke-width="1"/>
         <path d="M17 20l1.5 17M24 20v17M31 20l-1.5 17" stroke="#9cbddd" stroke-width="1.2" stroke-linecap="round"/>`),
 
+    recycleFull: svg('0 0 48 48', `
+        <defs><linearGradient id="ico-binf" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#cfe3f5" stop-opacity=".9"/><stop offset=".5" stop-color="#f4f9ff" stop-opacity=".95"/><stop offset="1" stop-color="#b9d3ea" stop-opacity=".9"/></linearGradient></defs>
+        <path d="M14 7.5 22 4l3 7-8 3.4Z" fill="#fff" stroke="#9cbddd"/><path d="m24 6 9-1 1 8.5-9 1Z" fill="#ffe08a" stroke="#d9b24a"/><path d="M19 9h12v6H19z" fill="#8fd3ff" stroke="#5aa3d6"/>
+        <path d="M10 13h28l-2.6 27.4A3 3 0 0 1 32.4 43H15.6a3 3 0 0 1-3-2.6Z" fill="url(#ico-binf)" stroke="#8fb3d6" stroke-width="1"/>
+        <ellipse cx="24" cy="13" rx="14" ry="3" fill="#e9f3fc" stroke="#8fb3d6" stroke-width="1"/>
+        <path d="M17 20l1.5 17M24 20v17M31 20l-1.5 17" stroke="#9cbddd" stroke-width="1.2" stroke-linecap="round"/>`),
+
     pc: svg('0 0 48 48', `
         <defs><linearGradient id="ico-pc" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3bb3ff"/><stop offset="1" stop-color="#0c62c9"/></linearGradient></defs>
         <rect x="5" y="8" width="38" height="25" rx="3" fill="#2b2f36"/>
@@ -134,6 +141,7 @@ export const ui = {
     moon: stroke('<path d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5Z"/>'),
     sun: stroke('<circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M2.5 12h2M19.5 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4"/>'),
     nightLight: stroke('<path d="M12 3v1.5M5.6 5.6l1 1M3 12h1.5"/><path d="M19.5 14A7.5 7.5 0 0 1 10 4.5a7.5 7.5 0 1 0 9.5 9.5Z"/>'),
+    cursor: stroke('<path d="M6 3.5v15l4-3.8 2.6 5.8 2.6-1.2-2.6-5.7H18L6 3.5Z" stroke-linejoin="round"/>'),
     accessibility: stroke('<circle cx="12" cy="4.5" r="1.8"/><path d="M5 8.5 12 10l7-1.5M12 10v4.5m0 0-3 6m3-6 3 6"/>'),
     leaf: stroke('<path d="M5 19c0-8 5-13 14-14 0 9-5 14-13 14"/><path d="M5 19c3-4 6-7 10-9"/>'),
     focus: stroke('<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4"/>'),

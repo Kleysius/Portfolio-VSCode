@@ -10,7 +10,7 @@ import { projects } from '../data/projects.js';
 
 /** Galerie par défaut : captures des projets puis fonds d'écran. */
 const defaultGallery = () => [
-    ...projects.map((project) => ({ name: `${project.id}.webp`, src: project.image, title: project.name })),
+    ...projects.flatMap((project) => project.gallery).map((shot) => ({ name: shot.src.split('/').pop(), src: shot.src, title: shot.caption })),
     ...wallpapers.map((wallpaper, i) => ({ name: `wallpaper-${i + 1}.webp`, src: wallpaper.src, thumb: wallpaper.thumb, title: wallpaper.name })),
 ];
 

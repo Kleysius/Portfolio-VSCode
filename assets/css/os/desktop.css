@@ -98,3 +98,57 @@
     background: rgb(var(--accent-rgb) / 0.3);
     pointer-events: none;
 }
+
+.desktop-icon.is-deleting {
+    opacity: 0;
+    transform: scale(0.6) !important;
+    transition: opacity 0.16s, transform 0.16s;
+}
+.desktop-icon.is-renaming {
+    z-index: 3;
+    background: rgb(255 255 255 / 0.22);
+}
+.desktop-rename {
+    width: calc(100% + 4px);
+    margin: 0 -2px;
+    padding: 0 2px;
+    border: 1px solid #fff;
+    background: #fff;
+    color: #000;
+    font: 12px/16px var(--font-ui);
+    text-align: center;
+    resize: none;
+    overflow: hidden;
+    outline: none;
+    user-select: text;
+}
+.desktop-rename::selection {
+    background: #0078d4;
+    color: #fff;
+}
+.desktop-balloon {
+    position: fixed;
+    z-index: 1500;
+    max-width: 280px;
+    padding: 10px 12px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--os-stroke-flyout);
+    background: var(--os-acrylic-strong);
+    backdrop-filter: blur(30px);
+    box-shadow: var(--os-shadow-flyout);
+    color: var(--os-text);
+    font-size: 12px;
+    line-height: 1.5;
+}
+.desktop-balloon::before {
+    content: '';
+    position: absolute;
+    top: -6px;
+    left: 16px;
+    width: 10px;
+    height: 10px;
+    border-left: 1px solid var(--os-stroke-flyout);
+    border-top: 1px solid var(--os-stroke-flyout);
+    background: inherit;
+    transform: rotate(45deg);
+}

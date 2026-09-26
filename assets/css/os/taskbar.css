@@ -260,3 +260,238 @@
 .tb-show-desktop:hover {
     border-left-color: var(--os-stroke-strong);
 }
+
+/* Entrée / sortie des boutons d'application */
+.tb-app {
+    transition: background 0.1s, opacity 0.18s, transform 0.18s var(--ease-out), width 0.18s var(--ease-out), margin 0.18s;
+}
+.tb-app.is-entering,
+.tb-app.is-leaving {
+    opacity: 0;
+    transform: translateY(8px) scale(0.8);
+}
+.tb-app.is-leaving {
+    width: 0;
+    margin: 0 -2px;
+}
+.tb-app.is-bouncing img {
+    animation: tb-launch 0.9s var(--ease-out);
+}
+@keyframes tb-launch {
+    0%, 100% { transform: translateY(0); }
+    15% { transform: translateY(-5px); }
+    35% { transform: translateY(1px); }
+    55% { transform: translateY(-3px); }
+    75% { transform: translateY(0); }
+}
+
+/* Indicateur de langue */
+.tb-lang span {
+    font-size: 12px;
+    letter-spacing: 0.2px;
+}
+.tb-overflow svg {
+    width: 14px;
+    height: 14px;
+}
+.ctx-lang {
+    font-size: 10px;
+    font-weight: 600;
+}
+
+/* Aperçus des fenêtres */
+.tb-preview {
+    position: fixed;
+    z-index: 1150;
+    display: flex;
+    gap: 4px;
+    padding: 6px;
+    border-radius: var(--radius);
+    border: 1px solid var(--os-stroke-flyout);
+    background: var(--os-acrylic-strong);
+    backdrop-filter: blur(60px) saturate(1.5);
+    -webkit-backdrop-filter: blur(60px) saturate(1.5);
+    box-shadow: var(--os-shadow-flyout);
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.15s, transform 0.2s var(--ease-out);
+}
+[data-mode='dark'] .tb-preview {
+    border-color: rgb(255 255 255 / 0.08);
+}
+.tb-preview.is-open {
+    opacity: 1;
+    transform: none;
+}
+.tb-preview-card {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 6px 8px 8px;
+    border-radius: var(--radius-sm);
+    outline: none;
+}
+.tb-preview-card:hover,
+.tb-preview-card:focus-visible {
+    background: var(--os-subtle-hover);
+}
+.tb-preview-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    max-width: 200px;
+    font-size: 12px;
+}
+.tb-preview-header img {
+    width: 16px;
+    height: 16px;
+}
+.tb-preview-header span {
+    flex: 1;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.tb-preview-close {
+    display: grid;
+    place-items: center;
+    width: 22px;
+    height: 22px;
+    border-radius: var(--radius-sm);
+    opacity: 0;
+}
+.tb-preview-card:hover .tb-preview-close {
+    opacity: 1;
+}
+.tb-preview-close:hover {
+    background: #c42b1c;
+    color: #fff;
+}
+.tb-preview-close svg {
+    width: 12px;
+    height: 12px;
+}
+.tb-preview-thumb {
+    position: relative;
+    align-self: center;
+    overflow: hidden;
+    border-radius: 4px;
+}
+
+/* Peek : seule la fenêtre survolée reste visible */
+body.is-peeking .window:not(.is-peeked),
+body.is-aero-peek .window {
+    opacity: 0 !important;
+    transition: opacity 0.2s;
+}
+body.is-aero-peek .window {
+    opacity: 1 !important;
+    background: transparent !important;
+    box-shadow: 0 0 0 1px rgb(255 255 255 / 0.5), 0 0 0 2px rgb(0 0 0 / 0.2) !important;
+}
+body.is-aero-peek .window > * {
+    visibility: hidden;
+}
+body.is-peeking .window.is-peeked {
+    z-index: 9000 !important;
+    opacity: 1 !important;
+}
+
+/* Icônes cachées */
+.tb-overflow-flyout {
+    position: fixed;
+    z-index: 1150;
+    display: grid;
+    grid-template-columns: repeat(5, 40px);
+    gap: 2px;
+    padding: 6px;
+    border-radius: var(--radius);
+    border: 1px solid var(--os-stroke-flyout);
+    background: var(--os-acrylic-strong);
+    backdrop-filter: blur(60px) saturate(1.5);
+    -webkit-backdrop-filter: blur(60px) saturate(1.5);
+    box-shadow: var(--os-shadow-flyout);
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.15s, transform 0.2s var(--ease-out);
+}
+[data-mode='dark'] .tb-overflow-flyout {
+    border-color: rgb(255 255 255 / 0.08);
+}
+.tb-overflow-flyout.is-open {
+    opacity: 1;
+    transform: none;
+}
+.tb-overflow-item {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-sm);
+}
+.tb-overflow-item:hover {
+    background: var(--os-subtle-hover);
+}
+.tb-overflow-item svg,
+.tb-overflow-item img {
+    width: 18px;
+    height: 18px;
+}
+
+/* OSD du volume */
+.volume-osd {
+    position: fixed;
+    left: 50%;
+    bottom: calc(var(--taskbar-height) + 24px);
+    z-index: 1400;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    width: 200px;
+    height: 46px;
+    padding: 0 16px;
+    border-radius: 23px;
+    border: 1px solid var(--os-stroke-flyout);
+    background: var(--os-acrylic-strong);
+    backdrop-filter: blur(60px) saturate(1.5);
+    -webkit-backdrop-filter: blur(60px) saturate(1.5);
+    box-shadow: var(--os-shadow-flyout);
+    opacity: 0;
+    transform: translate(-50%, 16px);
+    transition: opacity 0.2s, transform 0.25s var(--ease-out);
+    pointer-events: none;
+}
+[data-mode='dark'] .volume-osd {
+    border-color: rgb(255 255 255 / 0.08);
+}
+.volume-osd.is-visible {
+    opacity: 1;
+    transform: translate(-50%, 0);
+}
+.volume-osd-icon svg {
+    width: 18px;
+    height: 18px;
+}
+.volume-osd-track {
+    flex: 1;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--os-control-strong);
+    overflow: hidden;
+}
+.volume-osd-track i {
+    display: block;
+    height: 100%;
+    background: var(--os-accent-text);
+    transition: width 0.1s;
+}
+.volume-osd-value {
+    min-width: 22px;
+    font-size: 13px;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+}
+body.is-aero-peek .window::before,
+body.is-aero-peek .window::after {
+    display: none;
+}

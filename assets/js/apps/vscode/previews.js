@@ -129,7 +129,7 @@ function homePreview(wb) {
             </section>
             <section class="pv-facts">
                 <div class="pv-fact"><strong>8 ans</strong><span>dans l'industrie chimique</span></div>
-                <div class="pv-fact"><strong>${projects.length}</strong><span>projets web réalisés</span></div>
+                <div class="pv-fact"><strong>${projects.length}</strong><span>applications réalisées</span></div>
                 <div class="pv-fact"><strong>${Object.keys(technologies).length}</strong><span>technologies & outils</span></div>
             </section>
         </div>`);
@@ -167,35 +167,68 @@ export function projectsPreview(wb, _file, options = {}) {
     const element = el(html`
         <div class="pv pv-projects vs-scrollable">
             <h1 class="pv-title"><span class="pv-tag">&lt;h2&gt;</span> Mes projets <span class="pv-tag">&lt;/h2&gt;</span></h1>
-            <p class="pv-comment">&lt;!-- Le Morpion, le Puissance 4, la Calculatrice et le Snake que vous pouvez ouvrir sur le bureau ont aussi été codés de mes mains. --&gt;</p>
-            <div class="pv-project-grid">
-                ${projects.map((project) => raw(html`
-                    <article class="pv-project" id="project-${project.id}" data-project="${project.id}">
-                        <div class="pv-project-image"><img src="${project.image}" alt="Capture d'écran de ${project.name}" loading="lazy"></div>
+            <p class="pv-comment">&lt;!-- Applications en production pour l'industrie. Les captures utilisent des données de démonstration. --&gt;</p>
+            <div class="pv-project-list">
+                ${projects.map((project, index) => raw(html`
+                    <article class="pv-project ${index === 0 ? 'is-featured' : ''}" id="project-${project.id}" data-project="${project.id}">
+                        <div class="pv-project-media">
+                            <button class="pv-project-image" type="button" data-open-image="${project.gallery[0].src}" title="${project.gallery[0].caption}">
+                                <img src="${project.image}" alt="Capture d'écran de ${project.name}" loading="lazy">
+                                <span class="pv-project-caption">${project.gallery[0].caption}</span>
+                            </button>
+                            ${project.gallery.length > 1 ? raw(html`
+                                <div class="pv-project-thumbs">
+                                    ${project.gallery.map((shot, i) => raw(html`
+                                        <button class="pv-thumb ${i === 0 ? 'is-active' : ''}" type="button" data-shot="${i}" title="${shot.caption}">
+                                            <img src="${shot.src}" alt="" loading="lazy">
+                                        </button>`))}
+                                </div>`) : ''}
+                        </div>
                         <div class="pv-project-body">
+                            <div class="pv-project-meta">
+                                <span class="pv-chip">${project.context}</span>
+                                ${project.version ? raw(html`<span class="pv-chip is-muted">${project.version}</span>`) : ''}
+                                ${project.year ? raw(html`<span class="pv-chip is-muted">${project.year}</span>`) : ''}
+                            </div>
                             <h2>${project.name}</h2>
                             <p class="pv-project-title">${project.title}</p>
-                            <div class="pv-project-stack">${project.stack.map((id) => raw(`<span title="${escapeHtml(technologies[id].name)}">${techIcon(id, 24)}</span>`))}</div>
                             <p class="pv-project-desc">${project.description}</p>
+                            <ul class="pv-project-highlights">
+                                ${project.highlights.map((item) => raw(html`<li>${item}</li>`))}
+                            </ul>
+                            <div class="pv-project-stack">${project.stack.map((id) => raw(`<span class="pv-stack-item" title="${escapeHtml(technologies[id].name)}">${techIcon(id, 18)}<span>${escapeHtml(technologies[id].name)}</span></span>`))}</div>
                             <div class="pv-project-actions">
-                                ${project.url
-                                    ? raw(html`<button class="pv-btn is-primary" data-href="${project.url}">${raw(codicon('link-external'))} Visiter le site</button>`)
-                                    : raw(`<span class="pv-badge">${codicon('clock')} Bientôt en ligne</span>`)}
-                                <button class="pv-btn" data-open-image="${project.id}">${raw(codicon('file-media'))} Capture</button>
+                                ${project.url ? raw(html`<button class="pv-btn is-primary" data-href="${project.url}">${raw(codicon('link-external'))} Voir le site</button>`) : ''}
+                                ${project.repo
+                                    ? raw(html`<button class="pv-btn ${project.url ? '' : 'is-primary'}" data-href="${project.repo}">${raw(codicon('github'))} Code source</button>`)
+                                    : raw(`<span class="pv-badge">${codicon('lock')} Dépôt privé</span>`)}
                             </div>
                         </div>
                     </article>`))}
             </div>
         </div>`);
     element.addEventListener('click', (event) => {
+        const thumb = event.target.closest('[data-shot]');
+        if (thumb) {
+            const card = thumb.closest('.pv-project');
+            const project = projects.find((p) => p.id === card.dataset.project);
+            const shot = project.gallery[Number(thumb.dataset.shot)];
+            const main = card.querySelector('.pv-project-image');
+            main.querySelector('img').src = shot.src;
+            main.querySelector('.pv-project-caption').textContent = shot.caption;
+            main.dataset.openImage = shot.src;
+            main.title = shot.caption;
+            card.querySelectorAll('.pv-thumb').forEach((node) => node.classList.toggle('is-active', node === thumb));
+            return;
+        }
         const image = event.target.closest('[data-open-image]');
-        if (image) wb.openFileByName(`${image.dataset.openImage}.webp`, { preview: true });
+        if (image) wb.openFileByName(image.dataset.openImage.split('/').pop(), { preview: true });
     });
     bindLinks(element, wb);
     element.revealProject = (id) => {
         const card = element.querySelector(`#project-${id}`);
         if (!card) return;
-        card.scrollIntoView({ block: 'center' });
+        card.scrollIntoView({ block: 'start' });
         card.classList.remove('is-highlighted');
         void card.offsetWidth;
         card.classList.add('is-highlighted');

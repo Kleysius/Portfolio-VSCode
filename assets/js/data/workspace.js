@@ -87,9 +87,11 @@ export function learn(category: keyof SkillSet, skill: Skill): void {
 const projectsJson = `${JSON.stringify(projects.map((project) => ({
     name: project.name,
     title: project.title,
-    url: project.url,
+    context: project.context,
     stack: project.stack.map((id) => technologies[id].name),
     description: project.description,
+    highlights: project.highlights,
+    ...(project.repo ? { repository: project.repo } : {}),
 })), null, 2)}
 `;
 
@@ -198,12 +200,13 @@ export const workspace = {
         },
         {
             name: 'public',
-            children: projects.map((project) => ({
-                name: project.image.split('/').pop(),
+            children: projects.flatMap((project) => project.gallery.map((shot) => ({
+                name: shot.src.split('/').pop(),
                 language: 'image',
-                image: project.image,
+                image: shot.src,
+                caption: shot.caption,
                 preview: 'image',
-            })),
+            }))),
         },
         {
             name: 'src',

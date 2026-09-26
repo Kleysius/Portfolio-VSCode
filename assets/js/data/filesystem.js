@@ -17,11 +17,11 @@ const aboutText = [
     `LinkedIn : ${profile.links.linkedin}`,
 ].join('\r\n');
 
-const screenshots = projects.map((project, index) => ({
+const screenshots = projects.flatMap((project) => project.gallery).map((shot, index) => ({
     type: 'image',
-    name: `${project.id}.webp`,
-    src: project.image,
-    title: project.name,
+    name: shot.src.split('/').pop(),
+    src: shot.src,
+    title: shot.caption,
     galleryIndex: index,
 }));
 screenshots.forEach((shot) => { shot.gallery = screenshots; });
@@ -36,12 +36,12 @@ const wallpaperImages = wallpapers.map((wallpaper, index) => ({
 }));
 wallpaperImages.forEach((image) => { image.gallery = wallpaperImages; });
 
-const projectFolders = projects.map((project, index) => ({
+const projectFolders = projects.map((project) => ({
     type: 'folder',
     name: project.name,
     icon: 'folder',
     children: [
-        { ...screenshots[index], name: `capture-${project.id}.webp` },
+        ...screenshots.filter((shot) => project.gallery.some((g) => g.src === shot.src)),
         {
             type: 'text',
             name: 'LISEZMOI.txt',
@@ -49,13 +49,18 @@ const projectFolders = projects.map((project, index) => ({
                 project.title,
                 '-'.repeat(project.title.length),
                 '',
+                `${project.context}`,
+                '',
                 project.description,
                 '',
+                'Points clés :',
+                ...project.highlights.map((item) => `  - ${item}`),
+                '',
                 `Technologies : ${project.stack.map((id) => technologies[id].name).join(', ')}`,
-                project.url ? `Lien : ${project.url}` : 'Lien : bientôt en ligne',
+                project.repo ? `Code source : ${project.repo}` : 'Code source : dépôt privé',
             ].join('\r\n'),
         },
-        ...(project.url ? [{ type: 'link', name: `${project.name}.url`, url: project.url }] : []),
+        ...(project.repo ? [{ type: 'link', name: `${project.name} sur GitHub.url`, url: project.repo }] : []),
     ],
 }));
 

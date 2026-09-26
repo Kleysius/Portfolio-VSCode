@@ -9,6 +9,9 @@ import { apps, launch, openFsItem } from '../os/apps.js';
 import { showContextMenu } from '../os/context-menu.js';
 import { filesystem, resolvePath } from '../data/filesystem.js';
 import { store } from '../core/store.js';
+import { bus } from '../core/bus.js';
+import { recycleBin, confirmEmptyBin } from '../os/desktop.js';
+import { files as workspaceFiles } from '../data/workspace.js';
 
 const NAV = [
     { label: 'Accueil', path: '', icon: ui.home },
@@ -27,6 +30,7 @@ const RECYCLE = { type: 'folder', name: 'Corbeille', path: 'Corbeille', children
 const THIS_PC = { type: 'folder', name: 'Ce PC', path: 'Ce PC', children: [], special: 'pc' };
 
 function iconFor(item, large = true) {
+    if (item.type === 'recycled') return `<img src="${escapeHtml(item.iconSrc)}" alt="">`;
     if (item.type === 'folder') return `<img src="${appIconUrl('folder')}" alt="">`;
     if (item.type === 'image') return large
         ? `<img src="${escapeHtml(item.thumb ?? item.src)}" alt="" class="fe-thumb" loading="lazy">`
@@ -44,7 +48,17 @@ const typeLabel = (item) => ({
     link: 'Raccourci Internet',
     code: `Fichier ${item.name.split('.').pop().toUpperCase()}`,
     text: 'Document texte',
+    recycled: 'Raccourci',
 }[item.type] ?? 'Fichier');
+
+/** Métadonnées stables (date, taille) dérivées du nom : le tri par colonne reste cohérent. */
+function meta(item) {
+    let hash = 0;
+    for (const char of item.name) hash = (hash * 31 + char.charCodeAt(0)) >>> 0;
+    const date = new Date(2026, 8, 25 - (hash % 60), 8 + (hash % 10), hash % 60);
+    const size = item.type === 'folder' ? null : Math.max(1, Math.round((item.content?.length ?? 20000 + (hash % 900) * 97) / 1024));
+    return { date, size };
+}
 
 export function open({ path = '' } = {}) {
     const root = el(html`
@@ -82,6 +96,12 @@ export function open({ path = '' } = {}) {
                 <button class="fe-tool" type="button" data-tool="sort">${raw(ui.sort)} Trier ${raw(ui.chevronDown)}</button>
                 <button class="fe-tool" type="button" data-tool="view">${raw(ui.view)} Afficher ${raw(ui.chevronDown)}</button>
                 <button class="fe-tool" type="button" data-tool="more" aria-label="Voir plus">${raw(ui.more)}</button>
+                <span class="fe-recycle-actions" hidden>
+                    <span class="fe-tool-sep"></span>
+                    <button class="fe-tool" type="button" data-tool="empty-bin">${raw(ui.trash)} Vider la Corbeille</button>
+                    <button class="fe-tool" type="button" data-tool="restore-all">${raw(ui.restart)} Restaurer tous les éléments</button>
+                </span>
+                <button class="fe-tool fe-tool-preview" type="button" data-tool="preview" data-tip="Volet de visualisation (Alt+P)">${raw(ui.view)} Aperçu</button>
             </div>
             <div class="fe-main">
                 <nav class="fe-sidebar os-scroll" aria-label="Volet de navigation">
@@ -93,6 +113,7 @@ export function open({ path = '' } = {}) {
                         </button>`)))}
                 </nav>
                 <section class="fe-content os-scroll" tabindex="0" aria-label="Contenu du dossier"></section>
+                <aside class="fe-preview os-scroll" hidden aria-label="Volet de visualisation"></aside>
             </div>
             <footer class="fe-statusbar">
                 <span class="fe-count"></span>
@@ -112,6 +133,7 @@ export function open({ path = '' } = {}) {
         width: 980,
         height: 620,
         className: 'window--explorer',
+        mica: true,
         content: root,
     });
     root.querySelector('.fe-titlebar').append(win.controls);
@@ -123,7 +145,8 @@ export function open({ path = '' } = {}) {
     let historyIndex = -1;
     let current = null;
     let view = store.get('fe-view', 'grid');
-    let sort = 'name';
+    let sort = { key: 'name', dir: 1 };
+    let previewOpen = store.get('fe-preview', false);
 
     const resolve = (target) => {
         if (target === '' || target == null) return 'home';
@@ -150,6 +173,9 @@ export function open({ path = '' } = {}) {
 
     function items() {
         if (current === 'home') return [];
+        if (current.special === 'recycle') {
+            return recycleBin.items().map((item) => ({ type: 'recycled', name: item.name, id: item.id, iconSrc: item.icon }));
+        }
         let list = [...current.children];
         const query = search.value.trim().toLowerCase();
         if (query) {
@@ -162,9 +188,14 @@ export function open({ path = '' } = {}) {
             }(current));
             list = all;
         }
-        list.sort((a, b) => (sort === 'type'
-            ? typeLabel(a).localeCompare(typeLabel(b)) || a.name.localeCompare(b.name)
-            : Number(b.type === 'folder') - Number(a.type === 'folder') || a.name.localeCompare(b.name, 'fr')));
+        const byKey = {
+            name: (a, b) => a.name.localeCompare(b.name, 'fr', { numeric: true }),
+            type: (a, b) => typeLabel(a).localeCompare(typeLabel(b)) || a.name.localeCompare(b.name),
+            date: (a, b) => meta(a).date - meta(b).date,
+            size: (a, b) => (meta(a).size ?? -1) - (meta(b).size ?? -1),
+        }[sort.key];
+        // Les dossiers restent groupés en tête, comme dans Windows
+        list.sort((a, b) => Number(b.type === 'folder') - Number(a.type === 'folder') || byKey(a, b) * sort.dir);
         return list;
     }
 
@@ -182,8 +213,11 @@ export function open({ path = '' } = {}) {
         });
         root.querySelectorAll('[data-view]').forEach((button) => button.classList.toggle('is-active', button.dataset.view === view));
         renderBreadcrumb();
+        root.querySelector('.fe-recycle-actions').hidden = current?.special !== 'recycle';
+        root.querySelector('[data-tool="empty-bin"]').disabled = !recycleBin.items().length;
+        root.querySelector('[data-tool="restore-all"]').disabled = !recycleBin.items().length;
 
-        if (current === 'home') return renderHome();
+        if (current === 'home') { renderPreview(null); return renderHome(); }
         if (current.special === 'pc') return renderThisPc();
 
         const list = items();
@@ -192,13 +226,16 @@ export function open({ path = '' } = {}) {
             content.innerHTML = html`<p class="fe-empty">${current.special === 'recycle' ? 'La Corbeille est vide. Tout comme ma liste de bugs 😉' : search.value ? 'Aucun élément ne correspond à votre recherche.' : 'Ce dossier est vide.'}</p>`;
         } else if (view === 'details') {
             content.innerHTML = html`
-                <div class="fe-details-header"><span>Nom</span><span>Modifié le</span><span>Type</span><span>Taille</span></div>
+                <div class="fe-details-header">
+                    ${[['name', 'Nom'], ['date', current.special === 'recycle' ? 'Date de suppression' : 'Modifié le'], ['type', 'Type'], ['size', 'Taille']].map(([key, label]) => raw(html`
+                        <button type="button" data-sort="${key}" class="${sort.key === key ? 'is-sorted' : ''}">${label}${sort.key === key ? raw(`<span class="fe-sort-arrow">${sort.dir === 1 ? ui.chevronUp : ui.chevronDown}</span>`) : ''}</button>`))}
+                </div>
                 ${list.map((item, i) => raw(html`
                     <button class="fe-item fe-row" type="button" data-index="${i}">
                         <span class="fe-row-name">${raw(iconFor(item, false))}<span>${item.name}</span></span>
-                        <span>${new Date(2024, 2, 17 - i).toLocaleDateString('fr-FR')} 12:20</span>
+                        <span>${meta(item).date.toLocaleDateString('fr-FR')} ${meta(item).date.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}</span>
                         <span>${typeLabel(item)}</span>
-                        <span>${item.type === 'folder' ? '' : `${Math.max(1, Math.round((item.content?.length ?? 48000 + i * 7919) / 1024))} Ko`}</span>
+                        <span class="fe-size">${meta(item).size ? `${meta(item).size.toLocaleString('fr-FR')} Ko` : ''}</span>
                     </button>`))}`;
         } else {
             content.innerHTML = list.map((item, i) => html`
@@ -210,6 +247,38 @@ export function open({ path = '' } = {}) {
         content.list = list;
         root.querySelector('.fe-count').textContent = `${list.length} élément${list.length > 1 ? 's' : ''}`;
         root.querySelector('.fe-selected').textContent = '';
+        renderPreview(null);
+    }
+
+    /* ---------------- Volet de visualisation ---------------- */
+    function renderPreview(item) {
+        const pane = root.querySelector('.fe-preview');
+        pane.hidden = !previewOpen;
+        root.querySelector('.fe-tool-preview').classList.toggle('is-pressed', previewOpen);
+        if (!previewOpen) return;
+        if (!item) {
+            pane.innerHTML = '<p class="fe-preview-empty">Sélectionnez un fichier pour afficher un aperçu.</p>';
+            return;
+        }
+        let body = '';
+        if (item.type === 'image') body = html`<img class="fe-preview-image" src="${item.src}" alt="">`.value;
+        else if (item.type === 'text') body = html`<pre class="fe-preview-text">${item.content}</pre>`.value;
+        else if (item.type === 'code') body = html`<pre class="fe-preview-text">${workspaceFiles.get(item.path)?.content ?? ''}</pre>`.value;
+        else body = `<div class="fe-preview-icon">${iconFor(item)}</div>`;
+        pane.innerHTML = html`
+            ${raw(body)}
+            <div class="fe-preview-info">
+                <strong>${item.title ?? item.name}</strong>
+                <span>${typeLabel(item)}${item.type === 'folder' ? ` · ${item.children?.length ?? 0} élément(s)` : ''}</span>
+                ${item.url ? raw(html`<span>${item.url}</span>`) : ''}
+            </div>`.value;
+    }
+
+    function togglePreview() {
+        previewOpen = !previewOpen;
+        store.set('fe-preview', previewOpen);
+        const selected = content.querySelector('.fe-item.is-selected');
+        renderPreview(selected?.dataset.index !== undefined ? content.list[Number(selected.dataset.index)] : null);
     }
 
     function renderHome() {
@@ -284,7 +353,51 @@ export function open({ path = '' } = {}) {
         root.querySelector('.fe-search input').placeholder = `Rechercher dans : ${title()}`;
     }
 
-    function openItem(item) {
+    /** Barre d'adresse éditable : un clic affiche le chemin complet, Entrée y navigue. */
+    function editAddress() {
+        const bar = root.querySelector('.fe-breadcrumb');
+        const value = current === 'home' ? 'Accueil' : current.special ? current.name : current.path;
+        bar.innerHTML = '';
+        const input = el('<input class="fe-address-input" type="text" spellcheck="false" aria-label="Adresse">');
+        input.value = value;
+        bar.append(input);
+        bar.classList.add('is-editing');
+        input.focus();
+        input.select();
+        const done = () => { bar.classList.remove('is-editing'); renderBreadcrumb(); };
+        input.addEventListener('keydown', async (event) => {
+            if (event.key === 'Escape') done();
+            if (event.key !== 'Enter') return;
+            const target = input.value.trim();
+            if (/^accueil$/i.test(target)) { done(); navigate(''); return; }
+            if (/^(corbeille|ce pc)$/i.test(target)) { done(); navigate(target.toLowerCase() === 'corbeille' ? 'Corbeille' : 'Ce PC'); return; }
+            const node = resolvePath(filesystem, target.replace(/^C:\\Users\\[^\\]+\\?/i, ''));
+            if (node?.type === 'folder') { done(); navigate(node.path); return; }
+            if (node) { done(); openItem(node); return; }
+            const { showDialog } = await import('../os/dialog.js');
+            await showDialog({
+                title: 'Explorateur de fichiers',
+                message: `Windows ne trouve pas « ${target} ». Vérifiez l'orthographe et réessayez.`,
+                icon: ui.info,
+                buttons: [{ label: 'OK', value: true, primary: true }],
+            });
+            input.focus();
+        });
+        input.addEventListener('blur', () => setTimeout(() => { if (bar.classList.contains('is-editing') && document.activeElement !== input) done(); }, 100));
+    }
+
+    async function openItem(item) {
+        if (item.type === 'recycled') {
+            const { showDialog } = await import('../os/dialog.js');
+            const answer = await showDialog({
+                title: item.name,
+                message: 'Cet élément se trouve dans la Corbeille. Pour l\'ouvrir, restaurez-le d\'abord.',
+                icon: `<img src="${escapeHtml(item.iconSrc)}" alt="">`,
+                buttons: [{ label: 'Restaurer', value: true, primary: true }, { label: 'Annuler', value: false }],
+            });
+            if (answer) recycleBin.restore([item.id]);
+            return;
+        }
         if (item.type === 'folder') navigate(item.path);
         else openFsItem(item);
     }
@@ -298,6 +411,7 @@ export function open({ path = '' } = {}) {
         if (nav === 'refresh') { content.style.opacity = '0'; setTimeout(() => { content.style.opacity = ''; render(); }, 120); }
         const crumb = event.target.closest('[data-crumb]');
         if (crumb) navigate(crumb.dataset.crumb);
+        else if (event.target.closest('.fe-breadcrumb') && !event.target.closest('input')) editAddress();
     });
 
     root.querySelector('.fe-sidebar').addEventListener('click', (event) => {
@@ -310,7 +424,17 @@ export function open({ path = '' } = {}) {
     content.addEventListener('click', (event) => {
         const item = event.target.closest('.fe-item');
         content.querySelectorAll('.fe-item').forEach((node) => node.classList.toggle('is-selected', node === item));
-        if (item?.dataset.index) root.querySelector('.fe-selected').textContent = '1 élément sélectionné';
+        const sortButton = event.target.closest('[data-sort]');
+        if (sortButton) {
+            sort = sort.key === sortButton.dataset.sort ? { key: sort.key, dir: -sort.dir } : { key: sortButton.dataset.sort, dir: 1 };
+            render();
+            return;
+        }
+        if (item?.dataset.index) {
+            const entry = content.list[Number(item.dataset.index)];
+            root.querySelector('.fe-selected').textContent = `1 élément sélectionné${meta(entry).size ? `  ${meta(entry).size.toLocaleString('fr-FR')} Ko` : ''}`;
+            renderPreview(entry);
+        }
         if (item && matchMedia('(pointer: coarse)').matches) item.dispatchEvent(new MouseEvent('dblclick', { bubbles: true }));
     });
     content.addEventListener('dblclick', (event) => {
@@ -320,7 +444,21 @@ export function open({ path = '' } = {}) {
         else if (item.dataset.recent !== undefined) openItem(content.list[Number(item.dataset.recent)]);
         else openItem(content.list[Number(item.dataset.index)]);
     });
+    root.addEventListener('keydown', (event) => {
+        if (event.altKey && event.key.toLowerCase() === 'p') { event.preventDefault(); togglePreview(); }
+    });
+    let typed = '';
+    let typedTimer;
     content.addEventListener('keydown', (event) => {
+        // Saisie au clavier : sélectionne le premier élément commençant par les lettres tapées
+        if (event.key.length === 1 && !event.ctrlKey && !event.altKey && !event.metaKey && content.list) {
+            typed += event.key.toLowerCase();
+            clearTimeout(typedTimer);
+            typedTimer = setTimeout(() => { typed = ''; }, 800);
+            const index = content.list.findIndex((entry) => entry.name.toLowerCase().startsWith(typed));
+            const node = content.querySelector(`[data-index="${index}"]`);
+            if (node) { node.focus(); node.click(); }
+        }
         if (event.key === 'Enter') event.target.closest('.fe-item')?.dispatchEvent(new MouseEvent('dblclick', { bubbles: true }));
         if (event.key === 'Backspace') root.querySelector('[data-nav="back"]').click();
     });
@@ -331,7 +469,10 @@ export function open({ path = '' } = {}) {
         showContextMenu({
             x: event.clientX,
             y: event.clientY,
-            items: item ? [
+            items: item?.type === 'recycled' ? [
+                { label: 'Restaurer', icon: ui.restart, action: () => recycleBin.restore([item.id]) },
+                { label: 'Supprimer', icon: ui.trash, action: () => confirmEmptyBin() },
+            ] : item ? [
                 { label: 'Ouvrir', icon: ui.open, action: () => openItem(item) },
                 item.type === 'code' ? { label: 'Ouvrir avec Code', icon: `<img src="${appIconUrl('vscode')}" alt="">`, action: () => openItem(item) } : null,
                 { separator: true },
@@ -342,10 +483,7 @@ export function open({ path = '' } = {}) {
                     { label: 'Grandes icônes', checked: view === 'grid', action: () => setView('grid') },
                     { label: 'Détails', checked: view === 'details', action: () => setView('details') },
                 ] },
-                { label: 'Trier par', icon: ui.sort, submenu: [
-                    { label: 'Nom', checked: sort === 'name', action: () => { sort = 'name'; render(); } },
-                    { label: 'Type', checked: sort === 'type', action: () => { sort = 'type'; render(); } },
-                ] },
+                { label: 'Trier par', icon: ui.sort, submenu: [['name', 'Nom'], ['date', 'Modifié le'], ['type', 'Type'], ['size', 'Taille']].map(([key, label]) => ({ label, checked: sort.key === key, action: () => { sort = { key, dir: 1 }; render(); } })) },
                 { separator: true },
                 { label: 'Ouvrir dans le Terminal', icon: ui.terminal, action: () => launch('terminal', { cwd: current?.path }) },
             ],
@@ -364,20 +502,30 @@ export function open({ path = '' } = {}) {
     root.querySelector('.fe-toolbar').addEventListener('click', (event) => {
         const tool = event.target.closest('[data-tool]')?.dataset.tool;
         if (!tool) return;
+        if (tool === 'empty-bin') { confirmEmptyBin(); return; }
+        if (tool === 'restore-all') { recycleBin.restoreAll(); return; }
+        if (tool === 'preview') { togglePreview(); return; }
         const rect = event.target.closest('button').getBoundingClientRect();
         if (tool === 'view') showContextMenu({ x: rect.left, y: rect.bottom + 4, items: [
-            { label: 'Grandes icônes', icon: ui.grid, checked: view === 'grid', action: () => setView('grid') },
-            { label: 'Détails', icon: ui.list, checked: view === 'details', action: () => setView('details') },
+            { label: 'Grandes icônes', icon: ui.grid, checked: view === 'grid', shortcut: 'Ctrl+Maj+2', action: () => setView('grid') },
+            { label: 'Détails', icon: ui.list, checked: view === 'details', shortcut: 'Ctrl+Maj+6', action: () => setView('details') },
+            { separator: true },
+            { label: 'Volet de visualisation', icon: ui.view, checked: previewOpen, shortcut: 'Alt+P', action: togglePreview },
         ] });
         if (tool === 'sort') showContextMenu({ x: rect.left, y: rect.bottom + 4, items: [
-            { label: 'Nom', checked: sort === 'name', action: () => { sort = 'name'; render(); } },
-            { label: 'Type', checked: sort === 'type', action: () => { sort = 'type'; render(); } },
+            ...[['name', 'Nom'], ['date', 'Modifié le'], ['type', 'Type'], ['size', 'Taille']].map(([key, label]) => ({ label, checked: sort.key === key, action: () => { sort = { key, dir: 1 }; render(); } })),
+            { separator: true },
+            { label: 'Croissant', checked: sort.dir === 1, action: () => { sort = { ...sort, dir: 1 }; render(); } },
+            { label: 'Décroissant', checked: sort.dir === -1, action: () => { sort = { ...sort, dir: -1 }; render(); } },
         ] });
         if (tool === 'more') showContextMenu({ x: rect.left - 180, y: rect.bottom + 4, items: [
             { label: 'Ouvrir dans le Terminal', icon: ui.terminal, action: () => launch('terminal', { cwd: current?.path }) },
             { label: 'Ouvrir le portfolio dans VS Code', icon: `<img src="${appIconUrl('vscode')}" alt="">`, action: () => launch('vscode') },
         ] });
     });
+
+    const offRecycle = bus.on('recycle:change', () => current?.special === 'recycle' && render());
+    win.on('close', offRecycle);
 
     navigate(path);
     win.handleArgs = (args) => args.path !== undefined && navigate(args.path);

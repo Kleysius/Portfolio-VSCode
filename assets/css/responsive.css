@@ -89,7 +89,9 @@
     .tb-taskview,
     .tb-clock-text .tb-date,
     .tb-quick-battery,
-    .tb-show-desktop {
+    .tb-show-desktop,
+    .tb-lang,
+    .tb-overflow {
         display: none;
     }
     .taskbar {
@@ -200,9 +202,6 @@
         padding: 20px 16px 40px;
     }
     .pv-form {
-        grid-template-columns: 1fr;
-    }
-    .pv-project-grid {
         grid-template-columns: 1fr;
     }
     .vs-extension {

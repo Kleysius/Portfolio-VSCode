@@ -251,3 +251,116 @@ body.is-resizing-window[data-resize-dir='nw'] *, body.is-resizing-window[data-re
     height: 100%;
     background: repeating-linear-gradient(45deg, rgb(127 127 127 / 0.1) 0 10px, transparent 10px 20px);
 }
+
+/* ---------- Mica : fond d'écran flouté + teinte, visible sur la fenêtre active ---------- */
+.window.has-mica {
+    isolation: isolate;
+}
+.window.has-mica::before,
+.window.has-mica::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    pointer-events: none;
+}
+.window.has-mica::before {
+    background: var(--mica-image) no-repeat;
+    background-size: 100vw 100vh;
+    background-position: var(--win-x, 0) var(--win-y, 0);
+    transition: opacity 0.3s;
+}
+.window.has-mica::after {
+    background: var(--os-mica-tint);
+}
+.window.has-mica:not(.is-active)::before,
+body.os-unfocused .window.has-mica::before {
+    opacity: 0;
+}
+.window.has-mica {
+    background: var(--os-mica);
+}
+
+/* ---------- Navigateur sans le focus : fenêtres inactives ---------- */
+body.os-unfocused .window.is-active {
+    box-shadow: var(--os-shadow-window-inactive), 0 0 0 1px var(--os-window-border);
+}
+body.os-unfocused .window .window-title,
+body.os-unfocused .window .window-icon {
+    opacity: 0.6;
+}
+body.os-unfocused .window .wc-btn {
+    color: var(--os-text-3);
+}
+
+/* ---------- Assistant d'ancrage ---------- */
+.snap-assist {
+    position: absolute;
+    padding: 8px;
+    pointer-events: auto;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+.snap-assist.is-open {
+    opacity: 1;
+}
+.snap-assist-grid {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    gap: 16px;
+    width: 100%;
+    height: 100%;
+    padding: 24px;
+    overflow: auto;
+    border-radius: var(--radius);
+    border: 1px solid rgb(255 255 255 / 0.12);
+    background: rgb(20 20 20 / 0.35);
+    backdrop-filter: blur(40px) saturate(1.3);
+    -webkit-backdrop-filter: blur(40px) saturate(1.3);
+}
+[data-mode='light'] .snap-assist-grid {
+    background: rgb(243 243 243 / 0.45);
+    border-color: rgb(0 0 0 / 0.08);
+}
+.snap-assist-card {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 8px;
+    border-radius: var(--radius);
+    border: 2px solid transparent;
+    color: var(--os-text);
+    transform: scale(0.95);
+    animation: task-card-in 0.25s var(--ease-out) forwards;
+}
+.snap-assist-card:hover,
+.snap-assist-card:focus-visible {
+    border-color: var(--os-accent-text);
+    background: var(--os-subtle-hover);
+    outline: none;
+}
+.snap-assist-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    max-width: 220px;
+    font-size: 12px;
+}
+.snap-assist-title img {
+    width: 16px;
+    height: 16px;
+}
+.snap-assist-title span {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.snap-assist-thumb {
+    position: relative;
+    overflow: hidden;
+    border-radius: 4px;
+    box-shadow: 0 8px 24px rgb(0 0 0 / 0.35);
+}
